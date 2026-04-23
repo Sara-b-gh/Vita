@@ -9,6 +9,12 @@ public class User {
     private int numtel;
     private Roles role;
 
+    public enum Roles {
+        ADMIN,
+        USER,
+        DOCTOR
+    }
+
     // getters & setters
 
 
@@ -80,6 +86,4 @@ public class User {
                 ", role=" + role +
                 '}';
     }
-}
-public class User {
 }
