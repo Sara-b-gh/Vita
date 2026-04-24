@@ -14,7 +14,7 @@ public class Equipement {
     private Date date_acquisition;
     private LocalDateTime date_modification;
 
-    // Constructeur vide
+
     public Equipement() {}
 
     // Constructeur complet
