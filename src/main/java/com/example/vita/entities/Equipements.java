@@ -2,7 +2,6 @@ javapackage com.example.vita.entities;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-
 public class Equipement {
 
     private int id_equipement;
