@@ -109,24 +109,37 @@ public class UserService implements UserCRUD<User> {
 
     }
 
+
+
     @Override
-    public List<User> afficher() throws SQLException {
-        String req = " SELECT * FROM users";
-        List<User > users = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
 
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(req);
-        while (rs.next()){
+        try (Connection conn = MyBD.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            User u = new User();
-            u.setId(rs.getInt("id"));
-            u.setNom(rs.getString("Nom"));
-            u.setPrenom(rs.getString("Prenom"));
-            u.setEmail(rs.getString("Email"));
-            u.setPassword(rs.getString("Password"));
-            u.setNumtel(rs.getInt("NumeroTelephone"));
-            u.setRole(User.Roles.valueOf(rs.getString("Role")));
-            users.add(u);
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setNom(rs.getString("Nom"));
+                user.setPrenom(rs.getString("Prenom"));
+                user.setEmail(rs.getString("Email"));
+                user.setPassword(rs.getString("Password"));
+                user.setNumtel(rs.getInt("NumeroTelephone"));
+                user.setRole(User.Roles.valueOf(rs.getString("Role").toUpperCase()));
 
-    }return users;}
+                users.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+
 }
+
