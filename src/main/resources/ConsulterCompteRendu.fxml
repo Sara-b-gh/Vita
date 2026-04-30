@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controlers.AfficherCompteRenduController"
+      spacing="15" style="-fx-padding: 15; -fx-background-color: #f5f5f5;">
+
+    <!-- Colonne gauche : ListView -->
+    <VBox spacing="8" prefWidth="320">
+        <Label text="Comptes Rendus" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <ListView fx:id="listView" VBox.vgrow="ALWAYS" prefHeight="500"/>
+        <HBox spacing="8">
+            <Button text="Modifier"    onAction="#handleModifier"/>
+            <Button text="Supprimer"   onAction="#handleSupprimer"/>
+            <Button text="Actualiser"  onAction="#handleActualiser"/>
+        </HBox>
+    </VBox>
+
+    <Separator orientation="VERTICAL"/>
+
+    <!-- Colonne droite : GridPane détail -->
+    <VBox spacing="10" HBox.hgrow="ALWAYS">
+        <Label text="Détail" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+        <GridPane hgap="15" vgap="10">
+            <Label text="ID :"           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="lblId"         GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="RDV ID :"       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="lblRdv"        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Rédigé par :"   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="lblRedigePar"  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Diagnostic :"   GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="lblDiagnostic" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Confidentiel :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="lblConfidentiel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Prochain RDV :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Label fx:id="lblProchainRdv" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Label text="Créé le :"      GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <Label fx:id="lblDateCreation" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+            <Label text="Contenu :"      GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <Label fx:id="lblContenu"    GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+            <Label text="Traitement :"   GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+            <Label fx:id="lblTraitement" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+        </GridPane>
+    </VBox>
+
+</HBox>

@@ -17,7 +17,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/test.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ConsulterCompteRendu.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("test");

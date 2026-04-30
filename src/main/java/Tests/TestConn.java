@@ -2,7 +2,7 @@ package Tests;
 
 import Entites.RendezVous;
 import Services.RendezVousCRUD;
-import Utils.MyBD;
+import MyDB.MyBD;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ public class TestConn {
 
     public static void main(String[] args) {
 
-        MyBD.getInstance();
+        //MyBD.getInstance();
 
         RendezVousCRUD rdvCRUD = new RendezVousCRUD();
 

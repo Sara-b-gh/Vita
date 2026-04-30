@@ -2,7 +2,7 @@ package Services;
 
 import Entites.RendezVous;
 import Interffaces.InterfaceCRUD;
-import Utils.MyBD;
+import MyDB.MyBD;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,11 @@ public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
     Connection conn;
 
     public RendezVousCRUD() {
-        conn = MyBD.getInstance().getConn();
+        try {
+            conn = MyBD.getConnection(); // ✅ méthode statique existante
+        } catch (Exception e) {
+            System.out.println("Erreur de connexion : " + e.getMessage());
+        }
     }
 
     @Override
