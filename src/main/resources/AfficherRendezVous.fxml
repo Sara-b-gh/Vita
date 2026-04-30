@@ -28,6 +28,8 @@
             <TextField fx:id="searchField" prefWidth="180" promptText="Rechercher..."/>
             <ComboBox fx:id="filterStatut" prefWidth="150" promptText="Tous les statuts"/>
             <Button fx:id="btnAjouter" text="+ Nouveau" onAction="#ouvrirAjout"/>
+            <Button fx:id="btnVoirCR" maxWidth="Infinity"
+                    text="Comptes Rendus" onAction="#ouvrirCompteRendus"/>
         </HBox>
     </top>
 

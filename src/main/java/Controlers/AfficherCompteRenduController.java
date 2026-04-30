@@ -1,6 +1,7 @@
 package Controlers;
 
 import Entites.CompteRendu;
+import Entites.RendezVous;
 import Services.CompteRenduCRUD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,8 +26,15 @@ public class AfficherCompteRenduController {
             lblContenu, lblTraitement, lblProchainRdv,
             lblConfidentiel, lblDateCreation;
 
-    private CompteRenduCRUD service = new CompteRenduCRUD();
-    private ObservableList<CompteRendu> data = FXCollections.observableArrayList();
+    private final CompteRenduCRUD service = new CompteRenduCRUD();
+    private final ObservableList<CompteRendu> data = FXCollections.observableArrayList();
+    private RendezVous currentRdv = null; // null = show all
+
+    /** Called by RendezVousController before the window opens. */
+    public void setRendezVous(RendezVous rdv) {
+        this.currentRdv = rdv;
+        chargerListe(); // reload filtered
+    }
 
     @FXML
     public void initialize() {
@@ -43,7 +51,9 @@ public class AfficherCompteRenduController {
             protected void updateItem(CompteRendu cr, boolean empty) {
                 super.updateItem(cr, empty);
                 if (empty || cr == null) setText(null);
-                else setText("CR #" + cr.getId_cr() + " — RDV: " + cr.getId_rdv() + " — " + cr.getDiagnostic());
+                else setText("CR #" + cr.getId_cr()
+                        + " — RDV: " + cr.getId_rdv()
+                        + " — " + cr.getDiagnostic());
             }
         });
     }
@@ -51,7 +61,13 @@ public class AfficherCompteRenduController {
     private void chargerListe() {
         try {
             data.clear();
-            data.addAll(service.afficher());
+            List<CompteRendu> all = service.afficher();
+
+            if (currentRdv != null) {
+                all.removeIf(cr -> cr.getId_rdv() != currentRdv.getId_rdv());
+            }
+
+            data.addAll(all);
             listView.setItems(data);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Erreur chargement : " + e.getMessage()).show();
@@ -77,7 +93,8 @@ public class AfficherCompteRenduController {
             new Alert(Alert.AlertType.WARNING, "Sélectionnez un compte rendu.").show();
             return;
         }
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Supprimer CR #" + selected.getId_cr() + " ?");
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Supprimer CR #" + selected.getId_cr() + " ?");
         confirm.showAndWait().ifPresent(r -> {
             if (r == ButtonType.OK) {
                 try {
@@ -98,13 +115,11 @@ public class AfficherCompteRenduController {
             new Alert(Alert.AlertType.WARNING, "Sélectionnez un compte rendu.").show();
             return;
         }
-
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ModifierCompteRendu.fxml"));
             Parent root = loader.load();
 
-            // Passe le CR et le callback de rafraîchissement
             ModifierCompteRenduController ctrl = loader.getController();
             ctrl.initData(cr, this::chargerListe);
 
@@ -115,8 +130,8 @@ public class AfficherCompteRenduController {
             stage.show();
 
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Impossible d'ouvrir la fenêtre : "
-                    + e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR,
+                    "Impossible d'ouvrir la fenêtre : " + e.getMessage()).show();
         }
     }
 
@@ -124,17 +139,26 @@ public class AfficherCompteRenduController {
     private void handleActualiser() {
         chargerListe();
     }
+
     @FXML
     void handleAjouter(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCompteRendu.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/AjouterCompteRendu.fxml"));
             Parent root = loader.load();
+
             CompteRenduController ctrl = loader.getController();
             ctrl.setOnSuccess(this::chargerListe);
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter");
-            stage.setScene(new Scene(root));
 
+            // Pre-fill and lock the RDV id if opened from a specific RDV
+            if (currentRdv != null) {
+                ctrl.setRdvId(currentRdv.getId_rdv());
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter Compte Rendu"
+                    + (currentRdv != null ? " — RDV #" + currentRdv.getId_rdv() : ""));
+            stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
 
@@ -143,10 +167,8 @@ public class AfficherCompteRenduController {
         }
     }
 
-
-
     private void viderDetail() {
-        lblId.setText(""); lblRdv.setText(""); lblRedigePar.setText("");
+        lblId.setText("");      lblRdv.setText("");         lblRedigePar.setText("");
         lblDiagnostic.setText(""); lblContenu.setText(""); lblTraitement.setText("");
         lblProchainRdv.setText(""); lblConfidentiel.setText(""); lblDateCreation.setText("");
     }

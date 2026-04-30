@@ -32,7 +32,32 @@ public class RendezVousController implements Initializable {
     private final RendezVousCRUD crud = new RendezVousCRUD();
     private List<RendezVous> allRdvs;
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    @FXML
+    private void ouvrirCompteRendus() {
+        RendezVous selected = listView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            lblStatus.setText("Sélectionnez un rendez-vous.");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ConsulterCompteRendu.fxml"));
+            Parent root = loader.load();
 
+            AfficherCompteRenduController ctrl = loader.getController();
+            ctrl.setRendezVous(selected); // filter CRs by this RDV
+
+            Stage stage = new Stage();
+            stage.setTitle("Comptes Rendus — RDV #" + selected.getId_rdv()
+                    + "  " + selected.getMotif());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            loadData(); // refresh RDV list after returning
+        } catch (Exception e) {
+            lblStatus.setText("Erreur : " + e.getMessage());
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         filterStatut.getItems().addAll("Tous", "planifie", "confirme", "annule", "termine");

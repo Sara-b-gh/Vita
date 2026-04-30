@@ -20,6 +20,7 @@
             <Button onAction="#handleModifier" text="Modifier" />
             <Button onAction="#handleSupprimer" text="Supprimer" />
             <Button onAction="#handleActualiser" text="Actualiser" />
+
          <Button layoutX="10.0" layoutY="10.0" onAction="#handleAjouter" text="Ajouter" />
         </HBox>
     </VBox>

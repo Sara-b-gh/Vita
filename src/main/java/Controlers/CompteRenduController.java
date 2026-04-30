@@ -56,5 +56,10 @@ public class CompteRenduController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    public void setRdvId(int id) {
+        rdvId.setText(String.valueOf(id));
+        rdvId.setEditable(false);   // prevent the user from changing it
+        rdvId.setStyle("-fx-background-color: #eeeeee;");
+    }
 
 }
