@@ -1,56 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controlers.AfficherCompteRenduController"
-      spacing="15" style="-fx-padding: 15; -fx-background-color: #f5f5f5;">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefWidth="595.0" spacing="15" style="-fx-padding: 15; -fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.AfficherCompteRenduController">
 
     <!-- Colonne gauche : ListView -->
-    <VBox spacing="8" prefWidth="320">
-        <Label text="Comptes Rendus" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-        <ListView fx:id="listView" VBox.vgrow="ALWAYS" prefHeight="500"/>
+    <VBox prefWidth="320" spacing="8">
+        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Comptes Rendus" />
+        <ListView fx:id="listView" prefHeight="500" VBox.vgrow="ALWAYS" />
         <HBox spacing="8">
-            <Button text="Modifier"    onAction="#handleModifier"/>
-            <Button text="Supprimer"   onAction="#handleSupprimer"/>
-            <Button text="Actualiser"  onAction="#handleActualiser"/>
+            <Button onAction="#handleModifier" text="Modifier" />
+            <Button onAction="#handleSupprimer" text="Supprimer" />
+            <Button onAction="#handleActualiser" text="Actualiser" />
+         <Button layoutX="10.0" layoutY="10.0" onAction="#handleAjouter" text="Ajouter" />
         </HBox>
     </VBox>
 
-    <Separator orientation="VERTICAL"/>
+       <Separator orientation="VERTICAL" />
 
     <!-- Colonne droite : GridPane détail -->
     <VBox spacing="10" HBox.hgrow="ALWAYS">
-        <Label text="Détail" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Détail" />
 
         <GridPane hgap="15" vgap="10">
-            <Label text="ID :"           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label fx:id="lblId"         GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="ID :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="lblId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <Label text="RDV ID :"       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Label fx:id="lblRdv"        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="RDV ID :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="lblRdv" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="Rédigé par :"   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <Label fx:id="lblRedigePar"  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Rédigé par :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="lblRedigePar" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Label text="Diagnostic :"   GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <Label fx:id="lblDiagnostic" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Diagnostic :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="lblDiagnostic" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <Label text="Confidentiel :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <Label fx:id="lblConfidentiel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="Confidentiel :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label fx:id="lblConfidentiel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-            <Label text="Prochain RDV :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <Label fx:id="lblProchainRdv" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Label text="Prochain RDV :" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label fx:id="lblProchainRdv" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-            <Label text="Créé le :"      GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <Label fx:id="lblDateCreation" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <Label text="Créé le :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label fx:id="lblDateCreation" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-            <Label text="Contenu :"      GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-            <Label fx:id="lblContenu"    GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+            <Label text="Contenu :" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label fx:id="lblContenu" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-            <Label text="Traitement :"   GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-            <Label fx:id="lblTraitement" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+            <Label text="Traitement :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label fx:id="lblTraitement" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </VBox>
 

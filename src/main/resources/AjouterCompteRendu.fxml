@@ -8,43 +8,33 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="620.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controlers.CompteRenduController">
+<AnchorPane prefHeight="620.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.CompteRenduController">
    <children>
 
 
 
-      <!-- ID Rendez-Vous -->
       <Label layoutX="35.0" layoutY="60.0" text="Rendez-Vous ID" />
       <TextField fx:id="rdvId" layoutX="180.0" layoutY="56.0" prefWidth="120.0" />
 
-      <!-- Rédigé par (médecin ID) -->
       <Label layoutX="35.0" layoutY="100.0" text="Rédigé par (ID)" />
       <TextField fx:id="redigePar" layoutX="180.0" layoutY="96.0" prefWidth="120.0" />
 
-      <!-- Contenu -->
       <Label layoutX="35.0" layoutY="140.0" text="Contenu" />
       <TextArea fx:id="contenu" layoutX="35.0" layoutY="160.0" prefHeight="100.0" prefWidth="538.0" />
 
-      <!-- Diagnostic -->
       <Label layoutX="35.0" layoutY="275.0" text="Diagnostic" />
       <TextField fx:id="diagnostic" layoutX="180.0" layoutY="271.0" prefWidth="393.0" />
 
-      <!-- Traitement -->
       <Label layoutX="35.0" layoutY="315.0" text="Traitement" />
       <TextArea fx:id="traitement" layoutX="35.0" layoutY="335.0" prefHeight="80.0" prefWidth="538.0" />
 
-      <!-- Prochain RDV -->
       <Label layoutX="35.0" layoutY="430.0" text="Prochain RDV" />
       <DatePicker fx:id="prochainRdv" layoutX="180.0" layoutY="426.0" />
 
-      <!-- Confidentiel -->
       <Label layoutX="35.0" layoutY="472.0" text="Confidentiel" />
       <CheckBox fx:id="confidentiel" layoutX="180.0" layoutY="470.0" />
 
-      <!-- Boutons -->
-      <Button layoutX="80.0"  layoutY="530.0" mnemonicParsing="false" onAction="#AJOUTCP"    text="Ajouter" prefWidth="120.0" />
+      <Button layoutX="40.0" layoutY="529.0" mnemonicParsing="false" onAction="#AJOUTCP" prefWidth="120.0" text="Ajouter" />
 
    </children>
 </AnchorPane>

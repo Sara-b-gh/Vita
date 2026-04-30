@@ -17,7 +17,7 @@ public class TestConn {
         try {
             RendezVous rdv = new RendezVous();
 
-            rdv.setDate(LocalDateTime.now());
+            //rdv.setDate(LocalDateTime.now());
             rdv.setMotif("Consultation");
             rdv.setStatut("planifie");
             rdv.setMedecin_id(2);
@@ -27,7 +27,7 @@ public class TestConn {
             System.out.println("=== Liste des RendezVous ===");
             System.out.println(rdvCRUD.afficher());
 
-            rdv.setId(1);
+            //rdv.setId(1);
             rdv.setStatut("confirme");
 
             rdvCRUD.modifier(rdv);

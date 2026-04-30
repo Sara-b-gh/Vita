@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="580" prefWidth="460" spacing="0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.ModifierRdvController">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label style="-fx-font-size: 20px;" />
+        <Label text="Modifier le Rendez-Vous" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="lblIdRdv" style="-fx-font-size: 12px; -fx-text-fill: #9099B2;" />
+    </HBox>
+
+    <!-- Form (same fields, pre-filled by controller) -->
+    <ScrollPane fitToWidth="true" style="-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+        <VBox spacing="18" style="-fx-padding: 28 32;">
+
+            <!-- Patient ID -->
+            <VBox spacing="6">
+                <Label text="Patient ID" />
+                <TextField fx:id="tfPatientId" />
+            </VBox>
+
+            <!-- Médecin ID -->
+            <VBox spacing="6">
+                <Label text="Médecin ID" />
+                <TextField fx:id="tfMedecinId" />
+            </VBox>
+
+            <!-- Date & Heure -->
+            <VBox spacing="6">
+                <Label text="Date et Heure" />
+                <HBox spacing="10">
+                    <DatePicker fx:id="dpDate" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="tfHeure" prefWidth="90" />
+                </HBox>
+            </VBox>
+
+            <!-- Motif -->
+            <VBox spacing="6">
+                <Label text="Motif" />
+                <TextField fx:id="tfMotif" />
+            </VBox>
+
+            <!-- Statut -->
+            <VBox spacing="6">
+                <Label text="Statut" />
+                <ComboBox fx:id="cbStatut" maxWidth="Infinity" />
+            </VBox>
+
+            <!-- Lieu -->
+            <VBox spacing="6">
+                <Label text="Lieu" />
+                <TextField fx:id="tfLieu" style="-fx-background-color: #F7F8FA; -fx-border-color: #E8EAF0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 14px;" />
+            </VBox>
+
+            <!-- Notes -->
+            <VBox spacing="6">
+                <Label text="Notes" />
+                <TextArea fx:id="taNotes" prefRowCount="3" wrapText="true" />
+            </VBox>
+
+            <!-- Error label -->
+            <Label fx:id="lblError" text="" wrapText="true" />
+
+        </VBox>
+    </ScrollPane>
+
+    <!-- Footer -->
+    <HBox alignment="CENTER_RIGHT" spacing="12" style="-fx-background-color: #F7F8FA; -fx-border-color: #E8EAF0; -fx-border-width: 1 0 0 0; -fx-padding: 16 28;">
+        <Button onAction="#annuler" text="Annuler" />
+        <Button onAction="#enregistrer" text="Enregistrer les modifications" />
+    </HBox>
+
+</VBox>

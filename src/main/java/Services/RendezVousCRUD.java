@@ -13,7 +13,7 @@ public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
 
     public RendezVousCRUD() {
         try {
-            conn = MyBD.getConnection(); // ✅ méthode statique existante
+            conn = MyBD.getConnection();
         } catch (Exception e) {
             System.out.println("Erreur de connexion : " + e.getMessage());
         }
@@ -21,32 +21,46 @@ public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
 
     @Override
     public void ajouter(RendezVous rv) throws SQLException {
-        String req = "INSERT INTO rendez_vous (date, motif, statut, medecin_id) VALUES (?,?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setTimestamp(1, Timestamp.valueOf(rv.getDate()));
-        pst.setString(2, rv.getMotif());
-        pst.setString(3, rv.getStatut());
-        pst.setInt(4, rv.getMedecin_id());
+        String req = "INSERT INTO rendez_vous (patient_id, medecin_id, date_rdv, motif, statut, lieu, notes) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS); // ✅
+        pst.setInt(1, rv.getPatient_id());
+        pst.setInt(2, rv.getMedecin_id());
+        pst.setTimestamp(3, Timestamp.valueOf(rv.getDate_rdv()));
+        pst.setString(4, rv.getMotif());
+        pst.setString(5, rv.getStatut());
+        pst.setString(6, rv.getLieu());
+        pst.setString(7, rv.getNotes());
         pst.executeUpdate();
-        System.out.println("Rendez-vous ajouté !");
-    }
 
+        // Récupérer l'id_rdv généré
+        ResultSet generatedKeys = pst.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            rv.setId_rdv(generatedKeys.getInt(1)); // ✅ l'objet reçoit son ID
+        }
+
+        System.out.println("Rendez-vous ajouté avec id_rdv = " + rv.getId_rdv());
+    }
     @Override
     public void modifier(RendezVous rv) throws SQLException {
-        String req = "UPDATE rendez_vous SET date=?, motif=?, statut=?, medecin_id=? WHERE id=?";
+        String req = "UPDATE rendez_vous SET patient_id=?, medecin_id=?, date_rdv=?, motif=?, " +
+                "statut=?, lieu=?, notes=?, date_modification=NOW() WHERE id_rdv=?";
         PreparedStatement pst = conn.prepareStatement(req);
-        pst.setTimestamp(1, Timestamp.valueOf(rv.getDate()));
-        pst.setString(2, rv.getMotif());
-        pst.setString(3, rv.getStatut());
-        pst.setInt(4, rv.getMedecin_id());
-        pst.setInt(5, rv.getId());
+        pst.setInt(1, rv.getPatient_id());
+        pst.setInt(2, rv.getMedecin_id());
+        pst.setTimestamp(3, Timestamp.valueOf(rv.getDate_rdv()));
+        pst.setString(4, rv.getMotif());
+        pst.setString(5, rv.getStatut());
+        pst.setString(6, rv.getLieu());
+        pst.setString(7, rv.getNotes());
+        pst.setInt(8, rv.getId_rdv());
         pst.executeUpdate();
         System.out.println("Rendez-vous modifié !");
     }
 
     @Override
     public void supprimer(int id) throws SQLException {
-        String req = "DELETE FROM rendez_vous WHERE id=?";
+        String req = "DELETE FROM rendez_vous WHERE id_rdv=?";
         PreparedStatement pst = conn.prepareStatement(req);
         pst.setInt(1, id);
         pst.executeUpdate();
@@ -62,11 +76,22 @@ public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
 
         while (rs.next()) {
             RendezVous rv = new RendezVous();
-            rv.setId(rs.getInt("id"));
-            rv.setDate(rs.getTimestamp("date").toLocalDateTime());
+            rv.setId_rdv(rs.getInt("id_rdv"));
+            rv.setPatient_id(rs.getInt("patient_id"));
+            rv.setMedecin_id(rs.getInt("medecin_id"));
+            rv.setDate_rdv(rs.getTimestamp("date_rdv").toLocalDateTime());
             rv.setMotif(rs.getString("motif"));
             rv.setStatut(rs.getString("statut"));
-            rv.setMedecin_id(rs.getInt("medecin_id"));
+            rv.setLieu(rs.getString("lieu"));
+            rv.setNotes(rs.getString("notes"));
+
+            // Champs nullable
+            Timestamp tc = rs.getTimestamp("date_creation");
+            if (tc != null) rv.setDate_creation(tc.toLocalDateTime());
+
+            Timestamp tm = rs.getTimestamp("date_modification");
+            if (tm != null) rv.setDate_modification(tm.toLocalDateTime());
+
             liste.add(rv);
         }
 

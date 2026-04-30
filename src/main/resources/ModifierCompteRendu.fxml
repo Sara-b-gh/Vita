@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.ModifierCompteRenduController">
+
+    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Modifier Compte Rendu" />
+
+    <GridPane hgap="10" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="220" />
+        </columnConstraints>
+
+        <Label text="Diagnostic :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="tfDiagnostic" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Contenu :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextArea fx:id="taContenu" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Traitement :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextArea fx:id="taTraitement" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Prochain RDV :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <DatePicker fx:id="dpProchainRdv" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <CheckBox fx:id="cbConfidentiel" text="Confidentiel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button onAction="#handleEnregistrer" text="Enregistrer" />
+        <Button onAction="#handleAnnuler" text="Annuler" />
+    </HBox>
+
+</VBox>

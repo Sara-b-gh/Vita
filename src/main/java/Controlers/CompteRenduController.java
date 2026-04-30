@@ -5,6 +5,7 @@ import Services.CompteRenduCRUD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -19,7 +20,11 @@ public class CompteRenduController {
     @FXML private TextArea  traitement;
     @FXML private DatePicker prochainRdv;
     @FXML private CheckBox confidentiel;
+    private Runnable onSuccess; // callback pour rafraîchir la liste parente
 
+    public void setOnSuccess(Runnable onSuccess) {
+        this.onSuccess = onSuccess;
+    }
     CompteRenduCRUD service = new CompteRenduCRUD();
 
     @FXML
@@ -35,6 +40,10 @@ public class CompteRenduController {
         cr.setConfidentiel(confidentiel.isSelected());
         new CompteRenduCRUD().ajouter(cr);
         showAlert("Succès", "Compte rendu ajouté avec succès !");
+            if (onSuccess != null) onSuccess.run(); // rafraîchit la liste
+
+            Stage stage = (Stage) rdvId.getScene().getWindow();
+            stage.close();
     } catch (Exception e) {
         showAlert("Erreur", "Erreur lors de l'ajout : " + e.getMessage());
     }
@@ -47,4 +56,5 @@ public class CompteRenduController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controlers.AjouterRdvController"
+      prefWidth="420" prefHeight="540" spacing="0">
+
+    <!-- Header -->
+    <HBox>
+        <padding><Insets top="16" right="24" bottom="16" left="24"/></padding>
+        <Label text="Nouveau Rendez-Vous"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Form -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <VBox spacing="14">
+            <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+
+            <!-- Patient ID -->
+            <VBox spacing="4">
+                <Label text="Patient ID"/>
+                <TextField fx:id="tfPatientId" />
+            </VBox>
+
+            <!-- Médecin ID -->
+            <VBox spacing="4">
+                <Label text="Médecin ID"/>
+                <TextField fx:id="tfMedecinId" />
+            </VBox>
+
+            <!-- Date & Heure -->
+            <VBox spacing="4">
+                <Label text="Date et Heure"/>
+                <HBox spacing="8">
+                    <DatePicker fx:id="dpDate" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <TextField fx:id="tfHeure" promptText="HH:mm" prefWidth="80"/>
+                </HBox>
+            </VBox>
+
+            <!-- Motif -->
+            <VBox spacing="4">
+                <Label text="Motif"/>
+                <TextField fx:id="tfMotif" promptText="Motif de la consultation"/>
+            </VBox>
+
+            <!-- Statut -->
+            <VBox spacing="4">
+                <Label text="Statut"/>
+                <ComboBox fx:id="cbStatut" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- Lieu -->
+            <VBox spacing="4">
+                <Label text="Lieu"/>
+                <TextField fx:id="tfLieu" promptText="Salle, cabinet..."/>
+            </VBox>
+
+            <!-- Notes -->
+            <VBox spacing="4">
+                <Label text="Notes"/>
+                <TextArea fx:id="taNotes" promptText="Notes supplémentaires..."
+                          prefRowCount="3" wrapText="true"/>
+            </VBox>
+
+            <Label fx:id="lblError" text="" wrapText="true"/>
+
+        </VBox>
+    </ScrollPane>
+
+    <Separator/>
+
+    <!-- Footer -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <padding><Insets top="12" right="24" bottom="12" left="24"/></padding>
+        <Button text="Annuler"   onAction="#annuler"/>
+        <Button text="Enregistrer" onAction="#enregistrer"/>
+    </HBox>
+
+</VBox>
