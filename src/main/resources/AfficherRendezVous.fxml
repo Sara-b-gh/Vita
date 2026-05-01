@@ -14,22 +14,18 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="620" prefWidth="900"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controlers.RendezVousController">
+<BorderPane prefHeight="620" prefWidth="900" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.RendezVousController">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12">
-            <padding><Insets top="14" right="20" bottom="14" left="20"/></padding>
+            <padding><Insets bottom="14" left="20" right="20" top="14" /></padding>
 
-            <Label text="Rendez-Vous"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <TextField fx:id="searchField" prefWidth="180" promptText="Rechercher..."/>
-            <ComboBox fx:id="filterStatut" prefWidth="150" promptText="Tous les statuts"/>
-            <Button fx:id="btnAjouter" text="+ Nouveau" onAction="#ouvrirAjout"/>
-            <Button fx:id="btnVoirCR" maxWidth="Infinity"
-                    text="Comptes Rendus" onAction="#ouvrirCompteRendus"/>
+            <Label text="Rendez-Vous" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" prefWidth="180" promptText="Rechercher..." />
+            <ComboBox fx:id="filterStatut" prefWidth="150" promptText="Tous les statuts" />
+            <Button fx:id="btnAjouter" onAction="#ouvrirAjout" text="+ Nouveau" />
+         <Button fx:id="btnComptes" maxWidth="Infinity" onAction="#ConsulterComptes" text="Comptes Rendus" />
         </HBox>
     </top>
 
@@ -39,34 +35,33 @@
             <!-- LEFT : Grid View -->
             <ScrollPane fitToWidth="true">
                 <VBox>
-                    <VBox.margin><Insets top="16" right="14" bottom="16" left="16"/></VBox.margin>
-                    <Label text="Grille"/>
-                    <GridPane fx:id="gridView" hgap="12" vgap="12"/>
+                    <VBox.margin><Insets bottom="16" left="16" right="14" top="16" /></VBox.margin>
+                    <Label text="Grille" />
+                    <GridPane fx:id="gridView" hgap="12" vgap="12" />
                 </VBox>
             </ScrollPane>
 
             <!-- RIGHT : List View + Actions -->
             <VBox spacing="10">
-                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                <padding><Insets bottom="16" left="16" right="16" top="16" /></padding>
 
-                <Label text="Liste"/>
+                <Label text="Liste" />
 
-                <ListView fx:id="listView" VBox.vgrow="ALWAYS"/>
+                <ListView fx:id="listView" VBox.vgrow="ALWAYS" />
+               <Button fx:id="btnVoirCR" maxWidth="Infinity" onAction="#ouvrirCompteRendus" text="Compte Rendu" />
 
-                <Button fx:id="btnModifier" maxWidth="Infinity"
-                        text="Modifier" onAction="#ouvrirModification"/>
+                <Button fx:id="btnModifier" maxWidth="Infinity" onAction="#ouvrirModification" text="Modifier" />
 
-                <Button fx:id="btnSupprimer" maxWidth="Infinity"
-                        text="Supprimer" onAction="#supprimerRdv"/>
+                <Button fx:id="btnSupprimer" maxWidth="Infinity" onAction="#supprimerRdv" text="Supprimer" />
 
                 <VBox fx:id="detailPane" spacing="5" visible="false">
-                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                    <Label text="DÉTAILS"/>
-                    <Label fx:id="lblDetailPatient"/>
-                    <Label fx:id="lblDetailDate"/>
-                    <Label fx:id="lblDetailMotif" wrapText="true"/>
-                    <Label fx:id="lblDetailLieu"/>
-                    <Label fx:id="lblDetailStatut"/>
+                    <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                    <Label text="DÉTAILS" />
+                    <Label fx:id="lblDetailPatient" />
+                    <Label fx:id="lblDetailDate" />
+                    <Label fx:id="lblDetailMotif" wrapText="true" />
+                    <Label fx:id="lblDetailLieu" />
+                    <Label fx:id="lblDetailStatut" />
                 </VBox>
             </VBox>
 
@@ -75,10 +70,10 @@
 
     <bottom>
         <HBox alignment="CENTER_LEFT" spacing="10">
-            <padding><Insets top="8" right="20" bottom="8" left="20"/></padding>
-            <Label fx:id="lblTotal" text="0 rendez-vous"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="lblStatus" text=""/>
+            <padding><Insets bottom="8" left="20" right="20" top="8" /></padding>
+            <Label fx:id="lblTotal" text="0 rendez-vous" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblStatus" text="" />
         </HBox>
     </bottom>
 

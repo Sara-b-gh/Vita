@@ -39,14 +39,14 @@
                 <Label text="Date et Heure"/>
                 <HBox spacing="8">
                     <DatePicker fx:id="dpDate" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                    <TextField fx:id="tfHeure" promptText="HH:mm" prefWidth="80"/>
+                    <TextField fx:id="tfHeure" />
                 </HBox>
             </VBox>
 
             <!-- Motif -->
             <VBox spacing="4">
                 <Label text="Motif"/>
-                <TextField fx:id="tfMotif" promptText="Motif de la consultation"/>
+                <TextField fx:id="tfMotif" />
             </VBox>
 
             <!-- Statut -->
@@ -58,13 +58,13 @@
             <!-- Lieu -->
             <VBox spacing="4">
                 <Label text="Lieu"/>
-                <TextField fx:id="tfLieu" promptText="Salle, cabinet..."/>
+                <TextField fx:id="tfLieu" />
             </VBox>
 
             <!-- Notes -->
             <VBox spacing="4">
                 <Label text="Notes"/>
-                <TextArea fx:id="taNotes" promptText="Notes supplémentaires..."
+                <TextArea fx:id="taNotes"
                           prefRowCount="3" wrapText="true"/>
             </VBox>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -14,14 +15,22 @@
 
     <!-- Colonne gauche : ListView -->
     <VBox prefWidth="320" spacing="8">
-        <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Comptes Rendus" />
-        <ListView fx:id="listView" prefHeight="500" VBox.vgrow="ALWAYS" />
+      <HBox prefHeight="30.0" prefWidth="320.0">
+         <children>
+              <Label prefHeight="30.0" prefWidth="187.0" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Comptes Rendus" />
+         
+                        <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" onAction="#handleAjouter" prefHeight="26.0" prefWidth="115.0" text="+ Nouveau" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Button>
+               <Button onAction="#handleActualiser" prefHeight="26.0" prefWidth="121.0" text="Actualiser" />
+         </children>
+      </HBox>
+        <ListView fx:id="listView" prefHeight="390.0" prefWidth="320.0" VBox.vgrow="ALWAYS" />
         <HBox spacing="8">
             <Button onAction="#handleModifier" text="Modifier" />
             <Button onAction="#handleSupprimer" text="Supprimer" />
-            <Button onAction="#handleActualiser" text="Actualiser" />
-
-         <Button layoutX="10.0" layoutY="10.0" onAction="#handleAjouter" text="Ajouter" />
         </HBox>
     </VBox>
 

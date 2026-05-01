@@ -211,6 +211,21 @@ public class RendezVousController implements Initializable {
             lblStatus.setText("Erreur : " + e.getMessage());
         }
     }
+    @FXML
+    private void ConsulterComptes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterCompteRendu.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Comptes rendus");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            loadData();
+        } catch (Exception e) {
+            lblStatus.setText("Erreur : " + e.getMessage());
+        }
+    }
 
     @FXML
     private void ouvrirModification() {
