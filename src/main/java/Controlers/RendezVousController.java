@@ -134,32 +134,51 @@ public class RendezVousController implements Initializable {
     private VBox buildCard(RendezVous rv) {
         VBox card = new VBox(6);
         card.setMaxWidth(Double.MAX_VALUE);
+
+        // Couleur de bordure selon statut
+        String borderColor = switch (rv.getStatut() == null ? "" : rv.getStatut().toLowerCase()) {
+            case "planifie"  -> "#3b82f6"; // bleu
+            case "confirme"  -> "#38b24a"; // vert
+            case "annule"    -> "#ff4b3a"; // rouge
+            case "termine"   -> "#888888"; // gris
+            default          -> "#DDDDDD";
+        };
+
+        // Couleur de fond légère selon statut
+        String bgColor = switch (rv.getStatut() == null ? "" : rv.getStatut().toLowerCase()) {
+            case "planifie"  -> "#eff6ff";
+            case "confirme"  -> "#f0fdf4";
+            case "annule"    -> "#fff5f5";
+            case "termine"   -> "#f5f5f5";
+            default          -> "#FFFFFF";
+        };
+
         card.setStyle(
-                "-fx-border-color: #DDDDDD; -fx-border-width: 1; " +
-                        "-fx-border-radius: 6; -fx-background-radius: 6; " +
-                        "-fx-background-color: #FFFFFF; -fx-padding: 12 14;"
+                "-fx-border-color: " + borderColor + "; -fx-border-width: 2; " +
+                        "-fx-border-radius: 10; -fx-background-radius: 10; " +
+                        "-fx-background-color: " + bgColor + "; -fx-padding: 12 14;"
         );
 
-        // Date + statut
+        // Badge statut coloré
+        Label lblStatut = new Label(rv.getStatut());
+        lblStatut.setStyle(
+                "-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: " + borderColor + "; " +
+                        "-fx-border-color: " + borderColor + "; -fx-border-radius: 4; " +
+                        "-fx-border-width: 1; -fx-padding: 2 6; -fx-background-radius: 4;"
+        );
+
         Label lblDate = new Label(rv.getDate_rdv() != null ? rv.getDate_rdv().format(FMT) : "—");
         lblDate.setStyle("-fx-font-size: 11px; -fx-text-fill: #888888;");
-
-        Label lblStatut = new Label(rv.getStatut());
-        lblStatut.setStyle("-fx-font-size: 10px; -fx-text-fill: #888888; " +
-                "-fx-border-color: #CCCCCC; -fx-border-radius: 4; " +
-                "-fx-border-width: 1; -fx-padding: 2 6;");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         HBox top = new HBox(8, lblDate, spacer, lblStatut);
         top.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-        // Motif
         Label lblMotif = new Label(rv.getMotif() != null ? rv.getMotif() : "—");
         lblMotif.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #222222;");
         lblMotif.setWrapText(true);
 
-        // Patient · Médecin
         Label lblPerson = new Label("Patient #" + rv.getPatient_id() + "  ·  Dr #" + rv.getMedecin_id());
         lblPerson.setStyle("-fx-font-size: 11px; -fx-text-fill: #AAAAAA;");
 
@@ -171,11 +190,19 @@ public class RendezVousController implements Initializable {
             card.getChildren().add(lblLieu);
         }
 
-        // Hover
-        card.setOnMouseEntered(e ->
-                card.setStyle(card.getStyle().replace("#FFFFFF", "#F9F9F9")));
-        card.setOnMouseExited(e ->
-                card.setStyle(card.getStyle().replace("#F9F9F9", "#FFFFFF")));
+        // Hover — assombrir légèrement le fond
+        String bgHover = switch (rv.getStatut() == null ? "" : rv.getStatut().toLowerCase()) {
+            case "planifie"  -> "#dbeafe";
+            case "confirme"  -> "#dcfce7";
+            case "annule"    -> "#ffe4e4";
+            case "termine"   -> "#ebebeb";
+            default          -> "#F9F9F9";
+        };
+
+        card.setOnMouseEntered(e -> card.setStyle(card.getStyle()
+                .replace(bgColor, bgHover)));
+        card.setOnMouseExited(e -> card.setStyle(card.getStyle()
+                .replace(bgHover, bgColor)));
 
         card.setOnMouseClicked(e -> {
             listView.getSelectionModel().select(rv);
@@ -184,7 +211,6 @@ public class RendezVousController implements Initializable {
 
         return card;
     }
-
     // ─── Details ─────────────────────────────────────────────────────────
     private void showDetails(RendezVous rv) {
         detailPane.setVisible(true);
