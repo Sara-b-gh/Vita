@@ -14,3 +14,5 @@ public class MyBD {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
+//Une classe simple qui fournit une connexion MySQL à la base vita(localhost, root, sans mot de passe).
+// Chaque fois qu'un CRUD en a besoin, il appelle MyBD.getConnection().

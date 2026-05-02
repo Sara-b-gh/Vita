@@ -1,7 +1,7 @@
 package Services;
 
 import Entites.RendezVous;
-import Interffaces.InterfaceCRUD;
+import Interffaces.InterfaceCRUD; //interface générique
 import MyDB.MyBD;
 
 import java.sql.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
-    Connection conn;
+    Connection conn; //conn qui représente le canal ouvert vers la base de données
 
     public RendezVousCRUD() {
         try {
@@ -18,12 +18,17 @@ public class RendezVousCRUD implements InterfaceCRUD<RendezVous> {
             System.out.println("Erreur de connexion : " + e.getMessage());
         }
     }
+//Si la connexion échoue (MySQL pas démarré, mauvais mot de passe...)
+// on affiche l'erreur au lieu de faire planter toute l'application.
 
     @Override
     public void ajouter(RendezVous rv) throws SQLException {
         String req = "INSERT INTO rendez_vous (patient_id, medecin_id, date_rdv, motif, statut, lieu, notes) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pst = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS); // ✅
+        PreparedStatement pst = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
+        //prepareStatement(req) → compile la requête SQL à l'avance (plus sûr et plus rapide)
+        //Statement.RETURN_GENERATED_KEYS → demande à MySQL de retourner l'ID auto-incrémenté qui sera créé
+
         pst.setInt(1, rv.getPatient_id());
         pst.setInt(2, rv.getMedecin_id());
         pst.setTimestamp(3, Timestamp.valueOf(rv.getDate_rdv()));

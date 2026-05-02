@@ -8,7 +8,7 @@ public class RendezVous {
     private int medecin_id;
     private LocalDateTime date_rdv;
     private String motif;
-    private String statut;
+    private String statut; //"planifie", "confirme"
     private String lieu;
     private String notes;
     private LocalDateTime date_creation;

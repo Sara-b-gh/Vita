@@ -10,76 +10,118 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
-<VBox prefHeight="580" prefWidth="460" spacing="0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.ModifierRdvController">
+<?import java.net.URL?>
+<VBox prefHeight="580" prefWidth="480" spacing="0" styleClass="root"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controlers.ModifierRdvController">
+
+    <stylesheets>
+        <URL value="@../styles/style.css" />
+    </stylesheets>
 
     <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="12">
-        <Label style="-fx-font-size: 20px;" />
-        <Label text="Modifier le Rendez-Vous" />
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d); -fx-padding: 18 24;">
+        <Label text="Modifier le Rendez-Vous" styleClass="sidebar-title"
+               style="-fx-font-size: 22px;" />
         <Region HBox.hgrow="ALWAYS" />
-        <Label fx:id="lblIdRdv" style="-fx-font-size: 12px; -fx-text-fill: #9099B2;" />
+        <Label fx:id="lblIdRdv" styleClass="label"
+               style="-fx-text-fill: rgba(255,255,255,0.65); -fx-font-size: 12px;" />
     </HBox>
 
-    <!-- Form (same fields, pre-filled by controller) -->
-    <ScrollPane fitToWidth="true" style="-fx-background: white; -fx-background-color: white; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
-        <VBox spacing="18" style="-fx-padding: 28 32;">
+    <!-- Form -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="list-view"
+                style="-fx-background: transparent; -fx-background-color: transparent;">
+        <VBox styleClass="page">
+            <VBox styleClass="form-card" spacing="14">
 
-            <!-- Patient ID -->
-            <VBox spacing="6">
-                <Label text="Patient ID" />
-                <TextField fx:id="tfPatientId" />
+                <!-- Patient ID -->
+                <VBox spacing="5">
+                    <Label text="Patient ID" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfPatientId" promptText="ID du patient"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Médecin ID -->
+                <VBox spacing="5">
+                    <Label text="Médecin ID" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfMedecinId" promptText="ID du médecin"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Date & Heure -->
+                <VBox spacing="5">
+                    <Label text="Date et Heure" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <HBox spacing="10">
+                        <DatePicker fx:id="dpDate" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                    style="-fx-pref-height: 42; -fx-font-size: 14px;
+                                           -fx-background-color: white; -fx-border-color: #e5b7c4;
+                                           -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField fx:id="tfHeure" promptText="HH:mm"
+                                   style="-fx-pref-width: 100; -fx-max-width: 100;
+                                          -fx-pref-height: 42; -fx-font-size: 14px;
+                                          -fx-background-color: white; -fx-border-color: #e5b7c4;
+                                          -fx-border-radius: 10; -fx-background-radius: 10;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Motif -->
+                <VBox spacing="5">
+                    <Label text="Motif" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfMotif" promptText="Motif de la consultation"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Statut -->
+                <VBox spacing="5">
+                    <Label text="Statut" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <ComboBox fx:id="cbStatut" maxWidth="Infinity"
+                              styleClass="combo-box" />
+                </VBox>
+
+                <!-- Lieu -->
+                <VBox spacing="5">
+                    <Label text="Lieu" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfLieu" promptText="Lieu du rendez-vous"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Notes -->
+                <VBox spacing="5">
+                    <Label text="Notes" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextArea fx:id="taNotes" prefRowCount="3" wrapText="true"
+                              promptText="Notes complémentaires..."
+                              style="-fx-font-size: 14px; -fx-background-color: white;
+                                     -fx-border-color: #e5b7c4; -fx-border-radius: 10;
+                                     -fx-background-radius: 10; -fx-font-family: 'Segoe UI';" />
+                </VBox>
+
+                <!-- Error label -->
+                <Label fx:id="lblError" text="" wrapText="true"
+                       style="-fx-text-fill: #ff4b3a; -fx-font-size: 13px;" />
+
             </VBox>
-
-            <!-- Médecin ID -->
-            <VBox spacing="6">
-                <Label text="Médecin ID" />
-                <TextField fx:id="tfMedecinId" />
-            </VBox>
-
-            <!-- Date & Heure -->
-            <VBox spacing="6">
-                <Label text="Date et Heure" />
-                <HBox spacing="10">
-                    <DatePicker fx:id="dpDate" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
-                    <TextField fx:id="tfHeure" prefWidth="90" />
-                </HBox>
-            </VBox>
-
-            <!-- Motif -->
-            <VBox spacing="6">
-                <Label text="Motif" />
-                <TextField fx:id="tfMotif" />
-            </VBox>
-
-            <!-- Statut -->
-            <VBox spacing="6">
-                <Label text="Statut" />
-                <ComboBox fx:id="cbStatut" maxWidth="Infinity" />
-            </VBox>
-
-            <!-- Lieu -->
-            <VBox spacing="6">
-                <Label text="Lieu" />
-                <TextField fx:id="tfLieu" style="-fx-background-color: #F7F8FA; -fx-border-color: #E8EAF0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Notes -->
-            <VBox spacing="6">
-                <Label text="Notes" />
-                <TextArea fx:id="taNotes" prefRowCount="3" wrapText="true" />
-            </VBox>
-
-            <!-- Error label -->
-            <Label fx:id="lblError" text="" wrapText="true" />
-
         </VBox>
     </ScrollPane>
 
     <!-- Footer -->
-    <HBox alignment="CENTER_RIGHT" spacing="12" style="-fx-background-color: #F7F8FA; -fx-border-color: #E8EAF0; -fx-border-width: 1 0 0 0; -fx-padding: 16 28;">
-        <Button onAction="#annuler" text="Annuler" />
-        <Button onAction="#enregistrer" text="Enregistrer les modifications" />
+    <HBox alignment="CENTER_RIGHT" spacing="10"
+          style="-fx-background-color: white; -fx-padding: 12 24;
+                 -fx-border-color: #ececec transparent transparent transparent;">
+        <Button onAction="#annuler" text="Annuler"
+                styleClass="button, btn-cancel" />
+        <Button onAction="#enregistrer" text="Enregistrer les modifications"
+                styleClass="button, btn-save" />
     </HBox>
 
 </VBox>
