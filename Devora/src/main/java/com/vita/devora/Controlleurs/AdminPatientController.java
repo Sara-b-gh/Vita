@@ -1,4 +1,4 @@
 package com.vita.devora.Controlleurs;
 
-public class Logincontroller {
+public class AdminPatientController {
 }

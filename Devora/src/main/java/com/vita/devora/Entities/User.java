@@ -11,8 +11,29 @@ public class User {
 
     public enum Roles {
         ADMIN,
-        USER,
+        PATIENT,
         DOCTOR
+    }
+
+    public User(){}
+
+    public User(int id, String nom, String prenom, String email, String password, int numtel, Roles role) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.password = password;
+        this.numtel = numtel;
+        this.role = role;
+    }
+
+    public User(String nom, String prenom, String email, String password, int numtel, Roles role) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.password = password;
+        this.numtel = numtel;
+        this.role = role;
     }
 
     // getters & setters

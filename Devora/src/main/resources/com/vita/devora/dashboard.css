@@ -1,0 +1,57 @@
+.page {
+    -fx-padding: 25;
+    -fx-background-color: #f8fafc;
+}
+
+/* Titles */
+.title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #64748b;
+}
+
+/* Cards */
+.card {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #f1c0c0;
+}
+
+/* Card text */
+.card-title {
+    -fx-text-fill: #64748b;
+}
+
+.card-value {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+/* Section */
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Departments */
+.dept-card {
+    -fx-background-color: #f1f5f9;
+    -fx-padding: 10;
+    -fx-background-radius: 10;
+    -fx-alignment: center-left;
+    -fx-spacing: 20;
+}
+
+.dept-title {
+    -fx-font-weight: bold;
+}
+
+/* Colors */
+.green {
+    -fx-text-fill: #22c55e;
+}

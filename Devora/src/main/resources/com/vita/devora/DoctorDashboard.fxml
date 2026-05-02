@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.DoctorDashboardController">
+    <left>
+        <VBox prefWidth="220.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #EEE; -fx-border-width: 0 1 0 0;">
+            <padding>
+                <Insets top="20.0" />
+            </padding>
+            <Label text="Gestion Hospitalière" textFill="#2D3436">
+                <font><Font name="System Bold" size="18.0" /></font>
+                <VBox.margin><Insets left="20.0" /></VBox.margin>
+            </Label>
+            <Label text="Médecin" textFill="#FF4757">
+                <VBox.margin><Insets bottom="30.0" left="20.0" /></VBox.margin>
+            </Label>
+
+            <Button fx:id="dashBtn" maxWidth="Infinity" style="-fx-background-color: #FF4757; -fx-text-fill: white;" text="Tableau de bord" />
+            <Button fx:id="rendezvousBtn" maxWidth="Infinity" style="-fx-background-color: transparent;" text="Rendez-vous" />
+            <Button fx:id="mesPatientsBtn" maxWidth="Infinity" style="-fx-background-color: transparent;" text="Mes patients" />
+            <Button fx:id="profileBtn" maxWidth="Infinity" onAction="#handleProfile" style="-fx-background-color: transparent;" text="Profil" />
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <padding>
+                <Insets left="30.0" right="30.0" top="10.0" />
+            </padding>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="logoutBtn" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: #FF4757;" text="Déconnexion" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT">
+                <VBox HBox.hgrow="ALWAYS">
+                    <Label text="Tableau de bord médecin" fx:id="titleLabel">
+                        <font><Font name="System Bold" size="24.0" /></font>
+                    </Label>
+                    <Label fx:id="welcomeLabel" text="Bienvenue" textFill="#636E72" />
+                </VBox>
+            </HBox>
+
+            <HBox spacing="20.0">
+                <VBox prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <padding><Insets /></padding>
+                    <Label text="Mes patients" textFill="#636E72" />
+                    <Label fx:id="totalPatientsLabel" text="0">
+                        <font><Font name="System Bold" size="24.0" /></font>
+                    </Label>
+                </VBox>
+            </HBox>
+
+            <TableView fx:id="patientTable" style="-fx-background-radius: 10;" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="pColNom" prefWidth="150.0" text="Nom" />
+                    <TableColumn fx:id="pColPrenom" prefWidth="150.0" text="Prénom" />
+                    <TableColumn fx:id="pColEmail" prefWidth="200.0" text="Email" />
+                    <TableColumn fx:id="pColTel" prefWidth="150.0" text="Téléphone" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    <right>
+        <VBox fx:id="profileBox" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #EEE; -fx-border-width: 1;" prefWidth="260.0">
+            <Label text="Profil" style="-fx-font-weight: bold;" />
+            <Label text="Nom:" />
+            <Label fx:id="profileNameLabel" text="-" />
+            <Label text="Email:" />
+            <Label fx:id="profileEmailLabel" text="-" />
+            <Label text="Role:" />
+            <Label fx:id="profileRoleLabel" text="-" />
+        </VBox>
+    </right>
+</BorderPane>
