@@ -244,10 +244,11 @@ public class RendezVousController implements Initializable {
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Comptes rendus");
-            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
-            stage.showAndWait();
-            loadData();
+            stage.show();
+            stage.setOnHidden(e -> loadData());
+            Stage currentStage = (Stage) listView.getScene().getWindow();
+            currentStage.close();
         } catch (Exception e) {
             lblStatus.setText("Erreur : " + e.getMessage());
         }

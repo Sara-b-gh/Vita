@@ -20,7 +20,7 @@ public class MainFX extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/AfficherRendezVous.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("test");
+            primaryStage.setTitle("Rendez-vous");
             primaryStage.show();
 
         } catch (IOException e) {

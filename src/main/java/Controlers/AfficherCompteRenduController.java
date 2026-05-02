@@ -166,7 +166,22 @@ public class AfficherCompteRenduController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void ConsulterRDV() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherRendezVous.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Rendez-vous");
+            stage.setScene(new Scene(root));
+            stage.show();
 
+            Stage currentStage = (Stage) listView.getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            lblContenu.setText("Erreur : " + e.getMessage());
+        }
+    }
     private void viderDetail() {
         lblId.setText("");      lblRdv.setText("");         lblRedigePar.setText("");
         lblDiagnostic.setText(""); lblContenu.setText(""); lblTraitement.setText("");

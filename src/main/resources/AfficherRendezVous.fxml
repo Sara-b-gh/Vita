@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -15,68 +16,88 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="620" prefWidth="900" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.RendezVousController">
+<BorderPane prefHeight="737.0" prefWidth="1100.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.RendezVousController">
     <stylesheets>
         <URL value="@../styles/style.css" />
     </stylesheets>
-<top>
-    <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: transparent transparent #ececec transparent;" styleClass="form-card">
-        <padding><Insets bottom="14" left="20" right="20" top="14" /></padding>
 
-        <Label styleClass="page-title" text="Rendez-Vous" />
-        <Region HBox.hgrow="ALWAYS" />
-        <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-pref-width: 180; -fx-max-width: 180;" styleClass="text-field" />
-        <ComboBox fx:id="filterStatut" promptText="Tous les statuts" style="-fx-pref-width: 160; -fx-max-width: 160;" styleClass="combo-box" />
-        <Button fx:id="btnAjouter" onAction="#ouvrirAjout" styleClass="button, btn-create" text="+ Nouveau" />
-        <Button fx:id="btnComptes" onAction="#ConsulterComptes" styleClass="button, btn-save" text="Comptes Rendus" />
-    </HBox>
-</top>
+    <left>
+        <VBox spacing="15" styleClass="sidebar">
+            <Label styleClass="sidebar-title" text="VITA" />
+            <Separator style="-fx-background-color: rgba(255,255,255,0.3);" />
+            <Button styleClass="nav-item" text="Tableau de bord" />
+            <Button styleClass="nav-item" text="Espace Docteurs" />
+            <Button styleClass="nav-item" text="Espace Patients" />
+            <Button styleClass="nav-item-active" text="Espace Rendez-vous" />
+            <Button onAction="#ConsulterComptes" styleClass="nav-item" text="Les Comptes Rendus" />
 
-<center>
-    <SplitPane dividerPositions="0.62">
-
-        <!-- LEFT : Grid View -->
-        <ScrollPane fitToWidth="true" styleClass="list-view">
-            <VBox styleClass="page">
-                <VBox.margin><Insets bottom="16" left="16" right="14" top="16" /></VBox.margin>
-                <Label styleClass="form-title" text="Grille" />
-                <GridPane fx:id="gridView" hgap="12" vgap="12" />
-            </VBox>
-        </ScrollPane>
-
-        <!-- RIGHT : List View + Actions -->
-        <VBox spacing="10" styleClass="page">
-            <padding><Insets bottom="16" left="16" right="16" top="16" /></padding>
-
-            <Label styleClass="form-title" text="Liste" />
-
-            <ListView fx:id="listView" prefHeight="204.0" prefWidth="289.0" styleClass="list-view" VBox.vgrow="ALWAYS" />
-
-            <Button fx:id="btnVoirCR" maxWidth="Infinity" onAction="#ouvrirCompteRendus" styleClass="button, btn-save" text="Compte Rendu" />
-            <Button fx:id="btnModifier" maxWidth="Infinity" onAction="#ouvrirModification" styleClass="button, btn-edit" text="Modifier" />
-            <Button fx:id="btnSupprimer" maxWidth="Infinity" onAction="#supprimerRdv" styleClass="button, btn-delete" text="Supprimer" />
-
-            <VBox fx:id="detailPane" spacing="5" styleClass="forum-card" visible="false">
-                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
-                <Label style="-fx-font-size: 14px; -fx-text-fill: #7a002f;" styleClass="form-title" text="DÉTAILS" />
-                <Label fx:id="lblDetailPatient" styleClass="label" />
-                <Label fx:id="lblDetailDate" styleClass="label" />
-                <Label fx:id="lblDetailMotif" styleClass="label" wrapText="true" />
-                <Label fx:id="lblDetailLieu" styleClass="label" />
-                <Label fx:id="lblDetailStatut" styleClass="label" />
-            </VBox>
+            <Button styleClass="nav-item" text="Les Événements" />
+            <Button styleClass="nav-item" text="Formulaire" />
+            <Button styleClass="nav-item" text="Quiz" />
         </VBox>
+    </left>
 
-    </SplitPane>
-</center>
+    <center>
+        <BorderPane>
 
-<bottom>
-    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white; -fx-border-color: #ececec transparent transparent transparent;">
-        <padding><Insets bottom="8" left="20" right="20" top="8" /></padding>
-        <Label fx:id="lblTotal" style="-fx-text-fill: #888;" styleClass="label" text="0 rendez-vous" />
-        <Region HBox.hgrow="ALWAYS" />
-        <Label fx:id="lblStatus" style="-fx-text-fill: #7a002f; -fx-font-weight: bold;" styleClass="label" text="" />
-    </HBox>
-</bottom>
+            <!-- TOP : Toolbar -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-radius: 0; -fx-border-radius: 0;                              -fx-border-color: transparent transparent #ececec transparent;" styleClass="form-card">
+                    <padding><Insets bottom="14" left="20" right="20" top="14" /></padding>
+                    <Label styleClass="page-title" text="Rendez-Vous" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-pref-width: 180; -fx-max-width: 180;" styleClass="text-field" />
+                    <ComboBox fx:id="filterStatut" promptText="Tous les statuts" style="-fx-pref-width: 160; -fx-max-width: 160;" styleClass="combo-box" />
+                    <Button fx:id="btnAjouter" onAction="#ouvrirAjout" styleClass="button, btn-create" text="+ Nouveau" />
+                    <Button fx:id="btnComptes" onAction="#ConsulterComptes" styleClass="button, btn-save" text="Comptes Rendus" />
+                </HBox>
+            </top>
+
+            <!-- CENTER : SplitPane -->
+            <center>
+                <SplitPane dividerPositions="0.62">
+
+                    <!-- Grille -->
+                    <ScrollPane fitToWidth="true" styleClass="list-view">
+                        <VBox styleClass="page">
+                            <VBox.margin><Insets bottom="16" left="16" right="14" top="16" /></VBox.margin>
+                            <Label styleClass="form-title" text="Grille" />
+                            <GridPane fx:id="gridView" hgap="12" vgap="12" />
+                        </VBox>
+                    </ScrollPane>
+
+                    <!-- Liste + Actions -->
+                    <VBox spacing="10" styleClass="page">
+                        <padding><Insets bottom="16" left="16" right="16" top="16" /></padding>
+                        <Label styleClass="form-title" text="Liste" />
+                        <ListView fx:id="listView" prefHeight="148.0" prefWidth="218.0" styleClass="list-view" VBox.vgrow="ALWAYS" />
+                        <Button fx:id="btnVoirCR" maxWidth="Infinity" onAction="#ouvrirCompteRendus" styleClass="button, btn-save" text="Compte Rendu" />
+                        <Button fx:id="btnModifier" maxWidth="Infinity" onAction="#ouvrirModification" styleClass="button, btn-edit" text="Modifier" />
+                        <Button fx:id="btnSupprimer" maxWidth="Infinity" onAction="#supprimerRdv" styleClass="button, btn-delete" text="Supprimer" />
+                        <VBox fx:id="detailPane" spacing="5" styleClass="forum-card" visible="false">
+                            <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                            <Label style="-fx-font-size: 14px; -fx-text-fill: #7a002f;" styleClass="form-title" text="DÉTAILS" />
+                            <Label fx:id="lblDetailPatient" styleClass="label" />
+                            <Label fx:id="lblDetailDate" styleClass="label" />
+                            <Label fx:id="lblDetailMotif" styleClass="label" wrapText="true" />
+                            <Label fx:id="lblDetailLieu" styleClass="label" />
+                            <Label fx:id="lblDetailStatut" styleClass="label" />
+                        </VBox>
+                    </VBox>
+
+                </SplitPane>
+            </center>
+
+            <bottom>
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white;                              -fx-border-color: #ececec transparent transparent transparent;">
+                    <padding><Insets bottom="8" left="20" right="20" top="8" /></padding>
+                    <Label fx:id="lblTotal" style="-fx-text-fill: #888;" styleClass="label" text="0 rendez-vous" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblStatus" style="-fx-text-fill: #7a002f; -fx-font-weight: bold;" styleClass="label" text="" />
+                </HBox>
+            </bottom>
+
+        </BorderPane>
+    </center>
 
 </BorderPane>

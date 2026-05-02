@@ -1,188 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<?import java.net.URL?>
-<VBox spacing="0" styleClass="root"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controlers.AfficherCompteRenduController">
+<!-- Outer BorderPane : sidebar LEFT + everything else CENTER -->
+
+<BorderPane prefHeight="737.0" prefWidth="1100.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.AfficherCompteRenduController">
 
     <stylesheets>
         <URL value="@../styles/style.css" />
     </stylesheets>
 
-    <!-- Header -->
-    <HBox alignment="CENTER_LEFT"
-          style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d); -fx-padding: 18 24;">
-        <Label text="Comptes Rendus" styleClass="sidebar-title" style="-fx-font-size: 24px;" />
-    </HBox>
+    <left>
+        <VBox spacing="15" styleClass="sidebar">
+            <Label styleClass="sidebar-title" text="VITA" />
+            <Separator style="-fx-background-color: rgba(255,255,255,0.3);" />
+            <Button styleClass="nav-item" text="Tableau de bord" />
+            <Button styleClass="nav-item" text="Espace Docteurs" />
+            <Button styleClass="nav-item" text="Espace Patients" />
+            <Button onAction="#ConsulterRDV" styleClass="nav-item" text="Espace Rendez-vous" />
+            <Button styleClass="nav-item-active" text="Les Comptes Rendus" />
 
-    <!-- Body -->
-    <HBox spacing="16" VBox.vgrow="ALWAYS" styleClass="page">
-
-        <!-- Colonne gauche : ListView -->
-        <VBox prefWidth="300" spacing="12">
-
-            <!-- Toolbar -->
-            <HBox spacing="8" alignment="CENTER_LEFT">
-                <Button onAction="#handleAjouter" text="+ Nouveau"
-                        styleClass="button, btn-create" />
-                <Button onAction="#handleActualiser" text="Actualiser"
-                        styleClass="button, btn-save"
-                        style="-fx-background-color: #b25b7d;" />
-            </HBox>
-
-            <ListView fx:id="listView" VBox.vgrow="ALWAYS" styleClass="list-view"
-                      prefHeight="380" />
-
-            <HBox spacing="8">
-                <Button onAction="#handleModifier" text="Modifier"
-                        styleClass="button, btn-edit" />
-                <Button onAction="#handleSupprimer" text="Supprimer"
-                        styleClass="button, btn-delete" />
-            </HBox>
-
+            <Button styleClass="nav-item" text="Les Événements" />
+            <Button styleClass="nav-item" text="Formulaire" />
+            <Button styleClass="nav-item" text="Quiz" />
         </VBox>
+    </left>
 
-        <Separator orientation="VERTICAL" />
+    <center>
+        <BorderPane>
 
-        <!-- Colonne droite : Détail -->
-        <VBox spacing="14" HBox.hgrow="ALWAYS">
+            <!-- Header -->
+            <top>
+                <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d); -fx-padding: 18 24;">
+                    <Label style="-fx-font-size: 24px;" styleClass="sidebar-title" text="Comptes Rendus" />
+                </HBox>
+            </top>
 
-            <Label text="Détail" styleClass="form-title" />
+            <!-- Body -->
+            <center>
+                <HBox spacing="16" styleClass="page">
 
-            <VBox styleClass="forum-card" spacing="0">
+                    <!-- Colonne gauche : ListView -->
+                    <VBox prefWidth="300" spacing="12">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Button onAction="#handleAjouter" styleClass="button, btn-create" text="+ Nouveau" />
+                            <Button onAction="#handleActualiser" styleClass="button, btn-cancel" text="Actualiser" />
+                        </HBox>
+                        <ListView fx:id="listView" prefHeight="380" styleClass="list-view" VBox.vgrow="ALWAYS" />
+                        <HBox spacing="8">
+                            <Button onAction="#handleModifier" styleClass="button, btn-edit" text="Modifier" />
+                            <Button onAction="#handleSupprimer" styleClass="button, btn-delete" text="Supprimer" />
+                        </HBox>
+                    </VBox>
 
-                <!-- Ligne helper macro -->
-                <GridPane hgap="16" vgap="0">
-                    <columnConstraints>
-                        <ColumnConstraints minWidth="120" prefWidth="130" />
-                        <ColumnConstraints hgrow="ALWAYS" />
-                    </columnConstraints>
+                    <Separator orientation="VERTICAL" />
 
-                    <!-- ID -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="0"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label text="ID" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="0"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label fx:id="lblId" styleClass="label" />
-                    </HBox>
+                    <!-- Colonne droite : Détail -->
+                    <VBox spacing="14" HBox.hgrow="ALWAYS">
+                        <Label styleClass="form-title" text="Détail" />
+                        <VBox spacing="0" styleClass="forum-card">
+                            <GridPane hgap="16" vgap="0">
+                                <columnConstraints>
+                                    <ColumnConstraints minWidth="120" prefWidth="130" />
+                                    <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
 
-                    <!-- RDV ID -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="1"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label text="RDV ID" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="1"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label fx:id="lblRdv" styleClass="label" />
-                    </HBox>
+                                <!-- ID -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="ID" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblId" styleClass="label" />
+                                </HBox>
 
-                    <!-- Rédigé par -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="2"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label text="Rédigé par" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="2"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label fx:id="lblRedigePar" styleClass="label" />
-                    </HBox>
+                                <!-- RDV ID -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="RDV ID" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lblRdv" styleClass="label" />
+                                </HBox>
 
-                    <!-- Diagnostic -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="3"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label text="Diagnostic" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="3"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label fx:id="lblDiagnostic" styleClass="label" />
-                    </HBox>
+                                <!-- Rédigé par -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Rédigé par" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label fx:id="lblRedigePar" styleClass="label" />
+                                </HBox>
 
-                    <!-- Confidentiel -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="4"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label text="Confidentiel" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="4"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label fx:id="lblConfidentiel" styleClass="label" />
-                    </HBox>
+                                <!-- Diagnostic -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Diagnostic" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <Label fx:id="lblDiagnostic" styleClass="label" />
+                                </HBox>
 
-                    <!-- Prochain RDV -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="5"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label text="Prochain RDV" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="5"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label fx:id="lblProchainRdv" styleClass="label" />
-                    </HBox>
+                                <!-- Confidentiel -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Confidentiel" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <Label fx:id="lblConfidentiel" styleClass="label" />
+                                </HBox>
 
-                    <!-- Créé le -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="6"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label text="Créé le" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="6"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent;">
-                        <Label fx:id="lblDateCreation" styleClass="label" />
-                    </HBox>
+                                <!-- Prochain RDV -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Prochain RDV" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <Label fx:id="lblProchainRdv" styleClass="label" />
+                                </HBox>
 
-                    <!-- Contenu -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="7"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label text="Contenu" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="7"
-                          style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;">
-                        <Label fx:id="lblContenu" styleClass="label" wrapText="true" />
-                    </HBox>
+                                <!-- Créé le -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Créé le" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <Label fx:id="lblDateCreation" styleClass="label" />
+                                </HBox>
 
-                    <!-- Traitement -->
-                    <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="8">
-                        <Label text="Traitement" styleClass="label"
-                               style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" />
-                    </HBox>
-                    <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                        <Label fx:id="lblTraitement" styleClass="label" wrapText="true" />
-                    </HBox>
+                                <!-- Contenu -->
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="7">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Contenu" />
+                                </HBox>
+                                <HBox style="-fx-border-color: transparent transparent #f0e0e8 transparent; -fx-background-color: #fdf5f8;" styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                    <Label fx:id="lblContenu" styleClass="label" wrapText="true" />
+                                </HBox>
 
-                    <rowConstraints>
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                        <RowConstraints minHeight="36" />
-                    </rowConstraints>
+                                <!-- Traitement -->
+                                <HBox styleClass="list-cell" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #7a002f;" styleClass="label" text="Traitement" />
+                                </HBox>
+                                <HBox styleClass="list-cell" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                    <Label fx:id="lblTraitement" styleClass="label" wrapText="true" />
+                                </HBox>
 
-                </GridPane>
-            </VBox>
-        </VBox>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                    <RowConstraints minHeight="36" />
+                                </rowConstraints>
 
-    </HBox>
+                            </GridPane>
+                        </VBox>
+                    </VBox>
 
-</VBox>
+                </HBox>
+            </center>
+
+        </BorderPane>
+    </center>
+
+</BorderPane>
