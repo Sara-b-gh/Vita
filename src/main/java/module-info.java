@@ -4,10 +4,10 @@ module com.example.vita {
     requires java.sql;
 
     opens com.example.vita to javafx.fxml;
-    exports com.example.vita;
+    opens controles to javafx.fxml;        // ✅ ajouter cette ligne
+    opens entities to javafx.fxml;
+    opens utils to javafx.fxml;
 
-    opens entities;
-    opens services;
-    opens utils;
-    opens tests;
+    exports com.example.vita;
+    exports controles;
 }
