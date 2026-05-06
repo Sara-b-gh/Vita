@@ -123,7 +123,7 @@ public class TestMail {
         System.out.println("\n===== TEST 5 : MÉDECINS SEULEMENT =====");
         try {
             service.getByRole(User.Roles.DOCTOR).forEach(System.out::println);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Erreur : " + e.getMessage());
         }
     }

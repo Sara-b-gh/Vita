@@ -24,7 +24,7 @@ public class MyBD {
 
     public static MyBD getInstance() {
         if (instance == null) {
-            instance = new MyBD(); // 🔥 UNE SEULE FOIS
+            instance = new MyBD(); //  UNE SEULE FOIS
         }
         return instance;
     }

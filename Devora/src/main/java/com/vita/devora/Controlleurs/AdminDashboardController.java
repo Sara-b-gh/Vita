@@ -2,259 +2,265 @@ package com.vita.devora.Controlleurs;
 
 import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
-import com.vita.devora.utils.SessionManager;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
-import javafx.scene.layout.HBox;
+import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class AdminDashboardController {
 
-    @FXML private TableView<User> doctorTable;
-    @FXML private TableColumn<User, String> colNom;
-    @FXML private TableColumn<User, String> colPrenom;
-    @FXML private TableColumn<User, String> colEmail;
-    @FXML private TableColumn<User, Integer> colTel;
-    @FXML private TableColumn<User, Void> colActions;
-    @FXML private Label totalDoctorsLabel;
-    @FXML private Label profileNameLabel;
-    @FXML private Label profileEmailLabel;
-    @FXML private Label profileRoleLabel;
-    @FXML private javafx.scene.layout.VBox profileBox;
-    @FXML private javafx.scene.control.Button profileBtn;
-    @FXML private javafx.scene.control.Button dashBtn;
-    @FXML private javafx.scene.control.Button doctorsBtn;
-    @FXML private javafx.scene.control.Button patientsBtn;
-    @FXML private Label titleLabel;
-    @FXML private Label subtitleLabel;
-    @FXML private Button addBtn;
-    @FXML private javafx.scene.layout.BorderPane rootPane;
+    @FXML private Label totalMedecinsLabel;
+    @FXML private Label totalPatientsLabel;
+    @FXML private Label totalQuizLabel;
+    @FXML private Label totalInteractionsLabel;
+    @FXML private Label totalEvenementsLabel;
 
-    @FXML
-    private void handleProfile() {
-        if (profileBox == null) return;
-        String cur = profileBox.getStyle();
-        if (cur != null && cur.contains("-fx-border-color")) {
-            profileBox.setStyle("");
-        } else {
-            profileBox.setStyle("-fx-border-color: #FF4757; -fx-border-width: 2;");
-        }
-    }
+    @FXML private BarChart<String, Number>  deptChart;
+    @FXML private CategoryAxis              deptXAxis;
+    @FXML private NumberAxis                deptYAxis;
+
+    @FXML private BarChart<String, Number>  quizChart;
+    @FXML private CategoryAxis              quizXAxis;
+    @FXML private NumberAxis                quizYAxis;
+
+    @FXML private LineChart<String, Number> evolutionChart;
+    @FXML private CategoryAxis              evoXAxis;
+    @FXML private NumberAxis                evoYAxis;
 
     private final UserService userService = new UserService();
-    private ObservableList<User> doctorList = FXCollections.observableArrayList();
-    private User.Roles currentRole = User.Roles.DOCTOR;
-    private Node mainContent;
 
     @FXML
     public void initialize() {
-        mainContent = rootPane.getCenter();
-        setupColumns();
-        // default show doctors
-        loadData(User.Roles.DOCTOR);
-        // wire sidebar filters
-        if (dashBtn != null) dashBtn.setOnAction(e -> loadData(null));
-        if (doctorsBtn != null) doctorsBtn.setOnAction(e -> loadData(User.Roles.DOCTOR));
-        if (patientsBtn != null) patientsBtn.setOnAction(e -> loadData(User.Roles.PATIENT));
-        if (profileBtn != null) profileBtn.setOnAction(e -> handleOpenProfile());
-        populateProfile();
+        loadKPIs();
+        //loadDeptChart();
+        loadQuizChart();
+        loadEvolutionChart();
+        styleCharts();
     }
 
-    private void populateProfile() {
-        var u = SessionManager.getCurrentUser();
-        if (u != null) {
-            if (profileNameLabel != null) profileNameLabel.setText(u.getNom() + " " + u.getPrenom());
-            if (profileEmailLabel != null) profileEmailLabel.setText(u.getEmail());
-            if (profileRoleLabel != null) profileRoleLabel.setText(u.getRole().toString());
-        }
-    }
-
-    private void setupColumns() {
-        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colTel.setCellValueFactory(new PropertyValueFactory<>("numtel"));
-
-        // Custom Actions Column (Edit/Delete)
-        Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = param -> new TableCell<>() {
-            private final Button btnEdit = new Button("Modifier");
-            private final Button btnDelete = new Button("Supprimer");
-            private final HBox box = new HBox(8, btnEdit, btnDelete);
-            {
-                btnEdit.setStyle("-fx-background-color: transparent; -fx-text-fill: #2d98f0;");
-                btnDelete.setStyle("-fx-text-fill: #ff4757; -fx-background-color: transparent;");
-
-                btnEdit.setOnAction(event -> {
-                    int idx = getIndex();
-                    if (idx >= 0 && idx < getTableView().getItems().size()) {
-                        User user = getTableView().getItems().get(idx);
-                        handleEditUser(user);
-                    }
-                });
-
-                btnDelete.setOnAction(event -> {
-                    int idx = getIndex();
-                    if (idx >= 0 && idx < getTableView().getItems().size()) {
-                        User user = getTableView().getItems().get(idx);
-                        handleDeleteDoctor(user);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : box);
-            }
-        };
-        colActions.setCellFactory(cellFactory);
-    }
-
-    private void loadData(User.Roles role) {
-        if (mainContent != null && rootPane.getCenter() != mainContent) {
-            rootPane.setCenter(mainContent);
-        }
+    // ══════════════════════════════════════
+    //  KPI
+    // ══════════════════════════════════════
+    private void loadKPIs() {
         try {
-            List<User> users;
-            if (role == null) {
-                users = userService.getAllUsers();
-            } else {
-                users = userService.getByRole(role);
-            }
-            doctorList.setAll(users);
-            doctorTable.setItems(doctorList);
-            totalDoctorsLabel.setText(String.valueOf(users.size()));
-                // remember current role for add/refresh actions
-                currentRole = role == null ? null : role;
-            // update title/subtitle and add button depending on role
-            if (role == User.Roles.DOCTOR) {
-                if (titleLabel != null) titleLabel.setText("Gestion des médecins");
-                if (subtitleLabel != null) subtitleLabel.setText("Ajouter, modifier ou supprimer des médecins");
-                if (addBtn != null) { addBtn.setVisible(true); addBtn.setText("+ Ajouter un médecin"); }
-                if (doctorsBtn != null) doctorsBtn.setStyle("-fx-background-color: #FF4757; -fx-text-fill: white;");
-                if (patientsBtn != null) patientsBtn.setStyle("-fx-background-color: transparent;");
-            } else if (role == User.Roles.PATIENT) {
-                if (titleLabel != null) titleLabel.setText("Gestion des patients");
-                if (subtitleLabel != null) subtitleLabel.setText("Voir et gérer les patients");
-                    if (addBtn != null) { addBtn.setVisible(true); addBtn.setText("+ Ajouter un patient"); }
-                if (patientsBtn != null) patientsBtn.setStyle("-fx-background-color: #FF4757; -fx-text-fill: white;");
-                if (doctorsBtn != null) doctorsBtn.setStyle("-fx-background-color: transparent;");
-            } else {
-                if (titleLabel != null) titleLabel.setText("Tableau de bord");
-                if (subtitleLabel != null) subtitleLabel.setText("");
-                if (addBtn != null) addBtn.setVisible(false);
-                if (doctorsBtn != null) doctorsBtn.setStyle("-fx-background-color: transparent;");
-                if (patientsBtn != null) patientsBtn.setStyle("-fx-background-color: transparent;");
-            }
-        } catch (SQLException e) {
-            showAlert("Erreur", "Impossible de charger les utilisateurs : " + e.getMessage());
-        }
-    }
+            int medecins = userService.getByRole(User.Roles.DOCTOR).size();
+            int patients = userService.getByRole(User.Roles.PATIENT).size();
 
-    @FXML
-    private void handleAddDoctor() {
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/vita/devora/AjouterDocteur.fxml"));
-            javafx.scene.Parent root = loader.load();
-            // set default role in controller according to currentRole
-            com.vita.devora.Controlleurs.AddUserController controller = loader.getController();
-            controller.setDefaultRole(currentRole == null ? User.Roles.DOCTOR : currentRole);
-            // show as modal
-            Stage dialog = new Stage();
-            dialog.initOwner(totalDoctorsLabel.getScene().getWindow());
-            dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            dialog.setScene(new javafx.scene.Scene(root));
-                dialog.setTitle(currentRole == User.Roles.PATIENT ? "Ajouter un patient" : "Ajouter un médecin");
-            dialog.showAndWait();
-            // after dialog closed, refresh data
-                loadData(currentRole);
+            totalMedecinsLabel.setText(String.valueOf(medecins));
+            totalPatientsLabel.setText(String.valueOf(patients));
+
+            // ── Quiz & Événements : remplacez par vos vrais services ──
+            // int quiz         = quizService.getAll().size();
+            // int interactions = quizService.getTotalInteractions();
+            // int evenements   = evenementService.getAll().size();
+            // Pour l'instant valeurs de démonstration :
+            totalQuizLabel.setText("9");
+            totalInteractionsLabel.setText("312");
+            totalEvenementsLabel.setText("7");
+
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire d'ajout: " + e.getMessage());
+            totalMedecinsLabel.setText("—");
+            totalPatientsLabel.setText("—");
         }
     }
 
-    private void handleDeleteDoctor(User user) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Supprimer " + user.getNom() + " ?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                try {
-                    userService.supprimer(user.getId());
-                    loadData(currentRole); // Refresh list with current filter
-                } catch (SQLException e) {
-                    showAlert("Erreur", "Échec de suppression: " + e.getMessage());
-                    e.printStackTrace();
+    // ══════════════════════════════════════
+    //  Graphique 1 — Médecins par département
+    // ══════════════════════════════════════
+//    private void loadDeptChart() {
+//        try {
+//            // Récupère tous les médecins et groupe par spécialité/département
+//            List<User> medecins = userService.getByRole(User.Roles.DOCTOR);
+//
+//            // Comptage par département
+//            Map<String, Long> byDept = medecins.stream()
+//                    .filter(u -> u.getDepartement() != null)
+//                    .collect(java.util.stream.Collectors.groupingBy(
+//                            User::getDepartement,
+//                            java.util.stream.Collectors.counting()
+//                    ));
+//
+//            XYChart.Series<String, Number> series = new XYChart.Series<>();
+//            series.setName("Médecins");
+//
+//            // Si getDepartement() n'existe pas encore, utilisez des données fixes :
+//            if (byDept.isEmpty()) {
+//                series.getData().add(new XYChart.Data<>("Cardiologie", 7));
+//                series.getData().add(new XYChart.Data<>("Neurologie",  5));
+//                series.getData().add(new XYChart.Data<>("Pédiatrie",   4));
+//                series.getData().add(new XYChart.Data<>("Dermato.",    3));
+//                series.getData().add(new XYChart.Data<>("Orthopédie",  3));
+//                series.getData().add(new XYChart.Data<>("Ophtalmo.",   2));
+//            } else {
+//                byDept.forEach((dept, count) ->
+//                        series.getData().add(new XYChart.Data<>(dept, count))
+//                );
+//            }
+//
+//            deptChart.getData().add(series);
+//
+//            // Couleur des barres
+//            deptChart.setOnMouseEntered(null);
+//            applyBarColor(deptChart, "#8a0037");
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    // ══════════════════════════════════════
+    //  Graphique 2 — Interactions quiz
+    // ══════════════════════════════════════
+    private void loadQuizChart() {
+        // Remplacez par vos vraies données de QuizService
+        XYChart.Series<String, Number> sReponses  = new XYChart.Series<>();
+        XYChart.Series<String, Number> sCompletes = new XYChart.Series<>();
+
+        sReponses.setName("Réponses");
+        sCompletes.setName("Complétés");
+
+        String[] semaines = {"Sem 1", "Sem 2", "Sem 3", "Sem 4"};
+        int[]    reponses  = {40, 65, 80, 127};
+        int[]    completes = {22, 38, 55, 90};
+
+        for (int i = 0; i < semaines.length; i++) {
+            sReponses.getData().add(new XYChart.Data<>(semaines[i], reponses[i]));
+            sCompletes.getData().add(new XYChart.Data<>(semaines[i], completes[i]));
+        }
+
+        quizChart.getData().addAll(sReponses, sCompletes);
+        applyBarColor(quizChart, "#854F0B", "#EF9F27");
+    }
+
+    // ══════════════════════════════════════
+    //  Graphique 3 — Évolution mensuelle
+    // ══════════════════════════════════════
+    private void loadEvolutionChart() {
+        try {
+            // Remplacez par vos vraies données mensuelles
+            List<User> patients = userService.getByRole(User.Roles.PATIENT);
+            List<User> medecins = userService.getByRole(User.Roles.DOCTOR);
+
+            XYChart.Series<String, Number> sPatients = new XYChart.Series<>();
+            XYChart.Series<String, Number> sMedecins = new XYChart.Series<>();
+
+            sPatients.setName("Patients");
+            sMedecins.setName("Médecins");
+
+            // Données de démonstration — remplacez par vos requêtes SQL mensuelles
+            String[] mois     = {"Déc", "Jan", "Fév", "Mar", "Avr", "Mai"};
+            int[]    patData  = {100, 108, 115, 124, 136, patients.size()};
+            int[]    medData  = {20,  21,  21,  22,  23,  medecins.size()};
+
+            for (int i = 0; i < mois.length; i++) {
+                sPatients.getData().add(new XYChart.Data<>(mois[i], patData[i]));
+                sMedecins.getData().add(new XYChart.Data<>(mois[i], medData[i]));
+            }
+
+            evolutionChart.getData().addAll(sPatients, sMedecins);
+
+            // Couleurs des lignes après rendu
+            evolutionChart.setOnMouseEntered(null);
+            javafx.application.Platform.runLater(() -> {
+                if (!evolutionChart.getData().isEmpty()) {
+                    String css0 = "-fx-stroke: #185FA5;";
+                    String css1 = "-fx-stroke: #8a0037;";
+                    evolutionChart.getData().get(0).getNode().setStyle(css0);
+                    evolutionChart.getData().get(1).getNode().setStyle(css1);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ══════════════════════════════════════
+    //  Helpers styles
+    // ══════════════════════════════════════
+    private void styleCharts() {
+        // Supprime le fond gris des charts
+        for (Chart c : List.of(deptChart, quizChart, evolutionChart)) {
+            c.setStyle("-fx-background-color: transparent;");
+            c.lookup(".chart-plot-background")
+                    .setStyle("-fx-background-color: transparent;");
+        }
+    }
+
+    /**
+     * Applique une couleur à chaque série d'un BarChart après le rendu.
+     * @param chart   le BarChart cible
+     * @param colors  une couleur hex par série (dans l'ordre)
+     */
+    private void applyBarColor(BarChart<?, ?> chart, String... colors) {
+        javafx.application.Platform.runLater(() -> {
+            for (int s = 0; s < chart.getData().size() && s < colors.length; s++) {
+                final String color = colors[s];
+                for (XYChart.Data<?, ?> d : chart.getData().get(s).getData()) {
+                    if (d.getNode() != null) {
+                        d.getNode().setStyle(
+                                "-fx-bar-fill: " + color + ";" +
+                                        "-fx-background-radius: 4 4 0 0;"
+                        );
+                    }
                 }
             }
         });
     }
 
-    private void handleEditUser(User user) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/AjouterDocteur.fxml"));
-            Parent root = loader.load();
-            com.vita.devora.Controlleurs.AddUserController controller = loader.getController();
-            controller.setUser(user);
-            Stage dialog = new Stage();
-            dialog.initOwner(totalDoctorsLabel.getScene().getWindow());
-            dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            dialog.setScene(new javafx.scene.Scene(root));
-            dialog.setTitle("Modifier utilisateur");
-            dialog.showAndWait();
-            loadData(currentRole);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire de modification: " + e.getMessage());
-        }
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+    @FXML
+    public void navEspaceDoctor(ActionEvent actionEvent) {
+        // Ensure the path matches your project structure exactly
+        switchPage(actionEvent, "/com/vita/devora/AdminDocteur.fxml");
     }
 
     @FXML
-    private void handleOpenProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/views/ProfileView.fxml"));
-            Parent root = loader.load();
-            // place profile view in center
-            javafx.scene.layout.BorderPane bp = (javafx.scene.layout.BorderPane) rootPane;
-            bp.setCenter(root);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir le profil: " + e.getMessage());
-        }
+    public void NavEspacePatient(ActionEvent actionEvent) {
+        switchPage(actionEvent, "/com/vita/devora/AdminPatient.fxml");
     }
 
-    @FXML
-    private void handleLogout() {
-        try {
-            SessionManager.clearSession();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
-            javafx.stage.Window window = null;
-            if (rootPane != null && rootPane.getScene() != null) window = rootPane.getScene().getWindow();
-            else if (doctorTable != null && doctorTable.getScene() != null) window = doctorTable.getScene().getWindow();
-            else if (totalDoctorsLabel != null && totalDoctorsLabel.getScene() != null) window = totalDoctorsLabel.getScene().getWindow();
+//    @FXML
+//    public void TabBOARD(ActionEvent actionEvent) {
+//        // Fixed potential typo: changed "Dashbord" to "Dashboard"
+//        // Double-check your actual filename!
+//        switchPage(actionEvent, "/com/vita/devora/AdminDashboard.fxml");
+//    }
 
-            if (window instanceof Stage) {
-                Stage stage = (Stage) window;
-                stage.getScene().setRoot(root);
+    /**
+     * Refined switchPage method
+     */
+    private void switchPage(ActionEvent event, String fxmlPath) {
+        try {
+            // 1. Check if resource exists before loading to avoid generic IOExceptions
+            java.net.URL resource = getClass().getResource(fxmlPath);
+            if (resource == null) {
+                System.err.println("❌ FXML File not found at: " + fxmlPath);
+                return;
             }
-        } catch (Exception e) {
+
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resource);
+            javafx.scene.Parent root = loader.load();
+
+            // 2. Get the Stage safely
+            javafx.scene.Node sourceNode = (javafx.scene.Node) event.getSource();
+            javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
+
+            // 3. Set the new root
+            stage.getScene().setRoot(root);
+
+            // Optional: If you want to ensure the window adjusts to the new size
+            // stage.sizeToScene();
+
+        } catch (java.io.IOException e) {
+            System.err.println("❌ Critical error loading: " + fxmlPath);
             e.printStackTrace();
         }
     }
+
+
 }

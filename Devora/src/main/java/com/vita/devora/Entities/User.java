@@ -1,5 +1,8 @@
 package com.vita.devora.Entities;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class User {
     private int id;
     private String nom;
@@ -8,6 +11,11 @@ public class User {
     private String password;
     private int numtel;
     private Roles role;
+    private LocalDate dateNaissance;
+
+    //tables filles
+    private String departement; // DOCTOR
+    private String bloodType;   // PATIENT
 
     public enum Roles {
         ADMIN,
@@ -35,6 +43,20 @@ public class User {
         this.numtel = numtel;
         this.role = role;
     }
+
+    // Controle de saisie
+
+    public static boolean isValidEmail(String email) {
+        if (email == null) return false;
+
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+    public static boolean isValidPhone(int numtel) {
+        String phone = String.valueOf(numtel);
+        return phone.matches("\\d{8}");
+    }
+
 
     // getters & setters
 
@@ -68,6 +90,9 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException(" Email invalide !");
+        }
         this.email = email;
     }
 
@@ -76,6 +101,9 @@ public class User {
     }
 
     public void setNumtel(int numtel) {
+        if (!isValidPhone(numtel)) {
+            throw new IllegalArgumentException(" Numéro de téléphone invalide !");
+        }
         this.numtel = numtel;
     }
 
@@ -95,6 +123,22 @@ public class User {
         this.role = role;
     }
 
+    public String getDepartement() { return departement;}
+
+    public void setDepartement(String departement) { this.departement = departement;}
+
+    public String getBloodType() { return bloodType;}
+
+    public void setBloodType(String bloodType) { this.bloodType = bloodType;}
+
+    public LocalDate getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(LocalDate dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -105,6 +149,9 @@ public class User {
                 ", password='" + password + '\'' +
                 ", numtel=" + numtel +
                 ", role=" + role +
+                ", dateNaissance=" + dateNaissance +
+                ", departement='" + departement + '\'' +
+                ", bloodType='" + bloodType + '\'' +
                 '}';
     }
 }

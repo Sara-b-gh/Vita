@@ -4,6 +4,7 @@ module com.vita.devora {
     requires java.sql;
     requires java.management;
     requires java.mail;
+    requires java.prefs;
 
 
     opens com.vita.devora to javafx.fxml;

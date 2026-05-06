@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginTest.fxml"));
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root);
         stage.setTitle("VITA ");
         stage.setScene(scene);
         stage.show();

@@ -42,7 +42,7 @@ public class DoctorDashboardController {
 
         setupColumns();
         loadPatients();
-        populateProfile();
+//        populateProfile();
         if (dashBtn != null) dashBtn.setOnAction(e -> {
             loadPatients();
             dashBtn.setStyle("-fx-background-color: #FF4757; -fx-text-fill: white;");
@@ -78,14 +78,15 @@ public class DoctorDashboardController {
         pColTel.setCellValueFactory(new PropertyValueFactory<>("numtel"));
     }
 
-    private void populateProfile() {
-        var u = SessionManager.getCurrentUser();
-        if (u != null) {
-            profileNameLabel.setText(u.getNom() + " " + u.getPrenom());
-            profileEmailLabel.setText(u.getEmail());
-            profileRoleLabel.setText(u.getRole().toString());
-        }
-    }
+//    private void populateProfile() {
+//        var u = SessionManager.getCurrentUser();
+//        System.out.println(u);
+//        if (u != null) {
+//            profileNameLabel.setText(u.getNom() + " " + u.getPrenom());
+////            profileEmailLabel.setText(u.getEmail());
+////            profileRoleLabel.setText(u.getRole().toString());
+//        }
+//    }
 
     private void loadPatients() {
         try {
@@ -97,7 +98,7 @@ public class DoctorDashboardController {
             if(titleLabel != null){
                 titleLabel.setText("Tableau de bord");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             totalPatientsLabel.setText("0");
             e.printStackTrace();
         }
@@ -113,13 +114,30 @@ public class DoctorDashboardController {
 
     @FXML
     private void handleProfile() {
-        if (profileBox == null) return;
-        String cur = profileBox.getStyle();
-        if (cur != null && cur.contains("-fx-border-color")) {
-            profileBox.setStyle("");
-        } else {
-            profileBox.setStyle("-fx-border-color: #FF4757; -fx-border-width: 2;");
-        }
+//        try {
+//            // 1. Load the Profile FXML
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/DocteurPassword.fxml"));
+//            Parent root = loader.load();
+//
+//            // 2. Access the controller to pass data (Preserve the User)
+//            // Assuming your controller is named ProfileController
+//            AddUserController controller = loader.getController();
+//
+//            // You can get the user from your existing SessionManager
+//            User currentUser = SessionManager.getCurrentUser();
+//            if (controller != null && currentUser != null) {
+//                controller.setUser(currentUser);
+//            }
+//
+//            // 3. Switch the scene
+//            // We use patientTable to get the current stage
+//            Stage stage = (Stage) patientTable.getScene().getWindow();
+//            stage.getScene().setRoot(root);
+//
+//        } catch (java.io.IOException e) {
+//            System.err.println("❌ Could not load Profile scene: " + e.getMessage());
+//            e.printStackTrace();
+//        }
     }
 
     @FXML

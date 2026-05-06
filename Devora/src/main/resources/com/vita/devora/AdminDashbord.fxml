@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminDashboardController">
+
+    <!-- ═══════════════ SIDEBAR ORIGINALE ═══════════════ -->
+    <left>
+        <AnchorPane prefHeight="697.0" prefWidth="237.0" style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d);" BorderPane.alignment="CENTER">
+            <children>
+                <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" style="-fx-focus-traversable: #fcdeea;" />
+                <Button layoutX="36.0" layoutY="155.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="37.0" layoutY="201.0" onAction="#navEspaceDoctor" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Docteurs" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="36.0" layoutY="242.0" onAction="#NavEspacePatient" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Patients" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="24.0" layoutY="285.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Rendez-vous" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="37.0" layoutY="331.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Les Événements" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="55.0" layoutY="373.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Formulaire" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="76.0" layoutY="415.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Quiz" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="18.0" layoutY="18.0" opacity="0.42" stroke="WHITE" strokeDashOffset="50.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="70.0" strokeType="INSIDE" width="86.0" />
+                <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+                    <image><Image url="@../../../image/logo.png" /></image>
+                </ImageView>
+                <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="36.0" /></font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </left>
+
+    <!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #F8F9FA; -fx-border-color: transparent;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox spacing="16.0" style="-fx-background-color: #F8F9FA; -fx-padding: 24;">
+
+                    <!-- Titre -->
+                    <Label text="Tableau de bord">
+                        <font><Font name="Berlin Sans FB" size="22.0" /></font>
+                    </Label>
+
+                    <!-- ── KPI Cards ── -->
+                    <HBox spacing="12.0">
+
+                        <VBox style="-fx-background-color: #fdedf3; -fx-background-radius: 10; -fx-padding: 14 18;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #8a0037;" text="MÉDECINS" />
+                            <Label fx:id="totalMedecinsLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #8a0037;" text="—" />
+                        </VBox>
+
+                        <VBox style="-fx-background-color: #e6f1fb; -fx-background-radius: 10; -fx-padding: 14 18;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #185FA5;" text="PATIENTS" />
+                            <Label fx:id="totalPatientsLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #185FA5;" text="—" />
+                        </VBox>
+
+                        <VBox style="-fx-background-color: #faeeda; -fx-background-radius: 10; -fx-padding: 14 18;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #854F0B;" text="QUIZ" />
+                            <Label fx:id="totalQuizLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #854F0B;" text="—" />
+                        </VBox>
+
+                        <VBox style="-fx-background-color: #faeeda; -fx-background-radius: 10; -fx-padding: 14 18;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #854F0B;" text="INTERACTIONS QUIZ" />
+                            <Label fx:id="totalInteractionsLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #854F0B;" text="—" />
+                        </VBox>
+
+                        <VBox style="-fx-background-color: #e1f5ee; -fx-background-radius: 10; -fx-padding: 14 18;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 11; -fx-text-fill: #0F6E56;" text="ÉVÉNEMENTS" />
+                            <Label fx:id="totalEvenementsLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #0F6E56;" text="—" />
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- ── Graphiques ligne 1 : Dept + Quiz ── -->
+                    <HBox spacing="16.0">
+
+                        <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5; -fx-padding: 16;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 13; -fx-font-weight: bold;" text="Médecins par département">
+                                <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                            </Label>
+                            <BarChart fx:id="deptChart" animated="false" legendVisible="false" prefHeight="220.0">
+                                <xAxis><CategoryAxis fx:id="deptXAxis" /></xAxis>
+                                <yAxis><NumberAxis fx:id="deptYAxis" lowerBound="0" /></yAxis>
+                            </BarChart>
+                        </VBox>
+
+                        <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5; -fx-padding: 16;" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size: 13; -fx-font-weight: bold;" text="Interactions avec les quiz">
+                                <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                            </Label>
+                            <BarChart fx:id="quizChart" animated="false" prefHeight="220.0">
+                                <xAxis><CategoryAxis fx:id="quizXAxis" /></xAxis>
+                                <yAxis><NumberAxis fx:id="quizYAxis" lowerBound="0" /></yAxis>
+                            </BarChart>
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- ── Graphique ligne 2 : Évolution ── -->
+                    <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 12;                             -fx-border-color: #e8e8e8; -fx-border-radius: 12;                             -fx-border-width: 0.5; -fx-padding: 16;">
+                        <Label style="-fx-font-size: 13; -fx-font-weight: bold;" text="Évolution des enregistrements (6 derniers mois)">
+                            <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                        </Label>
+                        <LineChart fx:id="evolutionChart" animated="false" prefHeight="200.0">
+                            <xAxis><CategoryAxis fx:id="evoXAxis" /></xAxis>
+                            <yAxis><NumberAxis fx:id="evoYAxis" /></yAxis>
+                        </LineChart>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

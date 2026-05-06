@@ -45,7 +45,7 @@ public class MainDashboard {
 
         switch (text) {
             case "Tableau de bord":
-                loadPage("/com/vita/devora/views/AdminDashboard.fxml");
+                loadPage("/com/vita/devora/views/AdminDocteur.fxml");
                 break;
 
             case "Espace Docteurs":
@@ -109,6 +109,6 @@ public class MainDashboard {
     // =========================
     @FXML
     public void initialize() {
-        loadPage("/com/vita/devora/views/AdminDashboard.fxml");
+        loadPage("/com/vita/devora/views/AdminDashbord.fxml");
     }
 }

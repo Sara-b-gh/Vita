@@ -8,124 +8,160 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
-
 public class AddUserController {
 
     @FXML private TextField nomField;
     @FXML private TextField prenomField;
     @FXML private TextField emailField;
     @FXML private TextField telField;
-    @FXML private ChoiceBox<String> roleChoice;
+    @FXML private ComboBox<String> departementCombo;
+    // 1. Add these new fields
+    @FXML private TextField cinField;
+    @FXML private DatePicker dobPicker;
 
     private final UserService userService = new UserService();
-    private com.vita.devora.Entities.User existingUser = null;
+    private User existingUser = null;
 
+    // ───────── INITIALISATION ─────────
     @FXML
     public void initialize() {
-        roleChoice.getItems().addAll("DOCTOR", "PATIENT");
-        roleChoice.setValue("DOCTOR");
+        departementCombo.getItems().addAll(
+                "Medecine Generale",
+                "Urgence",
+                "Cardiologie",
+                "Neurologie",
+                "Pédiatrie",
+                "Dermato",
+                "Orthopédie"
+        );
     }
 
-    private User.Roles defaultRole = null;
-
+    // ───────── CANCEL ─────────
     @FXML
     private void handleCancel() {
         closeWindow();
     }
 
+    // ───────── ADD / EDIT ─────────
     @FXML
     private void handleAdd() {
+
         String nom = nomField.getText().trim();
         String prenom = prenomField.getText().trim();
         String email = emailField.getText().trim();
         String telText = telField.getText().trim();
-        String roleStr = roleChoice.getValue();
+        String departement = departementCombo.getValue();
+        String cinText = cinField.getText().trim();
+        java.time.LocalDate dob = dobPicker.getValue();
 
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
-            showAlert("Erreur", "Veuillez remplir au moins le nom, le prénom et l'email.");
+        // ───── VALIDATION ─────
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || telText.isEmpty() || departement == null) {
+            showAlert("Erreur", "Tous les champs sont obligatoires !");
             return;
         }
 
-        int numtel = 0;
-        try {
-            if (!telText.isEmpty()) numtel = Integer.parseInt(telText);
-        } catch (NumberFormatException e) {
-            showAlert("Erreur", "Téléphone invalide.");
+        if (!User.isValidEmail(email)) {
+            showAlert("Erreur", "Email invalide !");
             return;
         }
 
-        // generate password
-        String generated = PasswordGenerator.generer(8);
-
-        User u = new User();
-        u.setNom(nom);
-        u.setPrenom(prenom);
-        u.setEmail(email);
-        u.setPassword(generated);
-        u.setNumtel(numtel);
-        u.setRole("DOCTOR".equals(roleStr) ? User.Roles.DOCTOR : User.Roles.PATIENT);
+        int numtel;
         try {
-            if (existingUser != null) {
-                // editing: preserve id and password if not changed
-                u.setId(existingUser.getId());
-                if (nom.isEmpty()) u.setNom(existingUser.getNom());
-                // keep original password
-                u.setPassword(existingUser.getPassword());
-                userService.modifier(u);
-            } else {
-                userService.ajouter(u);
-            }
-            // send email
+            numtel = Integer.parseInt(telText);
+        } catch (Exception e) {
+            showAlert("Erreur", "Numéro de téléphone invalide !");
+            return;
+        }
+
+        try {
+            int cin = Integer.parseInt(cinText);
+
+            User u;
+
+            // ───── ADD ─────
             if (existingUser == null) {
+
+                String password = PasswordGenerator.generer(8);
+
+                u = new User();
+                u.setId(cin);
+                u.setNom(nom);
+                u.setPrenom(prenom);
+                u.setEmail(email);
+                u.setPassword(password);
+                u.setNumtel(numtel);
+                u.setRole(User.Roles.DOCTOR);
+                u.setDepartement(departement);
+                u.setDateNaissance(dob);
+
+                userService.ajouter(u);
+
                 try {
-                    EmailSender.envoyerCredentials(email, nom + " " + prenom, roleStr, generated);
+                    EmailSender.envoyerCredentials(email, nom + " " + prenom, "DOCTOR", password);
                 } catch (Exception ex) {
-                    // log but keep going
-                    System.out.println("Envoi email échoué: " + ex.getMessage());
+                    System.out.println("Email error: " + ex.getMessage());
                 }
+
+                showAlertInfo("Succès", "Docteur ajouté avec succès");
             }
-            // Notify success
-            Alert ok = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté avec succès.", ButtonType.OK);
-            ok.showAndWait();
-            // Close and let caller refresh
+
+            // ───── EDIT ─────
+            else {
+
+                u = existingUser;
+                u.setId(cin);
+                u.setNom(nom);
+                u.setPrenom(prenom);
+                u.setEmail(email);
+                u.setNumtel(numtel);
+                u.setDepartement(departement);
+                if (u.getRole() == null) {
+                    u.setRole(User.Roles.DOCTOR);
+                }
+                u.setDateNaissance(dob);
+
+                userService.modifier(u);
+
+                showAlertInfo("Succès", "Utilisateur modifié avec succès");
+            }
+
             closeWindow();
-        } catch (Exception ex) {
-            showAlert("Erreur", "Impossible d'ajouter l'utilisateur: " + ex.getMessage());
-            ex.printStackTrace();
+
+        } catch (Exception e) {
+            showAlert("Erreur", e.getMessage());
         }
     }
 
-    /**
-     * Put the dialog into edit mode for the given user.
-     */
+    // ───────── EDIT MODE ─────────
     public void setUser(User user) {
-        if (user == null) return;
         this.existingUser = user;
         nomField.setText(user.getNom());
         prenomField.setText(user.getPrenom());
         emailField.setText(user.getEmail());
         telField.setText(String.valueOf(user.getNumtel()));
-        roleChoice.setValue(user.getRole() == User.Roles.DOCTOR ? "DOCTOR" : "PATIENT");
-    }
+        departementCombo.setValue(user.getDepartement());
 
-    /**
-     * Set the default role shown in the dialog (for quick add from parent).
-     */
-    public void setDefaultRole(User.Roles role) {
-        this.defaultRole = role;
-        if (roleChoice != null && role != null) {
-            roleChoice.setValue(role == User.Roles.DOCTOR ? "DOCTOR" : "PATIENT");
-            // lock role selection for dialog opened from a specific tab
-            roleChoice.setDisable(true);
-            // optionally hide role choice to avoid confusion
-            roleChoice.setVisible(false);
+        if(user.getDateNaissance() != null) {
+            dobPicker.setValue(user.getDateNaissance());
         }
+        else {
+            dobPicker.setValue(null); // Clear it if no date exists
+        }
+        cinField.setText(String.valueOf(user.getId()));
     }
 
-    private void showAlert(String title, String content) {
-        Alert a = new Alert(Alert.AlertType.ERROR, content, ButtonType.OK);
+    // ───────── ALERTS ─────────
+    private void showAlert(String title, String msg) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
         a.setTitle(title);
+        a.setContentText(msg);
+        a.showAndWait();
+    }
+
+    private void showAlertInfo(String title, String msg) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(title);
+        a.setContentText(msg);
         a.showAndWait();
     }
 

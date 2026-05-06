@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminDocteurController">
+
+   <!-- ═══════════════ SIDEBAR ═══════════════ -->
+   <left>
+      <AnchorPane prefHeight="720.0" prefWidth="237.0" style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d);" BorderPane.alignment="CENTER">
+         <children>
+            <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" style="-fx-focus-traversable: #fcdeea;" />
+            <Button layoutX="36.0" layoutY="155.0" onAction="#toDash" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="37.0" layoutY="201.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Docteurs" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="36.0" layoutY="242.0" onAction="#toPatientDash" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Patients" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="24.0" layoutY="285.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Rendez-vous" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="37.0" layoutY="331.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Les Événements" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="55.0" layoutY="373.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Formulaire" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="76.0" layoutY="415.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Quiz" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="18.0" layoutY="18.0" opacity="0.42" stroke="WHITE" strokeDashOffset="50.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="70.0" strokeType="INSIDE" width="86.0" />
+            <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+               <image><Image url="@../../../image/logo.png" /></image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="36.0" /></font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </left>
+
+   <!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
+   <center>
+      <AnchorPane style="-fx-background-color: #fff4f1;" BorderPane.alignment="CENTER">
+         <children>
+
+            <!-- Titre -->
+            <Label layoutX="19.0" layoutY="9.0" prefHeight="44.0" prefWidth="316.0" text="Gestion des docteurs">
+               <font><Font name="Berlin Sans FB" size="24.0" /></font>
+            </Label>
+            <Label layoutX="19.0" layoutY="54.0" text="Ajouter, modifier ou supprimer des docteurs" textFill="#636E72">
+               <font><Font name="Berlin Sans FB" size="13.0" /></font>
+            </Label>
+
+            <!-- Ligne séparatrice -->
+            <Line endX="953.0" layoutX="19.0" layoutY="76.0" stroke="#8a0037" strokeWidth="2.0" />
+
+            <!-- Barre de recherche -->
+            <TextField fx:id="searchField" layoutX="19.0" layoutY="90.0" prefHeight="36.0" prefWidth="403.0" promptText="Rechercher par nom ou prénom..." style="-fx-background-radius: 8;                               -fx-border-radius: 8;                               -fx-border-color: #e0e0e0;                               -fx-border-width: 0.5;                               -fx-padding: 0 12;                               -fx-font-size: 13;" />
+
+            <!-- Bouton Ajouter -->
+            <Button layoutX="730.0" layoutY="90.0" onAction="#handleAddDoctor" style="-fx-background-color: #8a0037; -fx-text-fill: white;                            -fx-background-radius: 8;" text="+ Ajouter un docteur">
+               <padding><Insets bottom="10.0" left="20.0" right="20.0" top="10.0" /></padding>
+               <font><Font name="Berlin Sans FB" size="14.0" /></font>
+            </Button>
+
+            <!-- Bouton Déconnexion -->
+            <Button layoutX="870.0" layoutY="14.0" onAction="#haddledeconnexion" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: transparent;                            -fx-border-radius: 10px;                            -fx-border-width: 2px;                            -fx-border-color: #8a0037;" text="Déconnexion" textFill="#8a0037">
+               <font><Font name="Berlin Sans FB" size="16.0" /></font>
+            </Button>
+
+            <!-- Compteur Total docteurs -->
+            <AnchorPane layoutX="500.0" layoutY="82.0" prefHeight="52.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5;">
+               <Label layoutX="10.0" layoutY="6.0" text="Total docteurs" textFill="#636E72">
+                  <font><Font name="Berlin Sans FB" size="11.0" /></font>
+               </Label>
+               <Label fx:id="totalDoctorsLabel" layoutX="10.0" layoutY="24.0" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #8a0037;" text="0" />
+            </AnchorPane>
+
+            <!-- ✅ ScrollPane SANS fitToWidth -->
+            <ScrollPane layoutX="19.0" layoutY="145.0" prefHeight="555.0" prefWidth="1005.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+               <content>
+                  <!-- ✅ FlowPane avec prefWrapLength -->
+                  <FlowPane fx:id="doctorCardsPane" hgap="16.0" prefWrapLength="980.0" style="-fx-background-color: transparent; -fx-padding: 8;" vgap="16.0" />
+               </content>
+            </ScrollPane>
+
+         </children>
+      </AnchorPane>
+   </center>
+
+</BorderPane>

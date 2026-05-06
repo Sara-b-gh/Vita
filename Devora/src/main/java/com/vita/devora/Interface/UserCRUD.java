@@ -11,4 +11,5 @@ public interface UserCRUD <T>{
     public void modifier(T t)throws SQLException;
     public void supprimer(int id)throws SQLException;
     public List<User> getAllUsers();
+    public User getFullUserData();
 }

@@ -44,7 +44,7 @@
 
             <HBox alignment="CENTER_LEFT">
                 <VBox HBox.hgrow="ALWAYS">
-                    <Label text="Tableau de bord médecin" fx:id="titleLabel">
+                    <Label fx:id="titleLabel" text="Tableau de bord médecin">
                         <font><Font name="System Bold" size="24.0" /></font>
                     </Label>
                     <Label fx:id="welcomeLabel" text="Bienvenue" textFill="#636E72" />
@@ -71,15 +71,4 @@
             </TableView>
         </VBox>
     </center>
-    <right>
-        <VBox fx:id="profileBox" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #EEE; -fx-border-width: 1;" prefWidth="260.0">
-            <Label text="Profil" style="-fx-font-weight: bold;" />
-            <Label text="Nom:" />
-            <Label fx:id="profileNameLabel" text="-" />
-            <Label text="Email:" />
-            <Label fx:id="profileEmailLabel" text="-" />
-            <Label text="Role:" />
-            <Label fx:id="profileRoleLabel" text="-" />
-        </VBox>
-    </right>
 </BorderPane>
