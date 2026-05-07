@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controllers.DoctorCommunityController">
+
+    <!-- LEFT SIDEBAR -->
+    <!-- LEFT SIDEBAR -->
+    <left>
+        <AnchorPane prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #7a002f, #99003d);">
+            <children>
+                <Label layoutX="20" layoutY="30" style="-fx-text-fill: white; -fx-font-size: 26; -fx-font-weight: bold;" text="VITA" />
+
+                <!-- Main Navigation -->
+                <VBox layoutY="120.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;" text="Tableau de bord" />
+                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;" text="Mes patients" />
+                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;" text="Rendez-vous" />
+                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="Communauté" />
+                    </children>
+                </VBox>
+
+                <!-- NEW: Logout Section at the bottom -->
+                <VBox spacing="10.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <Separator opacity="0.3" prefWidth="200.0" />
+                        <Button fx:id="btnLogout" onAction="#handleLogout" alignment="BASELINE_LEFT" maxWidth="Infinity"
+                                style="-fx-background-color: transparent; -fx-text-fill: #ffcfcf; -fx-font-weight: bold; -fx-cursor: hand;"
+                                text="Déconnexion">
+                            <graphic>
+                                <!-- Optional: If you have a logout icon -->
+                                <!-- <ImageView fitHeight="16" fitWidth="16"><Image url="@imgs/logout.png"/></ImageView> -->
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </left>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <ScrollPane fx:id="mainScrollPane" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #F8F9FA;">
+            <content>
+                <VBox fx:id="mainLayout" spacing="20" style="-fx-padding: 30;">
+
+                    <!-- HEADER WITH ADD BUTTON -->
+                    <HBox alignment="CENTER_LEFT">
+                        <children>
+                            <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333;" text="Communauté Médecin" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="btnNewPost" onAction="#handleNewPost" style="-fx-background-color: #8a0037; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18; -fx-cursor: hand;" text="+ Nouvelle publication" />
+                        </children>
+                    </HBox>
+
+                    <!-- FILTERS -->
+                    <HBox spacing="15">
+                        <children>
+                            <ComboBox fx:id="typeFilter" prefWidth="280" promptText="Type" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                            <ComboBox fx:id="sortFilter" prefWidth="150" promptText="Trier" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                        </children>
+                    </HBox>
+
+                    <!-- POSTS CONTAINER -->
+                    <VBox fx:id="postsContainer" spacing="15">
+                        <!-- Post cards are injected dynamically via Controller -->
+                        <!-- Placeholder Card for Reference -->
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                            <padding>
+                                <Insets bottom="20" left="20" right="20" top="20" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Question sur les résultats d'analyses" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label style="-fx-background-color: #d0eaff; -fx-text-fill: #1565c0; -fx-background-radius: 10; -fx-padding: 2 10; -fx-font-size: 12;" text="question" />
+                                    </children>
+                                </HBox>
+                                <Label style="-fx-text-fill: #666; -fx-font-size: 14;" text="Comment accéder à mes résultats en ligne ?" />
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold;" text="Thomas Laurent" />
+                                        <Label style="-fx-background-color: #e3f2fd; -fx-text-fill: #1565c0; -fx-background-radius: 5; -fx-padding: 2 8; -fx-font-size: 11;" text="Patient" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="20">
+                                    <children>
+                              <ImageView fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" >
+                                        <image>
+                                            <Image url="@imgs/chat.png" />
+                                        </image>
+                              </ImageView>
+                              <Label fx:id="nbcomments" text="3" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button style="-fx-background-color: #e8f4fd; -fx-text-fill: #1565c0; -fx-background-radius: 5;" text="Voir" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
