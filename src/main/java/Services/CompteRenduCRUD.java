@@ -73,7 +73,7 @@ public class CompteRenduCRUD implements InterfaceCRUD<CompteRendu> {
 package Services;
 
 import Entites.CompteRendu;
-import Interffaces.InterfaceCRUD;
+import Interfaces.InterfaceCRUD;
 import MyDB.MyBD;
 
 import java.sql.*;

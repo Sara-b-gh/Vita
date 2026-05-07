@@ -1,7 +1,7 @@
 package Services;
 
 import Entites.RendezVous;
-import Interffaces.InterfaceCRUD; //interface générique
+import Interfaces.InterfaceCRUD; //interface générique
 import MyDB.MyBD;
 
 import java.sql.*;

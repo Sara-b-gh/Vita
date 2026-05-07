@@ -1,7 +1,9 @@
 package Controlers;
 
 import Entites.CompteRendu;
+import Entites.User;
 import Services.CompteRenduCRUD;
+import Services.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -15,6 +17,8 @@ public class ModifierCompteRenduController {
     @FXML private TextArea   taTraitement;
     @FXML private DatePicker dpProchainRdv;
     @FXML private CheckBox   cbConfidentiel;
+    @FXML private Label lblDocteur;
+    private final UserService userService = new UserService();
 
     private CompteRendu      compteRendu;
     private CompteRenduCRUD  service = new CompteRenduCRUD();
@@ -23,6 +27,10 @@ public class ModifierCompteRenduController {
     public void initData(CompteRendu cr, Runnable onSuccess) {
         this.compteRendu = cr;
         this.onSuccess   = onSuccess;
+        User doc = userService.findById(cr.getRedige_par());
+        lblDocteur.setText(doc != null
+                ? "Dr. " + doc.getPrenom() + " " + doc.getNom()
+                : "Docteur #" + cr.getRedige_par());
 
         tfDiagnostic.setText(cr.getDiagnostic());
         taContenu.setText(cr.getContenu());
@@ -30,8 +38,26 @@ public class ModifierCompteRenduController {
         dpProchainRdv.setValue(cr.getProchain_rdv());
         cbConfidentiel.setSelected(cr.isConfidentiel());
     }
+    @FXML
+    private void handleEnregistrer() {
+        try {
+            compteRendu.setDiagnostic(tfDiagnostic.getText());
+            compteRendu.setContenu(taContenu.getText());
+            compteRendu.setTraitement(taTraitement.getText());
+            compteRendu.setProchain_rdv(dpProchainRdv.getValue());
+            compteRendu.setConfidentiel(cbConfidentiel.isSelected());
+            service.modifier(compteRendu);
+            if (onSuccess != null) onSuccess.run(); // retour à la liste
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur : " + e.getMessage()).show();
+        }
+    }
 
     @FXML
+    private void handleAnnuler() {
+        if (onSuccess != null) onSuccess.run(); // retour sans sauvegarder
+    }
+    /*@FXML
     private void handleEnregistrer() {
         try {
             compteRendu.setDiagnostic(tfDiagnostic.getText());
@@ -53,7 +79,7 @@ public class ModifierCompteRenduController {
     @FXML
     private void handleAnnuler() {
         fermer();
-    }
+    }*/
 
     private void fermer() {
         ((Stage) tfDiagnostic.getScene().getWindow()).close();
