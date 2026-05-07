@@ -169,4 +169,28 @@ public class CompteRenduCRUD implements InterfaceCRUD<CompteRendu> {
 
         return liste;
     }
+    public CompteRendu trouverParRdv(int idRdv) throws SQLException {
+        String sql = "SELECT * FROM compte_rendu WHERE id_rdv = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idRdv);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                CompteRendu cr = new CompteRendu();
+                cr.setId_cr(rs.getInt("id_cr"));
+                cr.setId_rdv(rs.getInt("id_rdv"));
+                cr.setRedige_par(rs.getInt("redige_par"));
+                cr.setContenu(rs.getString("contenu"));
+                cr.setDiagnostic(rs.getString("diagnostic"));
+                cr.setTraitement(rs.getString("traitement"));
+                cr.setConfidentiel(rs.getBoolean("confidentiel"));
+                // adapt column names to match your actual DB schema
+                if (rs.getDate("prochain_rdv") != null)
+                    cr.setProchain_rdv(rs.getDate("prochain_rdv").toLocalDate());
+                if (rs.getTimestamp("date_creation") != null)
+                    cr.setDate_creation(rs.getTimestamp("date_creation").toLocalDateTime());
+                return cr;
+            }
+            return null; // pas de CR pour ce RDV
+        }
+    }
 }

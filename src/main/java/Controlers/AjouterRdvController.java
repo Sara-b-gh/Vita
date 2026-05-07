@@ -37,7 +37,7 @@ public class AjouterRdvController implements Initializable {
             int patientId = Integer.parseInt(tfPatientId.getText().trim());
             int medecinId = Integer.parseInt(tfMedecinId.getText().trim());
             String motif  = tfMotif.getText().trim();
-            String statut = cbStatut.getValue();
+            String statut = (cbStatut.getValue() == null || cbStatut.getValue().isEmpty()) ? "planifie" : cbStatut.getValue();
             String lieu   = tfLieu.getText().trim();
             String notes  = taNotes.getText().trim();
 
@@ -46,6 +46,7 @@ public class AjouterRdvController implements Initializable {
             LocalDateTime dateRdv = LocalDateTime.of(dpDate.getValue(), heure);
 
             RendezVous rv = new RendezVous(patientId, medecinId, dateRdv, motif, statut, lieu, notes);
+
             crud.ajouter(rv);
             fermer();
 

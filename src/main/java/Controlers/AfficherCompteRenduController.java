@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -45,7 +44,7 @@ public class AfficherCompteRenduController {
     private final CompteRenduCRUD service     = new CompteRenduCRUD();
     private RendezVous currentRdv = null;
 
-    private Node         vueCartes;
+    private Node              vueCartes;
     private List<CompteRendu> tousLesCr = new ArrayList<>();
 
     // ══════════════════════════════════════════════════════════
@@ -61,7 +60,6 @@ public class AfficherCompteRenduController {
     public void initialize() {
         vueCartes = cardsScrollPane;
 
-        // Remplissage des ComboBox
         cbFiltreConfidentiel.setItems(FXCollections.observableArrayList(
                 "Tous", "Confidentiel", "Public"));
 
@@ -73,7 +71,6 @@ public class AfficherCompteRenduController {
                 "Diagnostic A→Z", "Diagnostic Z→A",
                 "Prochain RDV ↑", "Prochain RDV ↓"));
 
-        // Listeners — tout changement relance le rendu
         tfRecherche.textProperty()
                 .addListener((obs, o, n) -> appliquerFiltresEtTri());
         cbFiltreConfidentiel.valueProperty()
@@ -95,7 +92,7 @@ public class AfficherCompteRenduController {
         lblPageTitle.setText(titre);
         btnRetour.setVisible(true);
         btnRetour.setManaged(true);
-        searchBar.setVisible(false);   // cache la barre pendant un formulaire
+        searchBar.setVisible(false);
         searchBar.setManaged(false);
     }
 
@@ -105,7 +102,7 @@ public class AfficherCompteRenduController {
         lblPageTitle.setText("Comptes Rendus");
         btnRetour.setVisible(false);
         btnRetour.setManaged(false);
-        searchBar.setVisible(true);    // réaffiche la barre
+        searchBar.setVisible(true);
         searchBar.setManaged(true);
         chargerCartes();
     }
@@ -132,7 +129,7 @@ public class AfficherCompteRenduController {
     private void appliquerFiltresEtTri() {
         List<CompteRendu> resultat = new ArrayList<>(tousLesCr);
 
-        // 1. Recherche texte libre
+        // 1. Recherche texte libre + id_rdv
         String kw = tfRecherche.getText();
         if (kw != null && !kw.isBlank()) {
             String k = kw.toLowerCase().trim();
@@ -141,6 +138,7 @@ public class AfficherCompteRenduController {
                             && !contains(cr.getContenu(), k)
                             && !contains(cr.getTraitement(), k)
                             && !nomDocteur(cr.getRedige_par()).toLowerCase().contains(k)
+                            && !String.valueOf(cr.getId_rdv()).contains(k)  // ← recherche par id_rdv
             );
         }
 
@@ -206,7 +204,6 @@ public class AfficherCompteRenduController {
         cbFiltreConfidentiel.setValue(null);
         cbFiltreRdv.setValue(null);
         cbTri.setValue(null);
-        // les listeners déclenchent appliquerFiltresEtTri() automatiquement
     }
 
     // ══════════════════════════════════════════════════════════
@@ -214,8 +211,7 @@ public class AfficherCompteRenduController {
     // ══════════════════════════════════════════════════════════
 
     private VBox buildCard(CompteRendu cr) {
-        // En-tête
-        Label title = new Label("CR #" + cr.getId_cr() + "  —  RDV " + cr.getId_rdv());
+        Label title = new Label("CR #" + cr.getId_cr() + "  —  RDV #" + cr.getId_rdv());
         title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #7a002f;");
 
         Label badge = new Label(cr.isConfidentiel() ? "🔒 Confidentiel" : "Public");
@@ -230,7 +226,6 @@ public class AfficherCompteRenduController {
         HBox header = new HBox(10, title, sp, badge);
         header.setAlignment(Pos.CENTER_LEFT);
 
-        // Corps
         Label docteurLabel = new Label("Dr. " + nomDocteur(cr.getRedige_par()));
         docteurLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #7a002f; -fx-font-style: italic;");
 
@@ -249,7 +244,6 @@ public class AfficherCompteRenduController {
                 ? cr.getDate_creation().toLocalDate() : "—"));
         dateLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #aaa;");
 
-        // Actions
         Button btnConsulter = new Button("Consulter");
         btnConsulter.getStyleClass().addAll("button", "btn-save");
         btnConsulter.setOnAction(e -> ouvrirConsultation(cr));
@@ -343,22 +337,6 @@ public class AfficherCompteRenduController {
         chargerCartes();
     }
 
-    @FXML
-    private void ConsulterRDV() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/AfficherRendezVous.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Rendez-vous");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ((Stage) mainPane.getScene().getWindow()).close();
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur : " + e.getMessage()).show();
-        }
-    }
-
     // ══════════════════════════════════════════════════════════
     //  VUE DÉTAIL
     // ══════════════════════════════════════════════════════════
@@ -408,7 +386,11 @@ public class AfficherCompteRenduController {
         scroll.getStyleClass().add("list-view");
         return scroll;
     }
+    private RendezVousController parentController;
 
+    public void setParentController(RendezVousController ctrl) {
+        this.parentController = ctrl;
+    }
     private HBox styledCell(String text, boolean bold, String bg) {
         Label lbl = new Label(text != null ? text : "—");
         lbl.setWrapText(true);
@@ -426,6 +408,27 @@ public class AfficherCompteRenduController {
     // ══════════════════════════════════════════════════════════
     //  UTILITAIRES
     // ══════════════════════════════════════════════════════════
+
+    /**
+     * Appelé depuis RendezVousController pour pré-filtrer sur un RDV donné.
+     * Le champ recherche est rempli avec l'id_rdv → appliquerFiltresEtTri() le prend en compte.
+     */
+    public void filtrerParRdv(int idRdv) {
+        tfRecherche.setText(String.valueOf(idRdv));
+        // le listener sur tfRecherche déclenche appliquerFiltresEtTri() automatiquement
+    }
+
+    @FXML
+    private void ConsulterRDV() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherRendezVous.fxml"));
+            Parent vue = loader.load();
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.getScene().setRoot(vue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private String nomDocteur(int id) {
         User u = userService.findById(id);
