@@ -2,6 +2,8 @@ package com.vita.devora.Controlleurs;
 
 import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
@@ -19,9 +21,7 @@ public class AdminDashboardController {
     @FXML private Label totalInteractionsLabel;
     @FXML private Label totalEvenementsLabel;
 
-    @FXML private BarChart<String, Number>  deptChart;
-    @FXML private CategoryAxis              deptXAxis;
-    @FXML private NumberAxis                deptYAxis;
+    @FXML private PieChart deptChart;
 
     @FXML private BarChart<String, Number>  quizChart;
     @FXML private CategoryAxis              quizXAxis;
@@ -36,7 +36,7 @@ public class AdminDashboardController {
     @FXML
     public void initialize() {
         loadKPIs();
-        //loadDeptChart();
+        loadDeptChart();
         loadQuizChart();
         loadEvolutionChart();
         styleCharts();
@@ -72,46 +72,44 @@ public class AdminDashboardController {
     // ══════════════════════════════════════
     //  Graphique 1 — Médecins par département
     // ══════════════════════════════════════
-//    private void loadDeptChart() {
-//        try {
-//            // Récupère tous les médecins et groupe par spécialité/département
-//            List<User> medecins = userService.getByRole(User.Roles.DOCTOR);
-//
-//            // Comptage par département
-//            Map<String, Long> byDept = medecins.stream()
-//                    .filter(u -> u.getDepartement() != null)
-//                    .collect(java.util.stream.Collectors.groupingBy(
-//                            User::getDepartement,
-//                            java.util.stream.Collectors.counting()
-//                    ));
-//
-//            XYChart.Series<String, Number> series = new XYChart.Series<>();
-//            series.setName("Médecins");
-//
-//            // Si getDepartement() n'existe pas encore, utilisez des données fixes :
-//            if (byDept.isEmpty()) {
-//                series.getData().add(new XYChart.Data<>("Cardiologie", 7));
-//                series.getData().add(new XYChart.Data<>("Neurologie",  5));
-//                series.getData().add(new XYChart.Data<>("Pédiatrie",   4));
-//                series.getData().add(new XYChart.Data<>("Dermato.",    3));
-//                series.getData().add(new XYChart.Data<>("Orthopédie",  3));
-//                series.getData().add(new XYChart.Data<>("Ophtalmo.",   2));
-//            } else {
-//                byDept.forEach((dept, count) ->
-//                        series.getData().add(new XYChart.Data<>(dept, count))
-//                );
-//            }
-//
-//            deptChart.getData().add(series);
-//
-//            // Couleur des barres
-//            deptChart.setOnMouseEntered(null);
-//            applyBarColor(deptChart, "#8a0037");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void loadDeptChart() {
+
+        try {
+            List<User> medecins = userService.getDoctors();
+
+            Map<String, Long> byDept = medecins.stream()
+                    .filter(u -> u.getDepartement() != null && !u.getDepartement().isEmpty())
+                    .collect(java.util.stream.Collectors.groupingBy(
+                            User::getDepartement,
+                            java.util.stream.Collectors.counting()
+                    ));
+
+            int totalDoctors = medecins.size();
+
+            ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+
+            if (byDept.isEmpty()) {
+                pieData.add(new PieChart.Data("No data", 1));
+            } else {
+                byDept.forEach((dept, count) ->
+                        pieData.add(new PieChart.Data(
+                                dept + " (" + String.format("%.1f", (count * 100.0 / totalDoctors)) + "%)",
+                                count
+                        ))
+                );
+            }
+
+            deptChart.setData(pieData);
+
+            deptChart.setClockwise(true);
+            deptChart.setLabelsVisible(true);
+            deptChart.setStartAngle(90);
+            deptChart.setLegendVisible(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // ══════════════════════════════════════
     //  Graphique 2 — Interactions quiz
@@ -184,11 +182,32 @@ public class AdminDashboardController {
     //  Helpers styles
     // ══════════════════════════════════════
     private void styleCharts() {
-        // Supprime le fond gris des charts
-        for (Chart c : List.of(deptChart, quizChart, evolutionChart)) {
-            c.setStyle("-fx-background-color: transparent;");
-            c.lookup(".chart-plot-background")
-                    .setStyle("-fx-background-color: transparent;");
+
+        if (deptChart != null) {
+            deptChart.setStyle("-fx-background-color: transparent;");
+
+            if (deptChart.lookup(".chart-plot-background") != null) {
+                deptChart.lookup(".chart-plot-background")
+                        .setStyle("-fx-background-color: transparent;");
+            }
+        }
+
+        if (quizChart != null) {
+            quizChart.setStyle("-fx-background-color: transparent;");
+
+            if (quizChart.lookup(".chart-plot-background") != null) {
+                quizChart.lookup(".chart-plot-background")
+                        .setStyle("-fx-background-color: transparent;");
+            }
+        }
+
+        if (evolutionChart != null) {
+            evolutionChart.setStyle("-fx-background-color: transparent;");
+
+            if (evolutionChart.lookup(".chart-plot-background") != null) {
+                evolutionChart.lookup(".chart-plot-background")
+                        .setStyle("-fx-background-color: transparent;");
+            }
         }
     }
 

@@ -2,6 +2,8 @@ package com.vita.devora.Controlleurs;
 
 import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
+import com.vita.devora.utils.EmailSender;
+import com.vita.devora.utils.PasswordGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -13,6 +15,8 @@ public class AddPatientController {
     @FXML private TextField emailField;
     @FXML private TextField telField;
     @FXML private ComboBox<String> bloodTypeCombo;
+    @FXML private TextField cinField;
+    @FXML private DatePicker dobPicker;
 
     private final UserService userService = new UserService();
     private User existingUser = null;
@@ -31,57 +35,103 @@ public class AddPatientController {
         emailField.setText(user.getEmail());
         telField.setText(user.getNumtel() != 0
                 ? String.valueOf(user.getNumtel()) : "");
-//        if (user.getBloodType() != null) {
-//            bloodTypeCombo.setValue(user.getBloodType());
-//        }
+       if (user.getBloodType() != null) {
+           bloodTypeCombo.setValue(user.getBloodType());
+        }
+        if(user.getDateNaissance() != null) {
+            dobPicker.setValue(user.getDateNaissance());
+        }
+        else {
+            dobPicker.setValue(null); // Clear it if no date exists
+        }
+        cinField.setText(String.valueOf(user.getId()));
     }
 
     @FXML
     private void handleAdd() {
-        if (nomField.getText().trim().isEmpty()) {
-            showAlert("Champ manquant", "Le nom est obligatoire."); return;
-        }
-        if (prenomField.getText().trim().isEmpty()) {
-            showAlert("Champ manquant", "Le prénom est obligatoire."); return;
-        }
-        if (emailField.getText().trim().isEmpty() || !emailField.getText().contains("@")) {
-            showAlert("Email invalide", "Veuillez saisir un email valide."); return;
-        }
-        if (bloodTypeCombo.getValue() == null) {
-            showAlert("Champ manquant", "Veuillez sélectionner un type sanguin."); return;
+        String nom = nomField.getText().trim();
+        String prenom = prenomField.getText().trim();
+        String email = emailField.getText().trim();
+        String telText = telField.getText().trim();
+        String bloodType = bloodTypeCombo.getValue();
+        String cinText = cinField.getText().trim();
+        java.time.LocalDate dob = dobPicker.getValue();
+
+        // ───── VALIDATION ─────
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || telText.isEmpty() || bloodType == null) {
+            showAlert("Erreur", "Tous les champs sont obligatoires !");
+            return;
         }
 
-        int tel = 0;
-        if (!telField.getText().trim().isEmpty()) {
-            try {
-                tel = Integer.parseInt(telField.getText().trim().replaceAll("\\s+", ""));
-            } catch (NumberFormatException e) {
-                showAlert("Téléphone invalide", "Le numéro doit être numérique."); return;
-            }
+        if (!User.isValidEmail(email)) {
+            showAlert("Erreur", "Email invalide !");
+            return;
+        }
+
+        int numtel;
+        try {
+            numtel = Integer.parseInt(telText);
+        } catch (Exception e) {
+            showAlert("Erreur", "Numéro de téléphone invalide !");
+            return;
         }
 
         try {
-            if (existingUser != null) {
-                existingUser.setNom(nomField.getText().trim());
-                existingUser.setPrenom(prenomField.getText().trim());
-                existingUser.setEmail(emailField.getText().trim());
-                existingUser.setNumtel(tel);
-//                existingUser.setBloodType(bloodTypeCombo.getValue());
-                userService.modifier(existingUser);
-            } else {
-                User patient = new User();
-                patient.setNom(nomField.getText().trim());
-                patient.setPrenom(prenomField.getText().trim());
-                patient.setEmail(emailField.getText().trim());
-                patient.setNumtel(tel);
-//                patient.setBloodType(bloodTypeCombo.getValue());
-                patient.setRole(User.Roles.PATIENT);
-                userService.ajouter(patient);
+            int cin = Integer.parseInt(cinText);
+
+            User u;
+
+            // ───── ADD ─────
+            if (existingUser == null) {
+
+                String password = PasswordGenerator.generer(8);
+
+                u = new User();
+                u.setId(cin);
+                u.setNom(nom);
+                u.setPrenom(prenom);
+                u.setEmail(email);
+                u.setPassword(password);
+                u.setNumtel(numtel);
+                u.setRole(User.Roles.PATIENT);
+                u.setBloodType(bloodType);
+                u.setDateNaissance(dob);
+
+                userService.ajouter(u);
+
+                try {
+                    EmailSender.envoyerCredentials(email, nom + " " + prenom, "PATIENT", password);
+                } catch (Exception ex) {
+                    System.out.println("Email error: " + ex.getMessage());
+                }
+
+                showAlertInfo("Succès", "Patient ajouté avec succès");
             }
+
+            // ───── EDIT ─────
+            else {
+
+                u = existingUser;
+                u.setId(cin);
+                u.setNom(nom);
+                u.setPrenom(prenom);
+                u.setEmail(email);
+                u.setNumtel(numtel);
+                u.setBloodType(bloodType);
+                if (u.getRole() == null) {
+                    u.setRole(User.Roles.PATIENT);
+                }
+                u.setDateNaissance(dob);
+
+                userService.modifier(u);
+
+                showAlertInfo("Succès", "Utilisateur modifié avec succès");
+            }
+
             closeWindow();
+
         } catch (Exception e) {
-            showAlert("Erreur", "Opération échouée : " + e.getMessage());
-            e.printStackTrace();
+            showAlert("Erreur", e.getMessage());
         }
     }
 
@@ -101,5 +151,11 @@ public class AddPatientController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private void showAlertInfo(String title, String msg) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(title);
+        a.setContentText(msg);
+        a.showAndWait();
     }
 }

@@ -86,7 +86,10 @@ public class UserService {
     // ───────── GET BY ID ─────────
     public User getUserById(int id) {
 
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = "SELECT u.*, d.departement " +
+                "FROM users u " +
+                "LEFT JOIN doctor d ON u.id = d.id_user " +
+                "WHERE u.id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -189,9 +192,10 @@ public class UserService {
 //    }
 
     public User authentifier(String email, String password) {
-        // Join users with patient table to get blood_type
-        String sql = "SELECT u.*, p.blood_type " +
+
+        String sql = "SELECT u.*, d.departement, p.blood_type " +
                 "FROM users u " +
+                "LEFT JOIN doctor d ON u.id = d.id_user " +
                 "LEFT JOIN patient p ON u.id = p.id_user " +
                 "WHERE u.email = ? AND u.password = ?";
 
@@ -204,17 +208,13 @@ public class UserService {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                User user = mapRow(rs); // Map basic fields
-
-                // Manually extract the blood_type from the join result
-                if (user.getRole() == User.Roles.PATIENT) {
-                    user.setBloodType(rs.getString("blood_type"));
-                }
-                return user;
+                return mapRow(rs); // ✅ MUST RETURN
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
@@ -222,7 +222,10 @@ public class UserService {
     public List<User> getByRole(User.Roles role) {
 
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE Role=?";
+        String sql = "SELECT u.*, d.departement " +
+                "FROM users u " +
+                "LEFT JOIN doctor d ON u.id = d.id_user " +
+                "WHERE u.Role = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -253,41 +256,51 @@ public class UserService {
                 rs.getString("Password"),
                 rs.getInt("NumeroTelephone"),
                 User.Roles.valueOf(rs.getString("Role").toUpperCase())
-
         );
 
-        Date sqlDate = rs.getDate(8);
-        System.out.println("DB Raw Date: " + sqlDate); // Is this null?
+        Date sqlDate = rs.getDate("DateNaissance");
         if (sqlDate != null) {
             user.setDateNaissance(sqlDate.toLocalDate());
         }
 
-        // Check if the blood_type column exists in the current result set
-        // (This prevents errors if you call mapRow on a query that didn't join the patient table)
+        // SAFE optional fields
         try {
-            String bt = rs.getString("blood_type");
-            if (bt != null) {
-                user.setBloodType(bt);
-            }
-        } catch (SQLException e) {
-            // Column not found in this specific query, skip it
-        }
+            user.setBloodType(rs.getString("blood_type"));
+        } catch (SQLException ignored) {}
+
+        try {
+            user.setDepartement(rs.getString("departement"));
+        } catch (SQLException ignored) {}
 
         return user;
     }
 
     public List<User> getPatientsByDoctor(int doctorId) throws SQLException {
+
         List<User> liste = new ArrayList<>();
-        String req = "SELECT DISTINCT u.* FROM users u JOIN rendez_vous rv ON rv.IdPatient = u.id WHERE rv.IdDocteur = ?";
-        Connection conn = MyBD.getInstance().getConnection();
-        try (PreparedStatement pst = conn.prepareStatement(req)) {
+
+        String req =
+                "SELECT DISTINCT u.*, p.blood_type " +
+                        "FROM users u " +
+                        "JOIN rendez_vous rv ON rv.IdPatient = u.id " +
+                        "LEFT JOIN patient p ON p.id_user = u.id " +
+                        "WHERE rv.IdDocteur = ?";
+
+        try (Connection conn = MyBD.getInstance().getConnection();
+             PreparedStatement pst = conn.prepareStatement(req)) {
+
             pst.setInt(1, doctorId);
+
             try (ResultSet rs = pst.executeQuery()) {
-                while (rs.next()) liste.add(mapRow(rs));
+                while (rs.next()) {
+                    liste.add(mapRow(rs));
+                }
             }
         }
+
         return liste;
     }
+
     public List<User> getDoctors() throws SQLException {
         List<User> list = new ArrayList<>();
 
@@ -302,7 +315,34 @@ public class UserService {
         while (rs.next()) {
             User user = mapRow(rs);
             // très important
-            user.setDepartement(rs.getString("departement"));
+            list.add(user);
+        }
+
+        return list;
+    }
+
+    public List<User> getPatients() throws SQLException {
+        List<User> list = new ArrayList<>();
+
+        String sql = "SELECT u.*, p.blood_type " +
+                "FROM users u " +
+                "LEFT JOIN patient p ON u.ID = p.id_user " +
+                "WHERE u.Role = 'PATIENT'";
+
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            User user = mapRow(rs);
+            // Set blood type if available
+            try {
+                String bloodType = rs.getString("blood_type");
+                if (bloodType != null) {
+                    user.setBloodType(bloodType);
+                }
+            } catch (SQLException e) {
+                // Column might not exist, ignore
+            }
 
             list.add(user);
         }
@@ -344,7 +384,10 @@ public class UserService {
     public User findByEmail(String email) {
         User user = null;
         // Changed table name to 'users' to match your other queries
-        String sql = "SELECT * FROM users WHERE email = ?";
+        String sql = "SELECT u.*, d.departement " +
+                "FROM users u " +
+                "LEFT JOIN doctor d ON u.id = d.id_user " +
+                "WHERE u.email = ?";
 
         try (Connection conn = getConnection(); // Use the helper method
              PreparedStatement ps = conn.prepareStatement(sql)) {

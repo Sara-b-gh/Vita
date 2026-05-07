@@ -46,6 +46,7 @@ public class ProfilePatientController {
     public void initialize() {
         this.currentUser = SessionManager.getCurrentUser();
 
+
         if (currentUser != null) {
             displayProfile();
         } else {
@@ -57,17 +58,28 @@ public class ProfilePatientController {
 
     private void displayProfile() {
         if (currentUser != null) {
+
             profileNomLabel.setText(currentUser.getNom() + " " + currentUser.getPrenom());
             profileEmailLabel.setText(currentUser.getEmail());
             profileTelLabel.setText(String.valueOf(currentUser.getNumtel()));
-            String bloodType = currentUser.getBloodType();
-            System.out.println(bloodType);
-            bloodTypelabel.setText(bloodType != null ? bloodType : "Non renseigné");           // bloodTypelabel.setText(currentUser.getBloodType());
 
-           // bloodTypelabel.setText(String.valueOf(new Label(currentUser.get() != null ? currentUser.getBloodType() : "Non spécifié"))) ;
-            // In your FXML you named the blood type label 'profileDepartementLabel'
-            // Ensure your User entity has a getBloodType() method
-           // bloodTypelabel.setText(currentUser.getBloodType() != null ? currentUser.getBloodType() : "Non spécifié");
+            if (currentUser.getRole() == User.Roles.PATIENT) {
+
+                if (bloodTypelabel != null) {
+                    String bloodType = currentUser.getBloodType();
+                    bloodTypelabel.setText(
+                            bloodType != null ? bloodType : "Non renseigné"
+                    );
+                }
+
+            } else if (currentUser.getRole() == User.Roles.DOCTOR) {
+
+                if (profileDepartementLabel != null) {
+                    profileDepartementLabel.setText(
+                            currentUser.getDepartement()
+                    );
+                }
+            }
         }
     }
 
@@ -143,4 +155,40 @@ public class ProfilePatientController {
     }
 
 
+    public void handleDocDash(ActionEvent actionEvent) {
+        switchPage(actionEvent,"/com/vita/devora/DoctorDashboard.fxml");
+
+    }
+
+    public void handlePatDash(ActionEvent actionEvent) {
+        switchPage(actionEvent,"/com/vita/devora/PatientDashboard.fxml");
+    }
+
+    private void switchPage(ActionEvent event, String fxmlPath) {
+        try {
+            // 1. Check if resource exists before loading to avoid generic IOExceptions
+            java.net.URL resource = getClass().getResource(fxmlPath);
+            if (resource == null) {
+                System.err.println("❌ FXML File not found at: " + fxmlPath);
+                return;
+            }
+
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resource);
+            javafx.scene.Parent root = loader.load();
+
+            // 2. Get the Stage safely
+            javafx.scene.Node sourceNode = (javafx.scene.Node) event.getSource();
+            javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
+
+            // 3. Set the new root
+            stage.getScene().setRoot(root);
+
+            // Optional: If you want to ensure the window adjusts to the new size
+            // stage.sizeToScene();
+
+        } catch (java.io.IOException e) {
+            System.err.println("❌ Critical error loading: " + fxmlPath);
+            e.printStackTrace();
+        }
+    }
 }

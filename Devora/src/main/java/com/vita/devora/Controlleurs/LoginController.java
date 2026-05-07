@@ -86,7 +86,7 @@ public class LoginController {
                     break;
 
                 case PATIENT:
-                    openPage("/com/vita/devora/PatientPassword.fxml");
+                    openPage("/com/vita/devora/PatientDashboard.fxml");
                     break;
             }
 

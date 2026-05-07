@@ -3,35 +3,28 @@ package com.vita.devora.Controlleurs;
 import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
 import com.vita.devora.utils.SessionManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 public class DoctorDashboardController {
 
     @FXML private Label welcomeLabel;
     @FXML private Label totalPatientsLabel;
-    @FXML private Label titleLabel;
     @FXML private javafx.scene.control.Button dashBtn;
     @FXML private javafx.scene.control.Button mesPatientsBtn;
-    @FXML private TableView<User> patientTable;
-    @FXML private TableColumn<User, String> pColNom;
-    @FXML private TableColumn<User, String> pColPrenom;
-    @FXML private TableColumn<User, String> pColEmail;
-    @FXML private TableColumn<User, Integer> pColTel;
+    @FXML private FlowPane patientCardsPane;
 
     private final UserService userService = new UserService();
-    private ObservableList<User> patientList = FXCollections.observableArrayList();
+    private List<User> patientList;
 
     @FXML
     public void initialize() {
@@ -40,11 +33,9 @@ public class DoctorDashboardController {
             welcomeLabel.setText("Bienvenue Dr. " + SessionManager.getCurrentUser().getNom());
         }
 
-        setupColumns();
-        loadPatients();
-//        populateProfile();
+        loadMyPatients();
         if (dashBtn != null) dashBtn.setOnAction(e -> {
-            loadPatients();
+            loadMyPatients();
             dashBtn.setStyle("-fx-background-color: #FF4757; -fx-text-fill: white;");
             if (mesPatientsBtn != null) mesPatientsBtn.setStyle("-fx-background-color: transparent;");
         });
@@ -56,88 +47,88 @@ public class DoctorDashboardController {
     }
 
     private void loadMyPatients() {
-            User doctor = SessionManager.getCurrentUser();
-            if (doctor == null) return;
-            try {
-                List<User> patients = userService.getPatientsByDoctor(doctor.getId());
-                patientList.setAll(patients);
-                patientTable.setItems(patientList);
-                totalPatientsLabel.setText(String.valueOf(patients.size()));
-                if (titleLabel != null) titleLabel.setText("Mes patients");
-            } catch (SQLException e) {
-                totalPatientsLabel.setText("0");
-                e.printStackTrace();
-            }
-
-    }
-
-    private void setupColumns() {
-        pColNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        pColPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        pColEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        pColTel.setCellValueFactory(new PropertyValueFactory<>("numtel"));
-    }
-
-//    private void populateProfile() {
-//        var u = SessionManager.getCurrentUser();
-//        System.out.println(u);
-//        if (u != null) {
-//            profileNameLabel.setText(u.getNom() + " " + u.getPrenom());
-////            profileEmailLabel.setText(u.getEmail());
-////            profileRoleLabel.setText(u.getRole().toString());
-//        }
-//    }
-
-    private void loadPatients() {
+        User doctor = SessionManager.getCurrentUser();
+        if (doctor == null) return;
         try {
-            // For demo, list all users with role PATIENT
-            List<User> patients = userService.getByRole(User.Roles.PATIENT);
-            patientList.setAll(patients);
-            patientTable.setItems(patientList);
-            totalPatientsLabel.setText(String.valueOf(patients.size()));
-            if(titleLabel != null){
-                titleLabel.setText("Tableau de bord");
-            }
-        } catch (Exception e) {
+            patientList = userService.getPatientsByDoctor(doctor.getId());
+            totalPatientsLabel.setText(String.valueOf(patientList.size()));
+            buildCards(patientList);
+        } catch (SQLException e) {
             totalPatientsLabel.setText("0");
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private javafx.scene.control.Label profileNameLabel;
-    @FXML
-    private javafx.scene.control.Label profileEmailLabel;
-    @FXML
-    private javafx.scene.control.Label profileRoleLabel;
-    @FXML private javafx.scene.layout.VBox profileBox;
+    private void buildCards(List<User> patients) {
+        patientCardsPane.getChildren().clear();
+        for (User u : patients) {
+            patientCardsPane.getChildren().add(createCard(u));
+        }
+    }
+
+    private VBox createCard(User u) {
+        // Avatar
+        Label avatar = new Label(
+                (u.getPrenom().charAt(0) + "" + u.getNom().charAt(0)).toUpperCase()
+        );
+        avatar.setStyle("""
+            -fx-background-color: #fdedf3;
+            -fx-text-fill: #8a0037;
+            -fx-font-weight: bold;
+            -fx-font-size: 16;
+        """);
+
+        StackPane avatarBox = new StackPane(avatar);
+        avatarBox.setMinSize(50, 50);
+        avatarBox.setStyle("-fx-background-radius: 25; -fx-background-color: #fdedf3;");
+
+        // Nom
+        Label name = new Label(u.getPrenom() + " " + u.getNom());
+        name.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
+        // Groupe sanguin
+        Label bloodType = new Label(
+                u.getBloodType() != null ? u.getBloodType() : "Non assigné"
+        );
+        bloodType.setStyle("""
+            -fx-background-color: #ffe4e1;
+            -fx-text-fill: #d32f2f;
+            -fx-background-radius: 12;
+            -fx-padding: 2 10;
+            -fx-font-size: 11;
+        """);
+
+        VBox info = new VBox(4, name, bloodType);
+        HBox header = new HBox(10, avatarBox, info);
+
+        // Email
+        Label email = new Label("✉ " + u.getEmail());
+
+        // Tel
+        Label tel = new Label("☎ " + u.getNumtel());
+
+        VBox body = new VBox(6, email, tel);
+
+        VBox card = new VBox(10, header, body);
+
+        card.setStyle("""
+            -fx-background-color: white;
+            -fx-padding: 15;
+            -fx-border-radius: 10;
+            -fx-background-radius: 10;
+            -fx-border-color: #e0e0e0;
+        """);
+
+        card.setPrefWidth(240);
+        card.setMaxWidth(240);
+
+        return card;
+    }
 
     @FXML
-    private void handleProfile() {
-//        try {
-//            // 1. Load the Profile FXML
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/DocteurPassword.fxml"));
-//            Parent root = loader.load();
-//
-//            // 2. Access the controller to pass data (Preserve the User)
-//            // Assuming your controller is named ProfileController
-//            AddUserController controller = loader.getController();
-//
-//            // You can get the user from your existing SessionManager
-//            User currentUser = SessionManager.getCurrentUser();
-//            if (controller != null && currentUser != null) {
-//                controller.setUser(currentUser);
-//            }
-//
-//            // 3. Switch the scene
-//            // We use patientTable to get the current stage
-//            Stage stage = (Stage) patientTable.getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//
-//        } catch (java.io.IOException e) {
-//            System.err.println("❌ Could not load Profile scene: " + e.getMessage());
-//            e.printStackTrace();
-//        }
+    private void handleProfile(ActionEvent actionEvent) {
+       switchPage(actionEvent,"/com/vita/devora/DocteurPassword.fxml");
+
     }
 
     @FXML
@@ -145,9 +136,37 @@ public class DoctorDashboardController {
         try {
             SessionManager.clearSession();
             Parent root = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
-            Stage stage = (Stage) patientTable.getScene().getWindow();
+            Stage stage = (Stage) patientCardsPane.getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void switchPage(ActionEvent event, String fxmlPath) {
+        try {
+            // 1. Check if resource exists before loading to avoid generic IOExceptions
+            java.net.URL resource = getClass().getResource(fxmlPath);
+            if (resource == null) {
+                System.err.println("❌ FXML File not found at: " + fxmlPath);
+                return;
+            }
+
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resource);
+            javafx.scene.Parent root = loader.load();
+
+            // 2. Get the Stage safely
+            javafx.scene.Node sourceNode = (javafx.scene.Node) event.getSource();
+            javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
+
+            // 3. Set the new root
+            stage.getScene().setRoot(root);
+
+            // Optional: If you want to ensure the window adjusts to the new size
+            // stage.sizeToScene();
+
+        } catch (java.io.IOException e) {
+            System.err.println("❌ Critical error loading: " + fxmlPath);
             e.printStackTrace();
         }
     }

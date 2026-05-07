@@ -15,7 +15,7 @@ public class AddUserController {
     @FXML private TextField emailField;
     @FXML private TextField telField;
     @FXML private ComboBox<String> departementCombo;
-    // 1. Add these new fields
+
     @FXML private TextField cinField;
     @FXML private DatePicker dobPicker;
 

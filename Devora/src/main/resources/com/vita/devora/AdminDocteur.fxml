@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminDocteurController">
+<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminDocteurController">
 
    <!-- ═══════════════ SIDEBAR ═══════════════ -->
    <left>
@@ -23,10 +31,10 @@
             <Button layoutX="36.0" layoutY="242.0" onAction="#toPatientDash" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Patients" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
-            <Button layoutX="24.0" layoutY="285.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Espace Rendez-vous" textFill="#fff4f1">
+            <Button layoutX="47.0" layoutY="285.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Rendez-vous" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
-            <Button layoutX="37.0" layoutY="331.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Les Événements" textFill="#fff4f1">
+            <Button layoutX="50.0" layoutY="331.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Événements" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
             <Button layoutX="55.0" layoutY="373.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Formulaire" textFill="#fff4f1">
@@ -42,6 +50,11 @@
             <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="36.0" /></font>
             </Label>
+            <Button layoutX="46.0" layoutY="449.0" mnemonicParsing="false" style="-fx-background-color: TRANSPARENT;" text="Communauté" textFill="#fff4f1">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </left>
@@ -63,7 +76,7 @@
             <Line endX="953.0" layoutX="19.0" layoutY="76.0" stroke="#8a0037" strokeWidth="2.0" />
 
             <!-- Barre de recherche -->
-            <TextField fx:id="searchField" layoutX="19.0" layoutY="90.0" prefHeight="36.0" prefWidth="403.0" promptText="Rechercher par nom ou prénom..." style="-fx-background-radius: 8;                               -fx-border-radius: 8;                               -fx-border-color: #e0e0e0;                               -fx-border-width: 0.5;                               -fx-padding: 0 12;                               -fx-font-size: 13;" />
+            <TextField fx:id="searchField" layoutX="73.0" layoutY="135.0" prefHeight="36.0" prefWidth="403.0" promptText="Rechercher par nom ou prénom..." style="-fx-background-radius: 8;                               -fx-border-radius: 8;                               -fx-border-color: #e0e0e0;                               -fx-border-width: 0.5;                               -fx-padding: 0 12;                               -fx-font-size: 13;" />
 
             <!-- Bouton Ajouter -->
             <Button layoutX="730.0" layoutY="90.0" onAction="#handleAddDoctor" style="-fx-background-color: #8a0037; -fx-text-fill: white;                            -fx-background-radius: 8;" text="+ Ajouter un docteur">
@@ -77,15 +90,15 @@
             </Button>
 
             <!-- Compteur Total docteurs -->
-            <AnchorPane layoutX="500.0" layoutY="82.0" prefHeight="52.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5;">
-               <Label layoutX="10.0" layoutY="6.0" text="Total docteurs" textFill="#636E72">
+            <AnchorPane layoutX="558.0" layoutY="109.0" prefHeight="70.0" prefWidth="114.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5;">
+               <Label layoutX="25.0" layoutY="4.0" text="Total docteurs" textFill="#636E72">
                   <font><Font name="Berlin Sans FB" size="11.0" /></font>
                </Label>
-               <Label fx:id="totalDoctorsLabel" layoutX="10.0" layoutY="24.0" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #8a0037;" text="0" />
+               <Label fx:id="totalDoctorsLabel" layoutX="47.0" layoutY="22.0" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #8a0037;" text="0" />
             </AnchorPane>
 
             <!-- ✅ ScrollPane SANS fitToWidth -->
-            <ScrollPane layoutX="19.0" layoutY="145.0" prefHeight="555.0" prefWidth="1005.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <ScrollPane layoutX="66.0" layoutY="206.0" prefHeight="499.0" prefWidth="859.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                <content>
                   <!-- ✅ FlowPane avec prefWrapLength -->
                   <FlowPane fx:id="doctorCardsPane" hgap="16.0" prefWrapLength="980.0" style="-fx-background-color: transparent; -fx-padding: 8;" vgap="16.0" />
