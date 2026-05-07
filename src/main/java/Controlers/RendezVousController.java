@@ -82,7 +82,7 @@ public class RendezVousController implements Initializable {
     // ── Initialize ────────────────────────────────────────────────────
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        filterStatut.getItems().addAll("Tous", "en_cours", "confirme", "annule", "termine");
+        filterStatut.getItems().addAll("Tous", "confirme", "annule", "termine");
         filterStatut.setValue("Tous");
 
         searchField.textProperty().addListener((o, old, n) -> applyFilters());
@@ -612,7 +612,7 @@ public class RendezVousController implements Initializable {
         tfLieu.setText(rv.getLieu() != null ? rv.getLieu() : "");
 
         ComboBox<String> cbStatut = new ComboBox<>();
-        cbStatut.getItems().addAll("en_cours", "confirme", "annule", "termine");
+        cbStatut.getItems().addAll( "confirme", "annule", "termine");
         cbStatut.setValue(rv.getStatut());
         cbStatut.setMaxWidth(Double.MAX_VALUE);
         cbStatut.setStyle(fieldStyle());
@@ -1346,7 +1346,6 @@ public class RendezVousController implements Initializable {
     // ── Couleurs ──────────────────────────────────────────────────────
     private String[] statutColors(String statut) {
         return switch (statut == null ? "" : statut) {
-            case "en_cours" -> new String[]{"#3b82f6", "#eff6ff", "#dbeafe"};
             case "confirme" -> new String[]{"#38b24a", "#f0fdf4", "#dcfce7"};
             case "annule"   -> new String[]{"#ff4b3a", "#fff5f5", "#ffe4e4"};
             case "termine"  -> new String[]{"#888888", "#f5f5f5", "#ebebeb"};
@@ -1365,7 +1364,6 @@ public class RendezVousController implements Initializable {
 
     private String statutLabel(String s) {
         return switch (s == null ? "" : s) {
-            case "en_cours" -> "En cours";
             case "confirme" -> "Confirmé";
             case "annule"   -> "Annulé";
             case "termine"  -> "Terminé";
