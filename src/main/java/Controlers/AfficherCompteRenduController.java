@@ -4,6 +4,7 @@ import Entites.CompteRendu;
 import Entites.RendezVous;
 import Entites.User;
 import Services.CompteRenduCRUD;
+import Services.PdfService;
 import Services.UserService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,8 +15,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -197,7 +200,47 @@ public class AfficherCompteRenduController {
         for (CompteRendu cr : liste)
             cardsContainer.getChildren().add(buildCard(cr));
     }
+    @FXML
+    private void exporterEnPdf(CompteRendu cr) {
+        try {
+            User docteur = userService.findById(cr.getRedige_par());
+            String nomPatient = "Patient_" + cr.getId_rdv();
 
+            String fileName = "CR_" + cr.getId_cr() + "_" + java.time.LocalDate.now() + ".pdf";
+
+            // Utilisation de FileChooser (beaucoup mieux pour l'utilisateur)
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le compte rendu PDF");
+            fileChooser.setInitialFileName(fileName);
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf"));
+
+            // Dossier par défaut : Bureau
+            File defaultDir = new File(System.getProperty("user.home") + "/Desktop");
+            if (defaultDir.exists()) {
+                fileChooser.setInitialDirectory(defaultDir);
+            }
+
+            File file = fileChooser.showSaveDialog(null);
+
+            if (file != null) {
+                // Créer les dossiers parents si nécessaire
+                File parentDir = file.getParentFile();
+                if (parentDir != null && !parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+
+                PdfService.genererPdfCompteRendu(cr, docteur, nomPatient, file.getAbsolutePath());
+
+                new Alert(Alert.AlertType.INFORMATION,
+                        "✅ PDF généré avec succès !\n" + file.getAbsolutePath()).showAndWait();
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Erreur lors de la génération du PDF :\n" + e.getMessage()).showAndWait();
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void handleResetFiltres() {
         tfRecherche.clear();
@@ -211,39 +254,35 @@ public class AfficherCompteRenduController {
     // ══════════════════════════════════════════════════════════
 
     private VBox buildCard(CompteRendu cr) {
-        Label title = new Label("CR #" + cr.getId_cr() + "  —  RDV #" + cr.getId_rdv());
+        Label title = new Label("CR #" + cr.getId_cr() + " — RDV #" + cr.getId_rdv());
         title.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #7a002f;");
 
         Label badge = new Label(cr.isConfidentiel() ? "🔒 Confidentiel" : "Public");
-        badge.setStyle("-fx-font-size: 11px; -fx-text-fill: white; -fx-padding: 2 8;"
-                + "-fx-background-radius: 20;"
-                + (cr.isConfidentiel()
-                ? "-fx-background-color: #7a002f;"
-                : "-fx-background-color: #4caf50;"));
+        badge.setStyle("-fx-font-size: 11px; -fx-text-fill: white; -fx-padding: 2 8;" +
+                "-fx-background-radius: 20;" +
+                (cr.isConfidentiel() ? "-fx-background-color: #7a002f;" : "-fx-background-color: #4caf50;"));
 
         Region sp = new Region();
         HBox.setHgrow(sp, Priority.ALWAYS);
+
         HBox header = new HBox(10, title, sp, badge);
         header.setAlignment(Pos.CENTER_LEFT);
 
         Label docteurLabel = new Label("Dr. " + nomDocteur(cr.getRedige_par()));
         docteurLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #7a002f; -fx-font-style: italic;");
 
-        Label diagLabel = new Label("Diagnostic : "
-                + (cr.getDiagnostic() != null ? cr.getDiagnostic() : "—"));
+        Label diagLabel = new Label("Diagnostic : " + (cr.getDiagnostic() != null ? cr.getDiagnostic() : "—"));
         diagLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
         diagLabel.setWrapText(true);
 
-        Label contenuLabel = new Label("Contenu : "
-                + (cr.getContenu() != null ? cr.getContenu() : "—"));
+        Label contenuLabel = new Label("Contenu : " + (cr.getContenu() != null ? cr.getContenu() : "—"));
         contenuLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
         contenuLabel.setWrapText(true);
 
-        Label dateLabel = new Label("Créé le : "
-                + (cr.getDate_creation() != null
-                ? cr.getDate_creation().toLocalDate() : "—"));
+        Label dateLabel = new Label("Créé le : " + (cr.getDate_creation() != null ? cr.getDate_creation().toLocalDate() : "—"));
         dateLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #aaa;");
 
+        // ==================== BOUTONS ====================
         Button btnConsulter = new Button("Consulter");
         btnConsulter.getStyleClass().addAll("button", "btn-save");
         btnConsulter.setOnAction(e -> ouvrirConsultation(cr));
@@ -256,14 +295,19 @@ public class AfficherCompteRenduController {
         btnSupprimer.getStyleClass().addAll("button", "btn-delete");
         btnSupprimer.setOnAction(e -> supprimerCr(cr));
 
-        HBox actions = new HBox(8, btnConsulter, btnModifier, btnSupprimer);
+        Button btnPdf = new Button("📄 PDF");
+        btnPdf.getStyleClass().addAll("button", "btn-save");   // ou un autre style si tu veux
+        btnPdf.setOnAction(e -> exporterEnPdf(cr));
+
+        HBox actions = new HBox(8, btnConsulter, btnModifier, btnPdf, btnSupprimer);
         actions.setAlignment(Pos.CENTER_RIGHT);
 
         VBox card = new VBox(8, header, docteurLabel, diagLabel, contenuLabel, dateLabel, actions);
         card.setPadding(new Insets(14, 18, 14, 18));
         card.setStyle(cardStyle("0.07"));
         card.setOnMouseEntered(e -> card.setStyle(cardStyle("0.14")));
-        card.setOnMouseExited(e  -> card.setStyle(cardStyle("0.07")));
+        card.setOnMouseExited(e -> card.setStyle(cardStyle("0.07")));
+
         return card;
     }
 
@@ -405,14 +449,7 @@ public class AfficherCompteRenduController {
         return box;
     }
 
-    // ══════════════════════════════════════════════════════════
-    //  UTILITAIRES
-    // ══════════════════════════════════════════════════════════
 
-    /**
-     * Appelé depuis RendezVousController pour pré-filtrer sur un RDV donné.
-     * Le champ recherche est rempli avec l'id_rdv → appliquerFiltresEtTri() le prend en compte.
-     */
     public void filtrerParRdv(int idRdv) {
         tfRecherche.setText(String.valueOf(idRdv));
         // le listener sur tfRecherche déclenche appliquerFiltresEtTri() automatiquement

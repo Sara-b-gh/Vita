@@ -12,9 +12,9 @@ public class EmailService {
 
     // ==================== CONFIGURATION ====================
 
-    private static final String FROM_EMAIL = "nourtabaistudy@gmail.com";        // ← CHANGE ICI
+    private static final String FROM_EMAIL = "nourtabaistudy@gmail.com";
 
-    private static final String APP_PASSWORD = "etoy kkrd dbsp vhgh";        // ← CHANGE ICI (App Password Gmail)
+    private static final String APP_PASSWORD = "etoy kkrd dbsp vhgh";
 
     private static final String SMTP_HOST = "smtp.gmail.com";
 
