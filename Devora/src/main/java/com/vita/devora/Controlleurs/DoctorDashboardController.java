@@ -5,6 +5,7 @@ import com.vita.devora.Services.UserService;
 import com.vita.devora.utils.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -111,13 +112,8 @@ public class DoctorDashboardController {
 
         VBox card = new VBox(10, header, body);
 
-        card.setStyle("""
-            -fx-background-color: white;
-            -fx-padding: 15;
-            -fx-border-radius: 10;
-            -fx-background-radius: 10;
-            -fx-border-color: #e0e0e0;
-        """);
+        card.getStyleClass().add("vita-card");
+        card.setPadding(new Insets(15));
 
         card.setPrefWidth(240);
         card.setMaxWidth(240);

@@ -24,7 +24,7 @@ public class AddPatientController {
     @FXML
     public void initialize() {
         bloodTypeCombo.getItems().addAll(
-                "A+", "A−", "B+", "B−", "AB+", "AB−", "O+", "O−"
+                "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
         );
     }
 

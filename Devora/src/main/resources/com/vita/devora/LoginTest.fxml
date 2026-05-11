@@ -6,179 +6,108 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.paint.Color?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.LoginController">
-    <bottom>
-        <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #fff4f1;" BorderPane.alignment="CENTER">
-            <children>
-                <Label layoutX="201.0" layoutY="89.0" prefHeight="334.0" prefWidth="486.0" style="-fx-border-color: #e82a6c; -fx-border-radius: 30px; -fx-border-width: 2px; -fx-background-color: transparent;" textFill="#ffb8dc">
-                    <font>
-                        <Font name="Berlin Sans FB Demi Bold" size="16.0" />
-                    </font>
-                </Label>
-                <PasswordField fx:id="Password" layoutX="315.0" layoutY="255.0" prefHeight="34.0" prefWidth="285.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-radius: 10px; -fx-border-color: #fd6c9e; -fx-border-width: 2px;">
-                    <font>
-                        <Font name="Berlin Sans FB Demi Bold" size="14.0" />
-                    </font>
-                    <effect>
-                        <Glow>
-                            <input>
-                                <Lighting>
-                                    <bumpInput>
-                                        <Shadow />
-                                    </bumpInput>
-                                </Lighting>
-                            </input>
-                        </Glow>
-                    </effect>
-                </PasswordField>
-                <TextField fx:id="UserEmail" layoutX="315.0" layoutY="197.0" prefHeight="35.0" prefWidth="285.0" promptText="user@email.com" style="-fx-border-color: #fd6c9e; -fx-border-radius: 10px; -fx-background-color: transparent; -fx-border-width: 2px;">
-                    <font>
-                        <Font name="Berlin Sans FB Demi Bold" size="14.0" />
-                    </font>
-                    <effect>
-                        <Glow>
-                            <input>
-                                <Lighting>
-                                    <bumpInput>
-                                        <Shadow />
-                                    </bumpInput>
-                                    <light>
-<!--                                        <Light.Distant>-->
-<!--                                            <color>-->
-<!--                                                <Color red="0.9686274528503418" green="0.2549019753932953" blue="0.658823549747467" />-->
-<!--                                            </color>-->
-<!--                                        </Light.Distant>-->
-                                    </light>
-                                </Lighting>
-                            </input>
-                        </Glow>
-                    </effect>
-                </TextField>
-                <Label layoutX="251.0" layoutY="97.0" prefHeight="62.0" prefWidth="269.0" text="Connexion à  votre " textFill="#73656a">
-                    <font>
-                        <Font name="Berlin Sans FB" size="24.0" />
-                    </font>
-                </Label>
-                <Label layoutX="445.0" layoutY="97.0" prefHeight="62.0" prefWidth="269.0" text="Espace Santé 🏥" textFill="#e82a6c">
-                    <font>
-                        <Font name="System Bold Italic" size="24.0" />
-                    </font>
-                </Label>
-                <CheckBox fx:id="rememberMe" layoutX="315.0" layoutY="299.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="113.0" text="Rester connecté" textFill="#ec7bb4" />
-                <Hyperlink layoutX="465.0" layoutY="296.0" onAction="#forgotPassword" prefHeight="24.0" prefWidth="140.0" text="Mot de passe oublié ?" textFill="#e82a6c">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Hyperlink>
-                <Button fx:id="LoginButton" layoutX="342.0" layoutY="363.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="202.0" style="-fx-background-color: #e82a6c;" text="Login" textFill="#fafafa">
-                    <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                    </font>
-                </Button>
-                <Label layoutX="355.0" layoutY="446.0" prefHeight="19.0" prefWidth="186.0" text="Ou pour créer un compte" textFill="#73656a">
-                    <font>
-                        <Font name="Berlin Sans FB" size="16.0" />
-                    </font>
-                </Label>
-                <Line endX="-10.6" layoutX="329.0" layoutY="457.0" startX="-227.4" stroke="#fd6c9e" strokeWidth="3.0">
-                    <effect>
-                        <Glow level="1.0">
-                            <input>
-                                <Lighting>
-                                    <bumpInput><Shadow /></bumpInput>
-                                    <light>
-<!--                                        <Light.Distant>-->
-<!--                                            <color><Color red="0.96" green="0.26" blue="0.65" /></color>-->
-<!--                                        </Light.Distant>-->
-                                    </light>
-                                </Lighting>
-                            </input>
-                        </Glow>
-                    </effect>
-                </Line>
-                <Line endX="188.4" layoutX="618.0" layoutY="455.0" startX="-63.6" stroke="#fd6c9e" strokeWidth="3.0">
-                    <effect>
-                        <Glow level="1.0">
-                            <input>
-                                <Lighting>
-                                    <bumpInput><Shadow /></bumpInput>
-                                    <light>
-<!--                                        <Light.Distant>-->
-<!--                                            <color><Color red="0.96" green="0.26" blue="0.65" /></color>-->
-<!--                                        </Light.Distant>-->
-                                    </light>
-                                </Lighting>
-                            </input>
-                        </Glow>
-                    </effect>
-                </Line>
-                <ImageView fitHeight="39.0" fitWidth="36.0" layoutX="267.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../image/images.png" />
-                    </image>
-                </ImageView>
-                <ImageView fitHeight="39.0" fitWidth="36.0" layoutX="267.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../image/pngtree-key-icon-password-photo-png-image_13844678.png" />
-                    </image>
-                </ImageView>
-                <Line endX="478.4" layoutX="334.0" layoutY="534.0" startX="-232.0" stroke="#fd6c9e" strokeWidth="3.0">
-                    <effect>
-                        <Glow level="1.0">
-                            <input>
-                                <Lighting>
-                                    <bumpInput><Shadow /></bumpInput>
-                                    <light>
-<!--                                        <Light.Distant>-->
-<!--                                            <color><Color red="0.96" green="0.26" blue="0.65" /></color>-->
-<!--                                        </Light.Distant>-->
-                                    </light>
-                                </Lighting>
-                            </input>
-                        </Glow>
-                    </effect>
-                </Line>
-                <Label layoutX="102.0" layoutY="560.0" prefHeight="18.0" prefWidth="147.0" text="🔒Copyrights : Devora" />
-                <Label layoutX="322.0" layoutY="146.0" prefHeight="26.0" prefWidth="243.0" text="Accédez à votre Tableau de Bord" textFill="#73656a">
-                    <font>
-                        <Font name="Berlin Sans FB" size="16.0" />
-                    </font>
-                </Label>
-                <Label layoutX="270.0" layoutY="477.0" prefHeight="46.0" prefWidth="338.0" style="-fx-border-color: #e82a6c; -fx-border-radius: 30px; -fx-border-width: 2px;" text="               Contactez l'administration" textFill="#73656a">
-                    <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                    </font>
-                </Label>
-                <Label fx:id="loginMsg" layoutX="316.0" layoutY="324.0" prefHeight="29.0" prefWidth="260.0" textAlignment="CENTER">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="14.0" layoutY="14.0" opacity="0.42" stroke="WHITE" strokeType="INSIDE" width="86.0" />
-                <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="9.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../image/logo.png" />
-                    </image>
-                </ImageView>
-                <Label layoutX="113.0" layoutY="38.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textFill="#e82a6c">
-                    <font>
-                        <Font name="Berlin Sans FB" size="36.0" />
-                    </font>
-                </Label>
-            </children>
-        </AnchorPane>
-    </bottom>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.LoginController">
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="640.0" prefWidth="910.0" style="-fx-background-color: #fff4f1;">
+               <children>
+
+                   <Label layoutX="166.0" layoutY="76.0" prefHeight="401.0" prefWidth="566.0" style="-fx-border-color: #e82a6c; -fx-border-radius: 30px; -fx-border-width: 2px; -fx-background-color: transparent;" textFill="#ffb8dc">
+                          <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+                          </font>
+                      </Label>
+                      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="23.0" layoutY="27.0" opacity="0.42" stroke="#e82a6c" strokeType="INSIDE" width="86.0" />
+                      <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="19.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../image/logo.png" />
+                          </image>
+                      </ImageView>
+                      <Label layoutX="279.0" layoutY="529.0" prefHeight="46.0" prefWidth="338.0" style="-fx-border-color: #e82a6c; -fx-border-radius: 30px; -fx-border-width: 2px;" text="               Contactez l'administration" textFill="#73656a">
+                          <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                          </font>
+                      </Label>
+                      <Label layoutX="270.0" layoutY="80.0" prefHeight="62.0" prefWidth="269.0" text="Connexion à  votre " textFill="#73656a">
+                          <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                          </font>
+                      </Label>
+                      <PasswordField fx:id="Password" layoutX="313.0" layoutY="230.0" prefHeight="34.0" prefWidth="285.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-radius: 10px; -fx-border-color: #fd6c9e; -fx-border-width: 2px;">
+                          <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+                          </font>
+                      </PasswordField>
+                      <Label layoutX="461.0" layoutY="80.0" prefHeight="62.0" prefWidth="269.0" text="Espace Santé 🏥" textFill="#e82a6c">
+                          <font>
+                              <Font name="System Bold Italic" size="24.0" />
+                          </font>
+                      </Label>
+                      <CheckBox fx:id="rememberMe" layoutX="314.0" layoutY="274.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="113.0" text="Rester connecté" textFill="#ec7bb4" />
+                      <Hyperlink layoutX="473.0" layoutY="270.0" onAction="#forgotPassword" prefHeight="24.0" prefWidth="140.0" text="Mot de passe oublié ?" textFill="#e82a6c">
+                          <font>
+                              <Font name="System Bold" size="12.0" />
+                          </font>
+                      </Hyperlink>
+                   <WebView fx:id="captchaWebView" layoutX="273.0" layoutY="300.0" prefHeight="72.0" prefWidth="370.0" />
+                      <Button fx:id="LoginButton" layoutX="353.0" layoutY="413.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="202.0" style="-fx-background-color: #e82a6c;" text="Login" textFill="#fafafa">
+                          <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                          </font>
+                      </Button>
+                      <Label layoutX="367.0" layoutY="494.0" prefHeight="19.0" prefWidth="186.0" text="Ou pour créer un compte" textFill="#73656a">
+                          <font>
+                              <Font name="Berlin Sans FB" size="16.0" />
+                          </font>
+                      </Label>
+                      <Label layoutX="124.0" layoutY="37.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textFill="#e82a6c">
+                          <font>
+                              <Font name="Berlin Sans FB" size="36.0" />
+                          </font>
+                      </Label>
+                      <ImageView fitHeight="39.0" fitWidth="36.0" layoutX="266.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../image/images.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fitHeight="39.0" fitWidth="36.0" layoutX="266.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../image/pngtree-key-icon-password-photo-png-image_13844678.png" />
+                          </image>
+                      </ImageView>
+                      <Label layoutX="66.0" layoutY="621.0" prefHeight="18.0" prefWidth="147.0" text="🔒Copyrights : Devora" />
+                      <Label layoutX="334.0" layoutY="134.0" prefHeight="26.0" prefWidth="243.0" text="Accédez à votre Tableau de Bord" textFill="#73656a">
+                          <font>
+                              <Font name="Berlin Sans FB" size="16.0" />
+                          </font>
+                      </Label>
+                      <Label fx:id="loginMsg" layoutX="294.0" layoutY="377.0" prefHeight="30.0" prefWidth="336.0" textAlignment="CENTER">
+                          <font>
+                              <Font size="14.0" />
+                          </font>
+                      </Label>
+                      <TextField fx:id="UserEmail" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="313.0" layoutY="178.0" prefHeight="35.0" prefWidth="285.0" promptText="user@email.com" scaleShape="false" style="-fx-border-color: #fd6c9e; -fx-border-radius: 10px; -fx-background-color: transparent; -fx-border-width: 2px;">
+                          <font>
+                              <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+                          </font>
+                      </TextField>
+                      <Line endX="7.20001220703125" endY="-3.0517578125E-5" layoutX="340.0" layoutY="503.0" startX="-227.4" stroke="#fd6c9e" strokeWidth="3.0" />
+                      <Line endX="188.4" layoutX="623.0" layoutY="504.0" startX="-63.6" stroke="#fd6c9e" strokeWidth="3.0" />
+                      <Line endX="478.4" layoutX="339.0" layoutY="591.0" startX="-232.0" stroke="#fd6c9e" strokeWidth="3.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </center>
 </BorderPane>

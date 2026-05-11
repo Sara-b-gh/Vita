@@ -111,25 +111,45 @@ public class UserService {
     // ───────── UPDATE ─────────
     public void modifier(User user) throws SQLException {
 
-        String sql = "UPDATE users SET Nom=?, Prenom=?, Email=?,  NumeroTelephone=?, Role=?, DateNaissance=? WHERE id=?";
+        // ── 1. Mettre à jour la table parent USERS ──
+        String sqlUser = "UPDATE users SET Nom=?, Prenom=?, Email=?, NumeroTelephone=?, DateNaissance=? WHERE id=?";
 
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sqlUser)) {
 
             ps.setString(1, user.getNom());
             ps.setString(2, user.getPrenom());
             ps.setString(3, user.getEmail());
-            //ps.setString(4, user.getPassword());
             ps.setInt(4, user.getNumtel());
-            ps.setString(5, user.getRole().name());
             if (user.getDateNaissance() != null) {
-                ps.setDate(6, java.sql.Date.valueOf(user.getDateNaissance()));
+                ps.setDate(5, java.sql.Date.valueOf(user.getDateNaissance()));
             } else {
-                ps.setNull(6, java.sql.Types.DATE);
+                ps.setNull(5, java.sql.Types.DATE);
             }
-            ps.setInt(7, user.getId());
-
+            ps.setInt(6, user.getId());
             ps.executeUpdate();
+        }
+
+// ── 2. Mettre à jour la table fille ──
+        if (user.getRole() == User.Roles.DOCTOR) {
+
+            String sqlDoctor = "UPDATE doctor SET departement=? WHERE id_user=?"; // ← id_user
+            try (Connection conn = getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlDoctor)) {
+                ps.setString(1, user.getDepartement());
+                ps.setInt(2, user.getId());
+                ps.executeUpdate();
+            }
+
+        } else if (user.getRole() == User.Roles.PATIENT) {
+
+            String sqlPatient = "UPDATE patient SET blood_type=? WHERE id_user=?"; // ← id_user
+            try (Connection conn = getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sqlPatient)) {
+                ps.setString(1, user.getBloodType());
+                ps.setInt(2, user.getId());
+                ps.executeUpdate();
+            }
         }
     }
 

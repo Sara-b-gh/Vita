@@ -4,15 +4,20 @@ import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
 import com.vita.devora.utils.EmailSender;
 import com.vita.devora.utils.SessionManager;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import java.util.prefs.Preferences;
 
-import java.util.Objects;
+import javafx.concurrent.Worker;
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
+
+import com.vita.devora.utils.JavaConnector;
+
+import java.util.prefs.Preferences;
 
 public class LoginController {
 
@@ -33,6 +38,10 @@ public class LoginController {
     @FXML
     private Button LoginButton;
 
+    @FXML
+    private WebView captchaWebView;
+
+
     private UserService userService = new UserService();
 
     // =========================
@@ -49,9 +58,59 @@ public class LoginController {
             Password.setText(savedPassword);
             rememberMe.setSelected(true);
         }
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
+
+        WebEngine engine = captchaWebView.getEngine();
+
+        captchaWebView.getEngine().setUserAgent(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                        "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                        "Chrome/120.0.0.0 Safari/537.36"
+        );
+
+        engine.setOnError(event -> {
+            System.out.println("❌ WebView Error: " + event.getMessage());
+        });
+
+        // ← REMPLACEZ L'ANCIEN LISTENER PAR CELUI-CI
+        engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            System.out.println("WebView State: " + newState);
+
+            if (newState == Worker.State.SUCCEEDED) {
+                String url = engine.getLocation();
+                System.out.println("URL: " + url);
+
+                // ← INTERCEPTER LA VALIDATION
+                if (url.contains("captcha-done")) {
+                    JavaConnector.captchaValidated = true;
+                    System.out.println("✅ Captcha validé !");
+                    engine.load("http://localhost:9090/captcha");
+                    return;
+                }
+
+                javafx.application.Platform.runLater(() -> {
+                    JavaConnector connector = new JavaConnector();
+                    JSObject window = (JSObject) engine.executeScript("window");
+                    window.setMember("javaConnector", connector);
+                    System.out.println("✅ javaConnector injecté !");
+                });
+            }
+
+            if (newState == Worker.State.FAILED) {
+                System.out.println("❌ Chargement échoué !");
+                System.out.println(engine.getLoadWorker().getException());
+            }
+        });
+        engine.load("http://localhost:9090/captcha?t=");
     }
     @FXML
     private void login() {
+        if (!JavaConnector.captchaValidated) {
+
+            loginMsg.setText("❌ Veuillez valider le captcha");
+
+            return;
+        }
 
         String email = UserEmail.getText();
         String password = Password.getText();
@@ -74,6 +133,7 @@ public class LoginController {
             // Save user in session for other controllers
             SessionManager.setCurrentUser(user);
             loginMsg.setText("✅ Connexion réussie");
+            JavaConnector.captchaValidated = false;
 
             switch (user.getRole()) {
 
@@ -106,16 +166,18 @@ public class LoginController {
             var resource = getClass().getResource(path);
 
             if (resource == null) {
-                System.out.println("❌ FXML NOT FOUND!");
+                System.out.println("❌ FXML NOT FOUND: " + path);
                 return;
             }
 
-            Parent root = FXMLLoader.load(resource);
+            System.out.println("✅ FXML trouvé: " + resource);
 
+            Parent root = FXMLLoader.load(resource);
             Stage stage = (Stage) LoginButton.getScene().getWindow();
             stage.getScene().setRoot(root);
 
         } catch (Exception e) {
+            System.out.println("❌ ERREUR: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -123,41 +185,41 @@ public class LoginController {
         return "Vita" + (int)(Math.random() * 10000);
     }
 
-        @FXML
-        private void forgotPassword() {
+    @FXML
+    private void forgotPassword() {
 
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Mot de passe oublié");
-            dialog.setHeaderText("Entrez votre email");
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Mot de passe oublié");
+        dialog.setHeaderText("Entrez votre email");
 
-            var result = dialog.showAndWait();
+        var result = dialog.showAndWait();
 
-            if (result.isPresent()) {
+        if (result.isPresent()) {
 
-                String email = result.get();
-                User user = userService.findByEmail(email);
+            String email = result.get();
+            User user = userService.findByEmail(email);
 
-                if (user != null) {
+            if (user != null) {
 
-                    // 🔐 Générer nouveau mot de passe
-                    String newPassword = generatePassword();
+                // 🔐 Générer nouveau mot de passe
+                String newPassword = generatePassword();
 
-                    // 💾 Update DB
-                    userService.updatePassword(email, newPassword);
+                // 💾 Update DB
+                userService.updatePassword(email, newPassword);
 
-                    // 📧 Envoyer email avec TON service existant
-                    EmailSender.envoyerCredentials(
-                            email,
-                            user.getNom(),
-                            user.getRole().toString(),
-                            newPassword
-                    );
+                // 📧 Envoyer email avec TON service existant
+                EmailSender.envoyerCredentials(
+                        email,
+                        user.getNom(),
+                        user.getRole().toString(),
+                        newPassword
+                );
 
-                    loginMsg.setText("✅ Nouveau mot de passe envoyé par email");
+                loginMsg.setText("✅ Nouveau mot de passe envoyé par email");
 
-                } else {
-                    loginMsg.setText("❌ Email introuvable");
-                }
+            } else {
+                loginMsg.setText("❌ Email introuvable");
             }
         }
     }
+}

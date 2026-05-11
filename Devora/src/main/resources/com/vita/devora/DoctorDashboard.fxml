@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.DoctorDashboardController">
+<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="dashboard-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.DoctorDashboardController">
+   <stylesheets>
+      <URL value="@STYLE1.css" />
+   </stylesheets>
 
-   <!-- ═══════════════ SIDEBAR ═══════════════ -->
+   <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• SIDEBAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
    <left>
-      <AnchorPane prefHeight="720.0" prefWidth="237.0" style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d);" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="720.0" prefWidth="237.0" styleClass="dashboard-sidebar" BorderPane.alignment="CENTER">
          <children>
-            <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" style="-fx-focus-traversable: #fcdeea;" />
-            <Button fx:id="dashBtn" layoutX="36.0" layoutY="155.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
+            <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" />
+            <Button fx:id="dashBtn" layoutX="36.0" layoutY="155.0" onAction="#haddleDashbordDocteur" style="-fx-background-color: transparent;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
-            <Button fx:id="rendezvousBtn" layoutX="51.0" layoutY="201.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Rendez-vous" textFill="#fff4f1">
+            <Button fx:id="rendezvousBtn" layoutX="51.0" layoutY="201.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Rendez-vous" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
-            <Button fx:id="mesPatientsBtn" layoutX="52.0" layoutY="250.0" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Mes patients" textFill="#fff4f1">
+            <Button fx:id="mesPatientsBtn" layoutX="52.0" layoutY="250.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Mes patients" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
-            <Button fx:id="profileBtn" layoutX="78.0" layoutY="340.0" onAction="#handleProfile" style="-fx-background-color: TRANSPARENT;" styleClass="nav-item" text="Profil" textFill="#fff4f1">
+            <Button fx:id="profileBtn" layoutX="78.0" layoutY="340.0" onAction="#handleProfile" style="-fx-background-color: transparent;" styleClass="nav-item" text="Profil" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="18.0" /></font>
             </Button>
             <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="18.0" layoutY="18.0" opacity="0.42" stroke="WHITE" strokeDashOffset="50.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="70.0" strokeType="INSIDE" width="86.0" />
@@ -40,7 +36,7 @@
             <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
                <font><Font name="Berlin Sans FB" size="36.0" /></font>
             </Label>
-            <Button layoutX="48.0" layoutY="296.0" mnemonicParsing="false" style="-fx-background-color: TRANSPARENT;" text="Communauté" textFill="#fff4f1">
+            <Button layoutX="48.0" layoutY="296.0" mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="nav-item" text="Communaute" textFill="#fff4f1">
                <font>
                   <Font name="Berlin Sans FB" size="18.0" />
                </font>
@@ -49,42 +45,42 @@
       </AnchorPane>
    </left>
 
-   <!-- ═══════════════ CONTENU PRINCIPAL ═══════════════ -->
+   <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CONTENU PRINCIPAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
    <center>
-      <AnchorPane style="-fx-background-color: #fff4f1;" BorderPane.alignment="CENTER">
+      <AnchorPane styleClass="dashboard-content" BorderPane.alignment="CENTER">
          <children>
 
             <!-- Titre -->
-            <Label layoutX="19.0" layoutY="9.0" prefHeight="44.0" prefWidth="316.0" text="Tableau de bord médecin">
+            <Label layoutX="19.0" layoutY="9.0" prefHeight="44.0" prefWidth="316.0" text="Tableau de bord Docteur">
                <font><Font name="Berlin Sans FB" size="24.0" /></font>
             </Label>
             <Label fx:id="welcomeLabel" layoutX="19.0" layoutY="54.0" text="Bienvenue" textFill="#636E72">
                <font><Font name="Berlin Sans FB" size="13.0" /></font>
             </Label>
 
-            <!-- Ligne séparatrice -->
+            <!-- Ligne sÃ©paratrice -->
             <Line endX="953.0" layoutX="19.0" layoutY="76.0" stroke="#8a0037" strokeWidth="2.0" />
 
-            <!-- Bouton Déconnexion -->
-            <Button fx:id="logoutBtn" layoutX="870.0" layoutY="14.0" onAction="#handleLogout" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: transparent;                            -fx-border-radius: 10px;                            -fx-border-width: 2px;                            -fx-border-color: #8a0037;" text="Déconnexion" textFill="#8a0037">
+            <!-- Bouton DÃ©connexion -->
+            <Button fx:id="logoutBtn" layoutX="870.0" layoutY="14.0" onAction="#handleLogout" prefHeight="37.0" prefWidth="150.0" styleClass="logout-btn" text="DÃ©connexion" textFill="#8a0037">
                <font><Font name="Berlin Sans FB" size="16.0" /></font>
             </Button>
 
             <!-- Compteur Total patients -->
-            <AnchorPane layoutX="641.0" layoutY="98.0" prefHeight="65.0" prefWidth="98.0" style="-fx-background-color: white; -fx-background-radius: 12;                                -fx-border-color: #e8e8e8; -fx-border-radius: 12;                                -fx-border-width: 0.5;">
+            <AnchorPane layoutX="641.0" layoutY="98.0" prefHeight="65.0" prefWidth="98.0" styleClass="stat-card">
                <Label layoutX="20.0" layoutY="6.0" text="Mes patients" textFill="#636E72">
                   <font><Font name="Berlin Sans FB" size="11.0" /></font>
                </Label>
-               <Label fx:id="totalPatientsLabel" layoutX="39.0" layoutY="24.0" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #8a0037;" text="0" />
+               <Label fx:id="totalPatientsLabel" layoutX="39.0" layoutY="24.0" styleClass="stat-number" text="0" />
             </AnchorPane>
 
             <!-- Table des patients -->
-            <ScrollPane layoutX="79.0" layoutY="166.0" prefHeight="534.0" prefWidth="946.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <ScrollPane layoutX="79.0" layoutY="166.0" prefHeight="534.0" prefWidth="946.0">
                <content>
-                  <FlowPane fx:id="patientCardsPane" hgap="16.0" prefWrapLength="980.0" style="-fx-background-color: transparent; -fx-padding: 8;" vgap="16.0" />
+                  <FlowPane fx:id="patientCardsPane" hgap="16.0" prefWrapLength="980.0" styleClass="cards-pane" vgap="16.0" />
                </content>
             </ScrollPane>
-            <TextField fx:id="searchField" layoutX="92.0" layoutY="117.0" prefHeight="36.0" prefWidth="403.0" promptText="search_RV" style="-fx-background-radius: 8;                               -fx-border-radius: 8;                               -fx-border-color: #e0e0e0;                               -fx-border-width: 0.5;                               -fx-padding: 0 12;                               -fx-font-size: 13;" />
+            <TextField fx:id="searchField" layoutX="92.0" layoutY="117.0" prefHeight="36.0" prefWidth="403.0" promptText="search_RV" styleClass="search-field" />
 
 
          </children>

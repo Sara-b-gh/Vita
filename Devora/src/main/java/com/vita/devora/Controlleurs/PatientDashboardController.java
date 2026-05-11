@@ -7,17 +7,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
 public class PatientDashboardController {
 
+    @FXML private BorderPane rootPane;
     @FXML private Label welcomeLabel;
 
 
     @FXML
     public void initialize() {
+        applyStylesheet();
+
         User current = SessionManager.getCurrentUser();
         if (current != null) {
             welcomeLabel.setText("Bienvenue " + current.getPrenom());
@@ -36,6 +40,11 @@ public class PatientDashboardController {
     }
 
     @FXML
+    private void handlePatDash(ActionEvent event) {
+        // Already on the patient dashboard.
+    }
+
+    @FXML
     private void handleLogout() {
         try {
             SessionManager.clearSession();
@@ -46,6 +55,8 @@ public class PatientDashboardController {
             e.printStackTrace();
         }
     }
+
+
 
     private void switchPage(ActionEvent event, String fxmlPath) {
         try {
@@ -72,6 +83,20 @@ public class PatientDashboardController {
         } catch (java.io.IOException e) {
             System.err.println("❌ Critical error loading: " + fxmlPath);
             e.printStackTrace();
+        }
+    }
+    public void NavEspacePatient(ActionEvent actionEvent) {
+        switchPage(actionEvent, "com/vita/devora/PatientPassword.fxml");
+    }
+
+
+    private void applyStylesheet() {
+        java.net.URL css = getClass().getResource("/com/vita/devora/STYLE1.css");
+        if (rootPane != null && css != null) {
+            String stylesheet = css.toExternalForm();
+            if (!rootPane.getStylesheets().contains(stylesheet)) {
+                rootPane.getStylesheets().add(stylesheet);
+            }
         }
     }
 

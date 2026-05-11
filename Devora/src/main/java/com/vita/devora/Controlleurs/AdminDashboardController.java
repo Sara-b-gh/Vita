@@ -2,6 +2,8 @@ package com.vita.devora.Controlleurs;
 
 import com.vita.devora.Entities.User;
 import com.vita.devora.Services.UserService;
+import com.vita.devora.utils.SessionManager;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -253,6 +255,28 @@ public class AdminDashboardController {
     /**
      * Refined switchPage method
      */
+    @FXML
+    private void haddledeconnexion(ActionEvent actionEvent) {
+        try {
+            SessionManager.clearSession();
+
+            java.net.URL resource = getClass().getResource("/com/vita/devora/LoginTest.fxml");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resource);
+            javafx.scene.Parent root = loader.load();
+
+            javafx.scene.Node sourceNode = (javafx.scene.Node) actionEvent.getSource();
+            javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
+
+            stage.getScene().setRoot(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new javafx.scene.control.Alert(
+                    javafx.scene.control.Alert.AlertType.ERROR,
+                    "Impossible de se déconnecter."
+            ).showAndWait();
+        }
+    }
     private void switchPage(ActionEvent event, String fxmlPath) {
         try {
             // 1. Check if resource exists before loading to avoid generic IOExceptions
@@ -279,6 +303,8 @@ public class AdminDashboardController {
             System.err.println("❌ Critical error loading: " + fxmlPath);
             e.printStackTrace();
         }
+
+
     }
 
 

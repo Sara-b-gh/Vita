@@ -6,6 +6,7 @@ import com.vita.devora.utils.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,15 +16,18 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminDocteurController {
 
     @FXML private FlowPane doctorCardsPane;
     @FXML private TextField searchField;
     @FXML private Label totalDoctorsLabel;
+    @FXML private ComboBox<String> departementFilter; // ← AJOUTÉ
+    @FXML private ComboBox<String> sortOrder;         // ← AJOUTÉ
 
     private final UserService userService = new UserService();
-    private List<User> userList;
+    private List<User> allDoctors; // ← UNE SEULE liste
 
     public AdminDocteurController() throws SQLException {
     }
@@ -31,33 +35,64 @@ public class AdminDocteurController {
     @FXML
     public void initialize() {
         loadData();
-        searchField.textProperty().addListener((obs, oldV, newV) ->
-                filterCards(newV)
-        );
+
+        // Tri
+        sortOrder.getItems().addAll("A-Z", "Z-A");
+        sortOrder.setValue("A-Z");
+
+        // Listeners
+        searchField.textProperty().addListener((obs, old, newVal) -> handleFilter(null));
+        sortOrder.valueProperty().addListener((obs, old, newVal) -> handleFilter(null));
+        departementFilter.valueProperty().addListener((obs, old, newVal) -> handleFilter(null));
     }
 
     private void loadData() {
         try {
-            userList = userService.getDoctors();
-            totalDoctorsLabel.setText(String.valueOf(userList.size()));
-            buildCards(userList);
+            allDoctors = userService.getDoctors();
+
+            // Remplir filtre département
+            List<String> departements = allDoctors.stream()
+                    .map(User::getDepartement)
+                    .filter(d -> d != null && !d.isEmpty())
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
+
+            departementFilter.getItems().clear();
+            departementFilter.getItems().add("Tous");
+            departementFilter.getItems().addAll(departements);
+            departementFilter.setValue("Tous");
+
+            totalDoctorsLabel.setText(String.valueOf(allDoctors.size()));
+            buildCards(allDoctors);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void filterCards(String text) {
-        if (text == null || text.isEmpty()) {
-            buildCards(userList);
-            return;
-        }
-        String q = text.toLowerCase();
-        List<User> filtered = userList.stream()
-                .filter(u ->
-                        u.getNom().toLowerCase().contains(q) ||
-                                u.getPrenom().toLowerCase().contains(q)
-                )
-                .toList();
+    @FXML
+    public void handleFilter(ActionEvent actionEvent) {
+        String search = searchField.getText() == null ? ""
+                : searchField.getText().toLowerCase().trim();
+        String dept = departementFilter.getValue();
+        String sort = sortOrder.getValue();
+
+        List<User> filtered = allDoctors.stream()
+                .filter(u -> search.isEmpty()
+                        || u.getNom().toLowerCase().contains(search)
+                        || u.getPrenom().toLowerCase().contains(search))
+                .filter(u -> dept == null
+                        || dept.equals("Tous")
+                        || dept.equals(u.getDepartement()))
+                .sorted((a, b) -> {
+                    int cmp = (a.getNom() + a.getPrenom())
+                            .compareToIgnoreCase(b.getNom() + b.getPrenom());
+                    return "Z-A".equals(sort) ? -cmp : cmp;
+                })
+                .collect(Collectors.toList());
+
+        totalDoctorsLabel.setText(String.valueOf(filtered.size()));
         buildCards(filtered);
     }
 
@@ -85,8 +120,6 @@ public class AdminDocteurController {
     }
 
     private VBox createCard(User u) {
-
-        // Avatar
         Label avatar = new Label(
                 (u.getPrenom().charAt(0) + "" + u.getNom().charAt(0)).toUpperCase()
         );
@@ -101,14 +134,10 @@ public class AdminDocteurController {
         avatarBox.setMinSize(50, 50);
         avatarBox.setStyle("-fx-background-radius: 25; -fx-background-color: #fdedf3;");
 
-        // Nom
         Label name = new Label(u.getPrenom() + " " + u.getNom());
         name.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
 
-        // Département
-        Label dept = new Label(
-                u.getDepartement() != null ? u.getDepartement() : "Non assigné"
-        );
+        Label dept = new Label(u.getDepartement() != null ? u.getDepartement() : "Non assigné");
         dept.setStyle("""
             -fx-background-color: #eaf7ff;
             -fx-text-fill: #0077b6;
@@ -120,15 +149,10 @@ public class AdminDocteurController {
         VBox info = new VBox(4, name, dept);
         HBox header = new HBox(10, avatarBox, info);
 
-        // Email
         Label email = new Label("✉ " + u.getEmail());
-
-        // Tel
         Label tel = new Label("☎ " + u.getNumtel());
-
         VBox body = new VBox(6, email, tel);
 
-        // ✅ CHANGEMENT 1 — Bouton Modifier (nouveau)
         Button edit = new Button("Modifier");
         edit.setStyle("""
             -fx-background-color: #2ecc71;
@@ -145,7 +169,6 @@ public class AdminDocteurController {
                         getClass().getResource("/com/vita/devora/AjouterDocteur.fxml")
                 );
                 Parent root = loader.load();
-                // ── pré-remplir le formulaire avec les données du docteur ──
                 AddUserController controller = loader.getController();
                 controller.setUser(u);
                 Stage stage = new Stage();
@@ -153,13 +176,12 @@ public class AdminDocteurController {
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.showAndWait();
-                loadData(); // rafraîchir après modification
+                loadData();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
-        // ✅ CHANGEMENT 2 — Style ajouté sur Supprimer
         Button delete = new Button("Supprimer");
         delete.setStyle("""
             -fx-background-color: #e74c3c;
@@ -179,35 +201,20 @@ public class AdminDocteurController {
             }
         });
 
-        // ✅ CHANGEMENT 3 — HBox actions remplace le bouton delete seul
         HBox actions = new HBox(8, edit, delete);
-
-        // ✅ CHANGEMENT 4 — "actions" remplace "delete" dans le VBox
         VBox card = new VBox(10, header, body, actions);
-
-        card.setStyle("""
-            -fx-background-color: white;
-            -fx-padding: 15;
-            -fx-border-radius: 10;
-            -fx-background-radius: 10;
-            -fx-border-color: #e0e0e0;
-        """);
-
+        card.getStyleClass().add("vita-card");
+        card.setPadding(new Insets(15));
         card.setPrefWidth(240);
         card.setMaxWidth(240);
-
         return card;
     }
 
     @FXML
     private void haddledeconnexion() {
         try {
-            // Vider la session
             SessionManager.clearSession();
-
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/com/vita/devora/LoginTest.fxml")
-            );
+            Parent root = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
             Stage stage = (Stage) doctorCardsPane.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Connexion");
@@ -217,29 +224,18 @@ public class AdminDocteurController {
         }
     }
 
-
     private void switchPage(ActionEvent event, String fxmlPath) {
         try {
-            // 1. Check if resource exists before loading to avoid generic IOExceptions
             java.net.URL resource = getClass().getResource(fxmlPath);
             if (resource == null) {
                 System.err.println("❌ FXML File not found at: " + fxmlPath);
                 return;
             }
-
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resource);
             javafx.scene.Parent root = loader.load();
-
-            // 2. Get the Stage safely
             javafx.scene.Node sourceNode = (javafx.scene.Node) event.getSource();
             javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
-
-            // 3. Set the new root
             stage.getScene().setRoot(root);
-
-            // Optional: If you want to ensure the window adjusts to the new size
-            // stage.sizeToScene();
-
         } catch (java.io.IOException e) {
             System.err.println("❌ Critical error loading: " + fxmlPath);
             e.printStackTrace();
@@ -247,10 +243,10 @@ public class AdminDocteurController {
     }
 
     public void toDash(ActionEvent actionEvent) {
-        switchPage(actionEvent,"/com/vita/devora/AdminDashbord.fxml");
+        switchPage(actionEvent, "/com/vita/devora/AdminDashbord.fxml");
     }
 
     public void toPatientDash(ActionEvent actionEvent) {
-        switchPage(actionEvent,"/com/vita/devora/AdminPatient.fxml");
+        switchPage(actionEvent, "/com/vita/devora/AdminPatient.fxml");
     }
 }
