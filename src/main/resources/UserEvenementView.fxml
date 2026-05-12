@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controles.UserEvenementController"
+            fx:id="rootPane"
+            prefHeight="860.0"
+            prefWidth="1480.0"
+            stylesheets="@STYLE1.css"
+            styleClass="app-root">
+    <left>
+        <VBox spacing="0.0" styleClass="sidebar">
+            <padding>
+                <Insets top="24.0" right="16.0" bottom="24.0" left="16.0"/>
+            </padding>
+            <VBox spacing="14.0" styleClass="logo-card">
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <StackPane styleClass="logo-box">
+                        <Label text="♥" styleClass="logo-heart"/>
+                    </StackPane>
+                    <VBox spacing="2.0">
+                        <Label text="VITA Santé" styleClass="logo-title"/>
+                        <Label text="Événements médicaux" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+            <Separator styleClass="sidebar-separator"/>
+            <VBox spacing="6.0" styleClass="menu-block">
+                <Label text="MENU PRINCIPAL" styleClass="sidebar-caption"/>
+                <Button fx:id="menuEvenementsBtn"
+                        text="📅   Événements"
+                        onAction="#menuEvenements"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn menu-btn-active"/>
+                <Button fx:id="menuRendezVousBtn"
+                        text="📋   Rendez-vous"
+                        onAction="#menuRendezVous"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+                <Button fx:id="menuDossiersBtn"
+                        text="📄   Dossiers médicaux"
+                        onAction="#menuDossiers"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+                <Button fx:id="menuQuizBtn"
+                        text="❓   Quiz communauté"
+                        onAction="#menuQuiz"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+                <Button fx:id="menuMedicamentsBtn"
+                        text="💊   Médicaments"
+                        onAction="#menuMedicaments"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+            </VBox>
+
+            <!-- === NOUVEAU : SECTION MES RÉSERVATIONS === -->
+            <VBox spacing="6.0" styleClass="menu-block">
+                <Label text="MES RÉSERVATIONS" styleClass="sidebar-caption"/>
+                <Button fx:id="mesReservationsBtn"
+                        text="📱   Mes QR Codes"
+                        onAction="#ouvrirMesReservations"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+                <Button fx:id="scannerQrBtn"
+                        text="📷   Scanner QR"
+                        onAction="#ouvrirScannerUser"
+                        maxWidth="Infinity"
+                        prefHeight="44.0"
+                        styleClass="menu-btn"/>
+            </VBox>
+            <!-- === FIN NOUVEAU === -->
+
+            <VBox spacing="12.0" styleClass="sidebar-card">
+                <Label text="ACTIONS RAPIDES" styleClass="sidebar-caption"/>
+                <Button text="🔔   Notifications" onAction="#activerNotifications" maxWidth="Infinity" styleClass="btn-light"/>
+                <Button text="⬇   Exporter le calendrier" onAction="#exporterMonCalendrier" maxWidth="Infinity" styleClass="btn-sidebar-outline"/>
+            </VBox>
+            <Region VBox.vgrow="ALWAYS"/>
+            <VBox spacing="12.0" styleClass="sidebar-card-dark">
+                <Label text="Interface bordeaux &amp; blanc" styleClass="sidebar-note-title"/>
+                <Label text="Cliquez sur 'Réserver' pour vous inscrire à un événement." wrapText="true" styleClass="sidebar-note-text"/>
+                <Button text="➜   Déconnexion" onAction="#deconnecter" maxWidth="Infinity" styleClass="btn-danger"/>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="0.0" styleClass="content-root">
+            <HBox alignment="CENTER_LEFT" spacing="18.0" styleClass="topbar">
+                <VBox spacing="4.0">
+                    <Label text="TABLEAU DE BORD" styleClass="eyebrow"/>
+                    <Label text="Gestion des événements" styleClass="page-title"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox fx:id="userSearchBox" alignment="CENTER_LEFT" spacing="10.0" styleClass="search-box">
+                    <Label text="🔎" styleClass="search-icon"/>
+                    <TextField fx:id="searchField" promptText="Rechercher un événement, un lieu, un forum..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                </HBox>
+                <ComboBox fx:id="forumFilterCombo" prefWidth="220.0" promptText="Tous les forums" styleClass="forum-combo"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="transparent-scroll">
+                <content>
+                    <VBox spacing="22.0" styleClass="content-wrapper">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Button fx:id="listViewBtn" text="☰ Vue liste" onAction="#switchToListView" styleClass="btn-tab btn-tab-active"/>
+                            <Button fx:id="calendarViewBtn" text="📅 Vue calendrier" onAction="#switchToCalendarView" styleClass="btn-tab"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="🔔 Notifications" onAction="#activerNotifications" styleClass="btn-outline"/>
+                            <Button text="⬇ Exporter" onAction="#exporterMonCalendrier" styleClass="btn-primary"/>
+                        </HBox>
+                        <GridPane hgap="18.0" vgap="18.0">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="25.0" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <VBox GridPane.columnIndex="0" spacing="10.0" styleClass="stat-card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="ÉVÉNEMENTS À VENIR" styleClass="stat-label"/>
+                                        <Label fx:id="statsLabel" text="0" styleClass="stat-value"/>
+                                        <Label text="à partir d'aujourd'hui" styleClass="stat-hint"/>
+                                    </VBox>
+                                    <StackPane styleClass="stat-icon-box">
+                                        <Label text="📅" styleClass="stat-icon"/>
+                                    </StackPane>
+                                </HBox>
+                            </VBox>
+                            <VBox GridPane.columnIndex="1" spacing="10.0" styleClass="stat-card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="TOTAL ÉVÉNEMENTS" styleClass="stat-label"/>
+                                        <Label fx:id="totalEventsLabel" text="0" styleClass="stat-value"/>
+                                        <Label text="après recherche et filtre" styleClass="stat-hint"/>
+                                    </VBox>
+                                    <StackPane styleClass="stat-icon-box">
+                                        <Label text="📊" styleClass="stat-icon"/>
+                                    </StackPane>
+                                </HBox>
+                            </VBox>
+                            <VBox GridPane.columnIndex="2" spacing="10.0" styleClass="stat-card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="LIEUX DISTINCTS" styleClass="stat-label"/>
+                                        <Label fx:id="locationsCountLabel" text="0" styleClass="stat-value"/>
+                                        <Label text="sites concernés" styleClass="stat-hint"/>
+                                    </VBox>
+                                    <StackPane styleClass="stat-icon-box">
+                                        <Label text="📍" styleClass="stat-icon"/>
+                                    </StackPane>
+                                </HBox>
+                            </VBox>
+                            <VBox GridPane.columnIndex="3" spacing="10.0" styleClass="stat-card">
+                                <HBox alignment="CENTER_LEFT">
+                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                        <Label text="TAUX À VENIR" styleClass="stat-label"/>
+                                        <Label fx:id="rateLabel" text="0%" styleClass="stat-value"/>
+                                        <Label text="part des événements futurs" styleClass="stat-hint"/>
+                                    </VBox>
+                                    <StackPane styleClass="stat-icon-box">
+                                        <Label text="📈" styleClass="stat-icon"/>
+                                    </StackPane>
+                                </HBox>
+                            </VBox>
+                        </GridPane>
+                        <HBox spacing="18.0">
+                            <VBox spacing="16.0" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                                <Label text="Répartition des événements" styleClass="card-title"/>
+                                <Label text="Vue synthétique à venir / passés" styleClass="card-subtitle"/>
+                                <HBox alignment="CENTER" spacing="30.0">
+                                    <StackPane>
+                                        <Circle radius="58.0" fill="TRANSPARENT" stroke="#EBD1DA" strokeWidth="16.0"/>
+                                        <Circle fx:id="donutProgressCircle" radius="58.0" fill="TRANSPARENT" rotate="-90.0" stroke="#8B1538" strokeWidth="16.0"/>
+                                        <VBox alignment="CENTER" spacing="2.0">
+                                            <Label text="Total" styleClass="donut-caption"/>
+                                            <Label fx:id="donutTotalLabel" text="0" styleClass="donut-value"/>
+                                        </VBox>
+                                    </StackPane>
+                                    <VBox spacing="12.0">
+                                        <Label fx:id="donutUpcomingLabel" text="À venir — 0" styleClass="legend-primary"/>
+                                        <Label fx:id="donutPastLabel" text="Passés — 0" styleClass="legend-secondary"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                            <VBox spacing="16.0" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                                <Label text="Activité mensuelle" styleClass="card-title"/>
+                                <Label text="Évolution sur les 6 derniers mois" styleClass="card-subtitle"/>
+                                <HBox fx:id="monthlyBarsContainer" alignment="BOTTOM_CENTER" spacing="16.0" VBox.vgrow="ALWAYS"/>
+                            </VBox>
+
+                        </HBox>
+                        <VBox fx:id="listView" spacing="18.0" visible="true" managed="true">
+                            <VBox fx:id="eventsContainer" spacing="28.0"/>
+                        </VBox>
+                        <VBox fx:id="calendarView" spacing="16.0" visible="false" managed="false">
+                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                <Label text="Calendrier" styleClass="section-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="◀" onAction="#prevMonth" styleClass="btn-outline"/>
+                                <Label fx:id="monthYearLabel" text="Janvier 2026" styleClass="month-title"/>
+                                <Button text="▶" onAction="#nextMonth" styleClass="btn-outline"/>
+                                <Button text="Aujourd'hui" onAction="#goToToday" styleClass="btn-primary"/>
+                            </HBox>
+                            <GridPane fx:id="calendarGrid" hgap="8.0" vgap="8.0" styleClass="calendar-grid"/>
+                        </VBox>
+                    </VBox>
+                </content>
+            </ScrollPane>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="footer-bar">
+                <Label text="ⓘ" styleClass="footer-icon"/>
+                <Label text="Cliquez sur 'Mes QR Codes' pour voir vos réservations." styleClass="footer-text"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="🔔 Notifications" onAction="#activerNotifications" styleClass="btn-link"/>
+                <Button text="⬇ Exporter" onAction="#exporterMonCalendrier" styleClass="btn-link"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

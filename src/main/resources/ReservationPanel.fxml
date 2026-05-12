@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controles.ReservationPanelController"
+            stylesheets="@style.css">
+
+    <VBox spacing="16" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+        <!-- En-tête -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label text="📋" style="-fx-font-size: 24px;"/>
+            <VBox spacing="2">
+                <Label text="Gestion des réservations" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5A1730;"/>
+                <Label fx:id="evenementLabel" text="" style="-fx-font-size: 12px; -fx-text-fill: #A36277;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="✕ Fermer" onAction="#fermer" style="-fx-background-color: transparent; -fx-text-fill: #8a6070; -fx-font-size: 16px; -fx-cursor: hand;"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Filtres -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="Filtrer par statut :"/>
+            <ComboBox fx:id="statutFilter" prefWidth="150"/>
+            <Button text="🔍 Filtrer" onAction="#filtrerReservations"
+                    style="-fx-background-color: #6b1a2a; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 16; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Liste des réservations -->
+        <ListView fx:id="reservationListView" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: transparent; -fx-border-color: #ead8de; -fx-border-radius: 12;"/>
+
+        <!-- Statistiques -->
+        <HBox spacing="16" alignment="CENTER_LEFT">
+            <Label fx:id="statAttente" text="⏳ En attente: 0"
+                   style="-fx-background-color: #fef5e7; -fx-padding: 6 12; -fx-background-radius: 20; -fx-text-fill: #f39c12;"/>
+            <Label fx:id="statAccepte" text="✅ Acceptés: 0"
+                   style="-fx-background-color: #d5f5e3; -fx-padding: 6 12; -fx-background-radius: 20; -fx-text-fill: #27ae60;"/>
+            <Label fx:id="statRefuse" text="❌ Refusés: 0"
+                   style="-fx-background-color: #f5d5dc; -fx-padding: 6 12; -fx-background-radius: 20; -fx-text-fill: #c1283e;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="📥 Exporter CSV" onAction="#exporterCSV"
+                    style="-fx-background-color: transparent; -fx-border-color: #6b1a2a; -fx-text-fill: #6b1a2a; -fx-border-radius: 8; -fx-padding: 6 16; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Actions globales -->
+        <HBox spacing="12" alignment="CENTER_RIGHT">
+            <Button text="✅ Tout accepter" onAction="#accepterTout"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            <Button text="❌ Tout refuser" onAction="#refuserTout"
+                    style="-fx-background-color: #c1283e; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-weight: bold; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
