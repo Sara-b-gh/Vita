@@ -8,6 +8,8 @@ module com.vita.devora {
     requires java.prefs;
     requires jdk.jsobject;
     requires jdk.httpserver;
+    requires java.desktop;
+    
 
 
     opens com.vita.devora to javafx.fxml;
