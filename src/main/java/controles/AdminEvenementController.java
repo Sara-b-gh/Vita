@@ -2066,6 +2066,7 @@ public class AdminEvenementController {
                         "-fx-effect: dropshadow(gaussian, rgba(87,20,43,0.22), 30, 0.18, 0, 8);"
         );
         return root;
+
     }
 
     private HBox createWindowHeader(String title, String subtitle, Stage stage) {
