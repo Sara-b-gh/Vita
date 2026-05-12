@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserService {
 
-    Connection conn;
+    private Connection conn;
 
     public UserService() {
         try {
@@ -25,25 +25,27 @@ public class UserService {
             throw new IllegalArgumentException("Email invalide !");
         }
 
-        if (!User.isValidPhone(user.getNumtel())) {
+        if (!User.isValidPhone(user.getPhoneNumber())) {
             throw new IllegalArgumentException("Numéro invalide !");
         }
 
-        String sqlUser = "INSERT INTO users (Id, Nom, Prenom, Email, Password, NumeroTelephone, Role, DateNaissance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlUser = "INSERT INTO users (Id, Nom, Prenom, Email, Password, NumeroTelephone, Role, DateNaissance) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             conn.setAutoCommit(false);
+
             PreparedStatement psUser = conn.prepareStatement(sqlUser);
             psUser.setInt(1, user.getId());
             psUser.setString(2, user.getNom());
             psUser.setString(3, user.getPrenom());
             psUser.setString(4, user.getEmail());
             psUser.setString(5, user.getPassword());
-            psUser.setInt(6, user.getNumtel());
+            psUser.setInt(6, user.getPhoneNumber());
             psUser.setString(7, user.getRole().name());
 
-            if (user.getDateNaissance() != null) {
-                psUser.setDate(8, Date.valueOf(user.getDateNaissance()));
+            if (user.getBirthDate() != null) {
+                psUser.setDate(8, Date.valueOf(user.getBirthDate()));
             } else {
                 psUser.setNull(8, Types.DATE);
             }
@@ -54,8 +56,9 @@ public class UserService {
                 String sqlDoctor = "INSERT INTO doctor (id_user, departement) VALUES (?, ?)";
                 PreparedStatement ps = conn.prepareStatement(sqlDoctor);
                 ps.setInt(1, user.getId());
-                ps.setString(2, user.getDepartement());
+                ps.setString(2, user.getDepartment());
                 ps.executeUpdate();
+
             } else if (user.getRole() == User.Roles.PATIENT) {
                 String sqlPatient = "INSERT INTO patient (id_user, blood_type) VALUES (?, ?)";
                 PreparedStatement ps = conn.prepareStatement(sqlPatient);
@@ -74,8 +77,8 @@ public class UserService {
     }
 
     public User getByEmail(String email) throws SQLException {
-        String req = "SELECT * FROM users WHERE email=?";
-        PreparedStatement pst = conn.prepareStatement(req);
+        String sql = "SELECT * FROM users WHERE email = ?";
+        PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, email);
         ResultSet rs = pst.executeQuery();
         if (rs.next()) {
@@ -85,7 +88,7 @@ public class UserService {
     }
 
     public void updatePassword(String email, String newPassword) {
-        String sql = "UPDATE users SET password=? WHERE email=?";
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, newPassword);
@@ -98,19 +101,18 @@ public class UserService {
     }
 
     public User findById(int id) {
-        User user = null;
         String sql = "SELECT * FROM users WHERE id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = mapRow(rs);
+                return mapRow(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return null;
     }
 
     public List<User> afficherTous() throws SQLException {
@@ -124,10 +126,10 @@ public class UserService {
         return liste;
     }
 
-
     public List<User> getDoctors() throws SQLException {
         List<User> liste = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE Role = 'DOCTOR' ORDER BY Nom, Prenom";
+        // Role stocké comme "Doctor" dans votre DB (pas "DOCTOR")
+        String sql = "SELECT * FROM users WHERE Role = 'Doctor' ORDER BY Nom, Prenom";
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -135,6 +137,7 @@ public class UserService {
         }
         return liste;
     }
+
     private User mapRow(ResultSet rs) throws SQLException {
         User user = new User(
                 rs.getInt("id"),
@@ -148,8 +151,18 @@ public class UserService {
 
         Date sqlDate = rs.getDate("DateNaissance");
         if (sqlDate != null) {
-            user.setDateNaissance(sqlDate.toLocalDate());
+            user.setBirthDate(sqlDate.toLocalDate());
         }
+
+        try {
+            String dept = rs.getString("departement");
+            if (dept != null) user.setDepartment(dept);
+        } catch (SQLException ignored) {}
+
+        try {
+            String blood = rs.getString("blood_type");
+            if (blood != null) user.setBloodType(blood);
+        } catch (SQLException ignored) {}
 
         return user;
     }
