@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controlers.AjouterRdvController"
+      prefWidth="480" prefHeight="600" spacing="0"
+      styleClass="root">
+
+    <stylesheets>
+        <URL value="@../styles/style.css" />
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT"
+          style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d); -fx-padding: 18 24;">
+        <Label text="Nouveau Rendez-Vous" styleClass="sidebar-title"
+               style="-fx-font-size: 24px;" />
+    </HBox>
+
+    <!-- Form -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="list-view">
+        <VBox spacing="14" styleClass="page">
+            <VBox styleClass="form-card" spacing="14">
+
+                <!-- Patient ID -->
+                <VBox spacing="5">
+                    <Label text="Patient ID" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfPatientId" promptText="ID du patient"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Médecin ID -->
+                <VBox spacing="5">
+                    <Label text="Médecin ID" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfMedecinId" promptText="ID du médecin"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Date & Heure -->
+                <VBox spacing="5">
+                    <Label text="Date et Heure" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <HBox spacing="10">
+                        <DatePicker fx:id="dpDate" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                    style="-fx-pref-height: 42; -fx-font-size: 14px;
+                                           -fx-background-color: white; -fx-border-color: #e5b7c4;
+                                           -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField fx:id="tfHeure" promptText="HH:mm"
+                                   style="-fx-pref-width: 100; -fx-max-width: 100;
+                                          -fx-pref-height: 42; -fx-font-size: 14px;
+                                          -fx-background-color: white; -fx-border-color: #e5b7c4;
+                                          -fx-border-radius: 10; -fx-background-radius: 10;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Motif -->
+                <VBox spacing="5">
+                    <Label text="Motif" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfMotif" promptText="Motif de la consultation"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Statut -->
+                <VBox spacing="5">
+                    <Label text="Statut" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <ComboBox fx:id="cbStatut" maxWidth="Infinity"
+                              styleClass="combo-box" />
+                </VBox>
+
+                <!-- Lieu -->
+                <VBox spacing="5">
+                    <Label text="Lieu" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextField fx:id="tfLieu" promptText="Lieu du rendez-vous"
+                               styleClass="text-field" />
+                </VBox>
+
+                <!-- Notes -->
+                <VBox spacing="5">
+                    <Label text="Notes" styleClass="label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+                    <TextArea fx:id="taNotes" prefRowCount="3" wrapText="true"
+                              promptText="Notes complémentaires..."
+                              style="-fx-font-size: 14px; -fx-background-color: white;
+                                     -fx-border-color: #e5b7c4; -fx-border-radius: 10;
+                                     -fx-background-radius: 10; -fx-font-family: 'Segoe UI';" />
+                </VBox>
+
+                <!-- Error label -->
+                <Label fx:id="lblError" text="" wrapText="true"
+                       style="-fx-text-fill: #ff4b3a; -fx-font-size: 13px;" />
+
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Footer -->
+    <HBox spacing="10" alignment="CENTER_RIGHT"
+          style="-fx-background-color: white; -fx-padding: 12 24;
+                 -fx-border-color: #ececec transparent transparent transparent;">
+        <Button text="Annuler" onAction="#annuler"
+                styleClass="button, btn-cancel" />
+        <Button text="Enregistrer" onAction="#enregistrer"
+                styleClass="button, btn-save" />
+    </HBox>
+
+</VBox>

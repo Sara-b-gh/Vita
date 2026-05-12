@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.Button?>
+        <?import javafx.scene.control.CheckBox?>
+        <?import javafx.scene.control.ComboBox?>
+        <?import javafx.scene.control.DatePicker?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.TextArea?>
+        <?import javafx.scene.control.TextField?>
+        <?import javafx.scene.layout.VBox?>
+        <?import javafx.scene.layout.HBox?>
+        <?import java.net.URL?>
+
+<VBox prefHeight="620.0" prefWidth="620.0" spacing="0" styleClass="root"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controlers.CompteRenduController">
+
+<stylesheets>
+   <URL value="@../styles/style.css" />
+</stylesheets>
+
+<!-- Header -->
+<HBox alignment="CENTER_LEFT"
+      style="-fx-background-color: linear-gradient(to bottom,#7a002f,#99003d); -fx-padding: 18 24;">
+   <Label text="Nouveau Compte Rendu" styleClass="sidebar-title" style="-fx-font-size: 26px;" />
+</HBox>
+
+<!-- Form Card -->
+<VBox styleClass="page" VBox.vgrow="ALWAYS">
+   <VBox styleClass="form-card" spacing="14">
+
+      <!-- Rendez-Vous ID -->
+      <VBox spacing="5">
+         <Label text="Rendez-Vous ID" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <TextField fx:id="rdvId" promptText="ID du rendez-vous" styleClass="text-field"
+                    style="-fx-pref-width: 200; -fx-max-width: 200;" />
+      </VBox>
+
+      <!-- Rédigé par — ComboBox docteurs -->
+      <VBox spacing="5">
+         <Label text="Rédigé par" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <ComboBox fx:id="cbDocteur"
+                   promptText="Sélectionner un docteur"
+                   style="-fx-pref-width: 300;
+                             -fx-pref-height: 42;
+                             -fx-font-size: 14px;
+                             -fx-background-color: white;
+                             -fx-border-color: #e5b7c4;
+                             -fx-border-radius: 10;
+                             -fx-background-radius: 10;" />
+      </VBox>
+
+      <!-- Contenu -->
+      <VBox spacing="5">
+         <Label text="Contenu" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <TextArea fx:id="contenu" prefHeight="100.0"
+                   promptText="Contenu du compte rendu..."
+                   style="-fx-pref-width: 550; -fx-font-size: 14px;
+                             -fx-background-color: white;
+                             -fx-border-color: #e5b7c4; -fx-border-radius: 10;
+                             -fx-background-radius: 10; -fx-font-family: 'Segoe UI';" />
+      </VBox>
+
+      <!-- Diagnostic -->
+      <VBox spacing="5">
+         <Label text="Diagnostic" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <TextField fx:id="diagnostic" promptText="Diagnostic médical"
+                    styleClass="text-field" />
+      </VBox>
+
+      <!-- Traitement -->
+      <VBox spacing="5">
+         <Label text="Traitement" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <TextArea fx:id="traitement" prefHeight="80.0"
+                   promptText="Traitement prescrit..."
+                   style="-fx-pref-width: 550; -fx-font-size: 14px;
+                             -fx-background-color: white;
+                             -fx-border-color: #e5b7c4; -fx-border-radius: 10;
+                             -fx-background-radius: 10; -fx-font-family: 'Segoe UI';" />
+      </VBox>
+
+      <!-- Prochain RDV -->
+      <VBox spacing="5">
+         <Label text="Prochain RDV" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <DatePicker fx:id="prochainRdv"
+                     style="-fx-pref-width: 220; -fx-pref-height: 42;
+                               -fx-font-size: 14px; -fx-background-color: white;
+                               -fx-border-color: #e5b7c4; -fx-border-radius: 10;
+                               -fx-background-radius: 10;" />
+      </VBox>
+
+      <!-- Confidentiel -->
+      <HBox spacing="12" alignment="CENTER_LEFT">
+         <Label text="Confidentiel" styleClass="label"
+                style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+         <CheckBox fx:id="confidentiel" style="-fx-font-size: 14px;" />
+      </HBox>
+
+      <!-- Bouton -->
+      <HBox>
+         <Button mnemonicParsing="false" onAction="#AJOUTCP" text="Ajouter"
+                 styleClass="button, btn-create" style="-fx-pref-width: 140;" />
+      </HBox>
+
+   </VBox>
+</VBox>
+
+</VBox>

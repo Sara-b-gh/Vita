@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<StackPane fx:id="rootStack"
+           xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="Controlers.RendezVousController"
+           prefWidth="1140" prefHeight="750"
+           style="-fx-background-color: #f4f6fb;">
+
+    <stylesheets>
+        <URL value="@../styles/style.css"/>
+    </stylesheets>
+
+    <BorderPane fx:id="mainPane">
+
+        <!-- ── SIDEBAR ── -->
+        <left>
+            <VBox spacing="6" styleClass="sidebar" minWidth="200">
+                <padding><Insets top="20" left="12" right="12" bottom="20"/></padding>
+
+                <Label text="VITA" styleClass="sidebar-title"/>
+                <Separator style="-fx-background-color:rgba(255,255,255,0.25);"/>
+
+                <Button styleClass="nav-item" text="Tableau de bord" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Espace Docteurs" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Espace Patients" maxWidth="Infinity"/>
+                <Button styleClass="nav-item-active" text="Espace Rendez-vous" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Les Comptes Rendus"
+                        onAction="#ouvrirCompteRendus" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Les Événements" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Formulaire" maxWidth="Infinity"/>
+                <Button styleClass="nav-item" text="Quiz" maxWidth="Infinity"/>
+            </VBox>
+        </left>
+
+        <!-- ── CENTRE ── -->
+        <center>
+            <BorderPane style="-fx-background-color:#f4f6fb;">
+
+                <!-- Toolbar -->
+                <top>
+                    <HBox alignment="CENTER_LEFT" spacing="12"
+                          style="-fx-background-color:white;
+                                 -fx-border-color:transparent transparent #ececec transparent;
+                                 -fx-padding:14 20;">
+
+                        <Label text="Rendez-Vous" styleClass="page-title"/>
+
+                        <!-- Toggle vue Patient / Docteur -->
+                        <HBox spacing="0"
+                              style="-fx-background-color:#f0f0f0;-fx-background-radius:8;-fx-padding:3;">
+                            <ToggleButton fx:id="btnVuePatient" text="👤 Patient"
+                                          onAction="#switchToPatient"
+                                          style="-fx-background-radius:6 0 0 6;-fx-padding:6 14;
+                                                 -fx-font-size:12px;-fx-cursor:hand;"/>
+                            <ToggleButton fx:id="btnVueDoc" text="🩺 Docteur"
+                                          onAction="#switchToDocteur"
+                                          style="-fx-background-radius:0 6 6 0;-fx-padding:6 14;
+                                                 -fx-font-size:12px;-fx-cursor:hand;"/>
+                        </HBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <TextField fx:id="searchField" promptText="Rechercher…"
+                                   styleClass="text-field"
+                                   style="-fx-pref-width:180;-fx-max-width:180;"/>
+
+                        <ComboBox fx:id="filterStatut" promptText="Tous les statuts"
+                                  styleClass="combo-box"
+                                  style="-fx-pref-width:170;-fx-max-width:170;"/>
+
+                        <Button text="+ Nouveau RDV"
+                                onAction="#ouvrirAjoutPopup"
+                                styleClass="button,btn-create"/>
+                    </HBox>
+                </top>
+
+                <!-- Zone centrale : liste OU formulaire/détail -->
+                <center>
+                    <StackPane fx:id="centerStack">
+
+                        <!-- VUE LISTE (visible par défaut) -->
+                        <ScrollPane fx:id="scrollCenter" fitToWidth="true"
+                                    style="-fx-background:transparent;-fx-background-color:transparent;">
+                            <VBox spacing="0">
+                                <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
+                                <GridPane fx:id="gridCards" hgap="14" vgap="14"/>
+                            </VBox>
+                        </ScrollPane>
+
+                        <!-- VUE DETAIL / FORMULAIRE (cachée par défaut) -->
+                        <ScrollPane fx:id="scrollDetail" fitToWidth="true"
+                                    visible="false" managed="false"
+                                    style="-fx-background:transparent;-fx-background-color:transparent;">
+                            <VBox fx:id="detailContent" spacing="0"
+                                  style="-fx-background-color:#f4f6fb;"/>
+                        </ScrollPane>
+
+                    </StackPane>
+                </center>
+
+                <!-- Barre de statut -->
+                <bottom>
+                    <HBox alignment="CENTER_LEFT" spacing="12"
+                          style="-fx-background-color:white;
+                                 -fx-border-color:#ececec transparent transparent transparent;
+                                 -fx-padding:8 20;">
+                        <Label fx:id="lblTotal" style="-fx-text-fill:#888;" text="0 rendez-vous"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblStatus" text=""/>
+                    </HBox>
+                </bottom>
+
+            </BorderPane>
+        </center>
+
+    </BorderPane>
+
+</StackPane>
