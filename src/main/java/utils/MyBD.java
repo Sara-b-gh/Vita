@@ -2,38 +2,69 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class MyBD {
-
+    private static Connection connection;
     private static MyBD instance;
-    private Connection cnx;
 
-    private final String URL = "jdbc:mysql://localhost:3306/evenn";
-    private final String USER = "root";
-    private final String PASSWORD = "";
+    // Constructeur privé pour Singleton
+    private MyBD() {}
 
-    private MyBD() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            cnx = DriverManager.getConnection(URL, USER, PASSWORD);
-
-            System.out.println("✔ DB CONNECTED OK");
-
-        } catch (Exception e) {
-            System.out.println(" DB CONNECTION FAILED");
-            e.printStackTrace();
-
-            cnx = null; // IMPORTANT
-        }
-    }
-
+    // Méthode getInstance() - Pattern Singleton correct
     public static MyBD getInstance() {
-        if (instance == null) instance = new MyBD();
+        if (instance == null) {
+            synchronized (MyBD.class) {
+                if (instance == null) {
+                    instance = new MyBD();
+                }
+            }
+        }
         return instance;
     }
 
+    // Méthode getConnection() - Version statique
+    public static Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            String url = "jdbc:mysql://localhost:3306/evenn";
+            String user = "root";
+            String password = "";
+            connection = DriverManager.getConnection(url, user, password);
+        }
+        return connection;
+    }
+
+    // Méthode getCnx() - Version non statique (instance)
     public Connection getCnx() {
-        return cnx;
+        try {
+            if (connection == null || connection.isClosed()) {
+                String url = "jdbc:mysql://localhost:3306/evenn";
+                String user = "root";
+                String password = "";
+                connection = DriverManager.getConnection(url, user, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+
+    // Méthode pour fermer la connexion
+    public static void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+            connection = null;
+        }
+    }
+
+    // Méthode pour tester la connexion
+    public static boolean testConnection() {
+        try {
+            Connection conn = getConnection();
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

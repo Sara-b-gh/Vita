@@ -17,7 +17,7 @@
       fx:controller="Controlers.ModifierCompteRenduController">
 
 <stylesheets>
-    <URL value="@../styles/style.css" />
+    <URL value="@style.css" />
 </stylesheets>
 
 <!-- Header -->

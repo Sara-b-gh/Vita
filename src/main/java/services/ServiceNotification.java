@@ -1,13 +1,13 @@
 package services;
 
-import entities.Notification;
+import Entites.LocalDateTime;
 import utils.MyBD;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceNotification implements IService<Notification> {
+public class ServiceNotification implements IService<LocalDateTime.Notification> {
 
     private Connection cnx;
 
@@ -16,7 +16,7 @@ public class ServiceNotification implements IService<Notification> {
     }
 
     @Override
-    public void add(Notification n) throws SQLException {
+    public void add(LocalDateTime.Notification n) throws SQLException {
         String req = "INSERT INTO notification (type, titre, message, is_read) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, n.getType());
@@ -27,7 +27,7 @@ public class ServiceNotification implements IService<Notification> {
     }
 
     @Override
-    public void update(Notification n) throws SQLException {
+    public void update(LocalDateTime.Notification n) throws SQLException {
         String req = "UPDATE notification SET type=?, titre=?, message=?, is_read=? WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, n.getType());
@@ -39,7 +39,7 @@ public class ServiceNotification implements IService<Notification> {
     }
 
     @Override
-    public void delete(Notification n) throws SQLException {
+    public void delete(LocalDateTime.Notification n) throws SQLException {
         String req = "DELETE FROM notification WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, n.getId());
@@ -47,13 +47,13 @@ public class ServiceNotification implements IService<Notification> {
     }
 
     @Override
-    public List<Notification> getAll() throws SQLException {
-        List<Notification> list = new ArrayList<>();
+    public List<LocalDateTime.Notification> getAll() throws SQLException {
+        List<LocalDateTime.Notification> list = new ArrayList<>();
         String req = "SELECT * FROM notification ORDER BY date_creation DESC";
         Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(req);
         while (rs.next()) {
-            Notification n = new Notification();
+            LocalDateTime.Notification n = new LocalDateTime.Notification();
             n.setId(rs.getInt("id"));
             n.setType(rs.getString("type"));
             n.setTitre(rs.getString("titre"));

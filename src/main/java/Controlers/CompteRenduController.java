@@ -2,31 +2,48 @@ package Controlers;
 
 import Entites.CompteRendu;
 import Entites.User;
-import Services.CompteRenduCRUD;
-import Services.UserService;
+import services.CompteRenduCRUD;
+import services.UserService;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class CompteRenduController {
 
-    @FXML private TextField  rdvId;
-    @FXML private ComboBox<User> cbDocteur;   // ← remplace redigePar TextField
-    @FXML private TextArea   contenu;
-    @FXML private TextField  diagnostic;
-    @FXML private TextArea   traitement;
-    @FXML private DatePicker prochainRdv;
-    @FXML private CheckBox   confidentiel;
+    private static final Logger LOGGER = Logger.getLogger(CompteRenduController.class.getName());
+
+    @FXML
+    private TextField rdvId;
+
+    @FXML
+    private ComboBox<User> cbDocteur;
+
+    @FXML
+    private TextArea contenu;
+
+    @FXML
+    private TextField diagnostic;
+
+    @FXML
+    private TextArea traitement;
+
+    @FXML
+    private DatePicker prochainRdv;
+
+    @FXML
+    private CheckBox confidentiel;
 
     private Runnable onSuccess;
-    private final CompteRenduCRUD service     = new CompteRenduCRUD();
-    private final UserService     userService = new UserService();
+    private CompteRenduCRUD service;
+    private UserService userService;
 
     public void setOnSuccess(Runnable onSuccess) {
         this.onSuccess = onSuccess;
@@ -34,71 +51,153 @@ public class CompteRenduController {
 
     @FXML
     public void initialize() {
-        chargerDocteurs();
+        try {
+            // Initialisation des services
+            service = new CompteRenduCRUD();
+            userService = new UserService();
+            chargerDocteurs();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erreur lors de l'initialisation", e);
+            showAlert("Erreur", "Impossible d'initialiser l'application : " + e.getMessage());
+        }
     }
 
-    // ── Remplit le ComboBox avec les docteurs ───────────────
+    /**
+     * Remplit le ComboBox avec les docteurs
+     */
     private void chargerDocteurs() {
         try {
-            List<User> tous = userService.afficherTous(); // voir §4 ci-dessous
+            List<User> tous = userService.afficherTous();
             List<User> docteurs = tous.stream()
                     .filter(u -> u.getRole() == User.Roles.DOCTOR)
                     .collect(Collectors.toList());
 
             cbDocteur.setItems(FXCollections.observableArrayList(docteurs));
 
-            // Affiche "Prénom Nom" dans le ComboBox
+            // Configure l'affichage "Prénom Nom" dans le ComboBox
             cbDocteur.setConverter(new StringConverter<>() {
-                @Override public String toString(User u) {
+                @Override
+                public String toString(User u) {
                     return u == null ? "" : u.getPrenom() + " " + u.getNom();
                 }
-                @Override public User fromString(String s) { return null; }
+
+                @Override
+                public User fromString(String s) {
+                    return null;
+                }
             });
 
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,
-                    "Impossible de charger les docteurs : " + e.getMessage()).show();
+            LOGGER.log(Level.SEVERE, "Erreur lors du chargement des docteurs", e);
+            showAlert("Erreur", "Impossible de charger la liste des docteurs : " + e.getMessage());
+            cbDocteur.setItems(FXCollections.observableArrayList()); // Liste vide par défaut
         }
     }
 
-    // ── Ajouter ─────────────────────────────────────────────
+    /**
+     * Ajoute un compte rendu
+     */
     @FXML
-    void AJOUTCP(ActionEvent event) {
+    void ajouterCompteRendu() {
         try {
-            User docteur = cbDocteur.getValue();
-            if (docteur == null) {
-                showAlert("Erreur", "Veuillez sélectionner un docteur.");
-                return;
+            // Validation et création du compte rendu
+            CompteRendu cr = creerCompteRenduDepuisFormulaire();
+
+            // Ajout dans la base de données
+            service.ajouter(cr);
+
+            // Message de succès
+            showAlert("Succès", "Compte rendu ajouté avec succès !");
+
+            // Callback si défini
+            if (onSuccess != null) {
+                onSuccess.run();
             }
 
-            CompteRendu cr = new CompteRendu();
-            cr.setId_rdv(Integer.parseInt(rdvId.getText()));
-            cr.setRedige_par(docteur.getId());          // ← on prend l'ID du User sélectionné
-            cr.setContenu(contenu.getText());
-            cr.setDiagnostic(diagnostic.getText());
-            cr.setTraitement(traitement.getText());
-            cr.setProchain_rdv(prochainRdv.getValue());
-            cr.setConfidentiel(confidentiel.isSelected());
+            // Nettoyage du formulaire
+            viderChamps();
 
-            service.ajouter(cr);
-            showAlert("Succès", "Compte rendu ajouté avec succès !");
-            if (onSuccess != null) onSuccess.run();
-
-        } catch (Exception e) {
+        } catch (ValidationException e) {
+            showAlert("Erreur de validation", e.getMessage());
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Format d'ID invalide", e);
+            showAlert("Erreur", "L'ID du rendez-vous doit être un nombre valide.");
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erreur SQL lors de l'ajout", e);
             showAlert("Erreur", "Erreur lors de l'ajout : " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Erreur inattendue", e);
+            showAlert("Erreur", "Erreur inattendue : " + e.getMessage());
         }
     }
 
+    /**
+     * Crée un objet CompteRendu à partir des données du formulaire
+     */
+    private CompteRendu creerCompteRenduDepuisFormulaire() throws ValidationException {
+        // Validation des champs obligatoires
+        User docteur = cbDocteur.getValue();
+        if (docteur == null) {
+            throw new ValidationException("Veuillez sélectionner un docteur.");
+        }
+
+        String rdvIdText = rdvId.getText();
+        if (rdvIdText == null || rdvIdText.trim().isEmpty()) {
+            throw new ValidationException("L'ID du rendez-vous est requis.");
+        }
+
+        // Création du compte rendu
+        CompteRendu cr = new CompteRendu();
+        cr.setId_rdv(Integer.parseInt(rdvIdText.trim()));
+        cr.setRedige_par(docteur.getId());
+        cr.setContenu(contenu.getText() != null ? contenu.getText() : "");
+        cr.setDiagnostic(diagnostic.getText() != null ? diagnostic.getText() : "");
+        cr.setTraitement(traitement.getText() != null ? traitement.getText() : "");
+        cr.setProchain_rdv(prochainRdv.getValue());
+        cr.setConfidentiel(confidentiel.isSelected());
+
+        return cr;
+    }
+
+    /**
+     * Vide tous les champs du formulaire
+     */
+    private void viderChamps() {
+        rdvId.clear();
+        cbDocteur.setValue(null);
+        contenu.clear();
+        diagnostic.clear();
+        traitement.clear();
+        prochainRdv.setValue(null);
+        confidentiel.setSelected(false);
+    }
+
+    /**
+     * Affiche une boîte de dialogue d'alerte
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    /**
+     * Définit l'ID du rendez-vous dans le champ correspondant
+     */
     public void setRdvId(int id) {
         rdvId.setText(String.valueOf(id));
         rdvId.setEditable(false);
         rdvId.setStyle("-fx-background-color: #eeeeee;");
+    }
+
+    /**
+     * Exception personnalisée pour les erreurs de validation
+     */
+    private static class ValidationException extends Exception {
+        public ValidationException(String message) {
+            super(message);
+        }
     }
 }

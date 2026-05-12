@@ -19,7 +19,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controles.UserEvenementController"
+            fx:controller="Controlers.AfficherCompteRenduController.UserEvenementController"
             fx:id="rootPane"
             prefHeight="860.0"
             prefWidth="1480.0"

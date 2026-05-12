@@ -19,7 +19,7 @@
       fx:controller="Controlers.ModifierRdvController">
 
     <stylesheets>
-        <URL value="@../styles/style.css" />
+        <URL value="@style.css" />
     </stylesheets>
 
     <!-- Header -->

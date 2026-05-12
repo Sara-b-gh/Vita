@@ -12,7 +12,7 @@
       styleClass="root">
 
     <stylesheets>
-        <URL value="@../styles/style.css" />
+        <URL value="@style.css" />
     </stylesheets>
 
     <!-- Header -->

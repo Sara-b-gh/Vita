@@ -2,8 +2,8 @@ package Controlers;
 
 import Entites.CompteRendu;
 import Entites.User;
-import Services.CompteRenduCRUD;
-import Services.UserService;
+import services.CompteRenduCRUD;
+import services.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -21,7 +21,16 @@ public class ModifierCompteRenduController {
     private final UserService userService = new UserService();
 
     private CompteRendu      compteRendu;
-    private CompteRenduCRUD  service = new CompteRenduCRUD();
+    private CompteRenduCRUD  service;
+
+    {
+        try {
+            service = new CompteRenduCRUD();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Runnable         onSuccess;   // callback → rafraîchit la liste parente
 
     public void initData(CompteRendu cr, Runnable onSuccess) {

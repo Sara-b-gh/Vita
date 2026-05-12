@@ -1,6 +1,6 @@
 package services;
 
-import entities.ReservationPersonne;
+import Entites.RendezVous;
 import utils.MyBD;
 
 import java.sql.*;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ServiceReservationPersonne implements IService<ReservationPersonne> {
+public class ServiceReservationPersonne implements IService<RendezVous.ReservationPersonne> {
     private Connection cnx;
 
     public ServiceReservationPersonne() {
@@ -16,7 +16,7 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
     }
 
     @Override
-    public void add(ReservationPersonne r) throws SQLException {
+    public void add(RendezVous.ReservationPersonne r) throws SQLException {
         String req = "INSERT INTO reservation_personne (id_evenement, nom_complet, email, telephone, date_reservation, statut, commentaire) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = cnx.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, r.getIdEvenement());
@@ -35,7 +35,7 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
     }
 
     @Override
-    public void update(ReservationPersonne r) throws SQLException {
+    public void update(RendezVous.ReservationPersonne r) throws SQLException {
         String req = "UPDATE reservation_personne SET id_evenement=?, nom_complet=?, email=?, telephone=?, date_reservation=?, statut=?, commentaire=? WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, r.getIdEvenement());
@@ -50,7 +50,7 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
     }
 
     @Override
-    public void delete(ReservationPersonne r) throws SQLException {
+    public void delete(RendezVous.ReservationPersonne r) throws SQLException {
         String req = "DELETE FROM reservation_personne WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, r.getId());
@@ -58,13 +58,13 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
     }
 
     @Override
-    public List<ReservationPersonne> getAll() throws SQLException {
-        List<ReservationPersonne> list = new ArrayList<>();
+    public List<RendezVous.ReservationPersonne> getAll() throws SQLException {
+        List<RendezVous.ReservationPersonne> list = new ArrayList<>();
         String req = "SELECT * FROM reservation_personne ORDER BY date_reservation DESC";
         Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(req);
         while (rs.next()) {
-            ReservationPersonne r = new ReservationPersonne();
+            RendezVous.ReservationPersonne r = new RendezVous.ReservationPersonne();
             r.setId(rs.getInt("id"));
             r.setIdEvenement(rs.getInt("id_evenement"));
             r.setNomComplet(rs.getString("nom_complet"));
@@ -78,14 +78,14 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
         return list;
     }
 
-    public List<ReservationPersonne> getByEvenement(int idEvenement) throws SQLException {
-        List<ReservationPersonne> list = new ArrayList<>();
+    public List<RendezVous.ReservationPersonne> getByEvenement(int idEvenement) throws SQLException {
+        List<RendezVous.ReservationPersonne> list = new ArrayList<>();
         String req = "SELECT * FROM reservation_personne WHERE id_evenement=? ORDER BY date_reservation DESC";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, idEvenement);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            ReservationPersonne r = new ReservationPersonne();
+            RendezVous.ReservationPersonne r = new RendezVous.ReservationPersonne();
             r.setId(rs.getInt("id"));
             r.setIdEvenement(rs.getInt("id_evenement"));
             r.setNomComplet(rs.getString("nom_complet"));
@@ -107,13 +107,13 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
         ps.executeUpdate();
     }
     // Ajoutez ces méthodes
-    public ReservationPersonne getById(int id) throws SQLException {
+    public RendezVous.ReservationPersonne getById(int id) throws SQLException {
         String req = "SELECT * FROM reservation_personne WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            ReservationPersonne r = new ReservationPersonne();
+            RendezVous.ReservationPersonne r = new RendezVous.ReservationPersonne();
             r.setId(rs.getInt("id"));
             r.setIdEvenement(rs.getInt("id_evenement"));
             r.setNomComplet(rs.getString("nom_complet"));
@@ -137,14 +137,14 @@ public class ServiceReservationPersonne implements IService<ReservationPersonne>
         ps.setInt(2, id);
         ps.executeUpdate();
     }
-    public List<ReservationPersonne> getByEmail(String email) throws SQLException {
-        List<ReservationPersonne> list = new ArrayList<>();
+    public List<RendezVous.ReservationPersonne> getByEmail(String email) throws SQLException {
+        List<RendezVous.ReservationPersonne> list = new ArrayList<>();
         String req = "SELECT * FROM reservation_personne WHERE email=? ORDER BY date_reservation DESC";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, email);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            ReservationPersonne r = new ReservationPersonne();
+            RendezVous.ReservationPersonne r = new RendezVous.ReservationPersonne();
             r.setId(rs.getInt("id"));
             r.setIdEvenement(rs.getInt("id_evenement"));
             r.setNomComplet(rs.getString("nom_complet"));

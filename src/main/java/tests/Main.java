@@ -1,6 +1,6 @@
 package tests;
 
-import entities.Evenn;
+import Entites.RendezVous;
 import services.ServiceEvenn;
 import utils.MyBD;
 
@@ -24,7 +24,7 @@ public class Main {
             System.out.println("=== BD NETTOYEE ===");
 
             // Créer un événement de test
-            Evenn evenement = new Evenn(
+            RendezVous.Evenn evenement = new RendezVous.Evenn(
                     1,  // idRessource (exemple: 1)
                     "Conférence sur la santé",  // titre
                     LocalDateTime.now().plusDays(7),  // dateEvenement (dans 7 jours)

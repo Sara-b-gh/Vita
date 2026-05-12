@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 
 public class MyBD {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/vita";
+    private static final String URL = "jdbc:mysql://localhost:3306/evenn";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

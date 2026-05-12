@@ -14,7 +14,7 @@
            style="-fx-background-color: #f4f6fb;">
 
     <stylesheets>
-        <URL value="@../styles/style.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
 
     <BorderPane fx:id="mainPane">

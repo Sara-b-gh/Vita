@@ -1,179 +1,26 @@
-/*package Services;
+package services;
 
 import Entites.CompteRendu;
-import Interffaces.InterfaceCRUD;
-import MyDB.MyBD;
-
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class CompteRenduCRUD implements InterfaceCRUD<CompteRendu> {
-    Connection conn;
+public class CompteRenduCRUD {
+    private static final Logger LOGGER = Logger.getLogger(CompteRenduCRUD.class.getName());
+    private final Connection connection;
 
-    public CompteRenduCRUD() {
-        try {
-            conn = MyBD.getConnection();
-        } catch (Exception e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-        }
+    public CompteRenduCRUD() throws SQLException {
+        this.connection = utils.MyBD.getConnection();
     }
 
-    @Override
-    public void ajouter(CompteRendu cr) throws SQLException {
-        String req = "INSERT INTO compte_rendu (rdv_id, contenu, date_redaction) VALUES (?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setInt(1, cr.getRdv_id());
-        pst.setString(2, cr.getContenu());
-        pst.setDate(3, Date.valueOf(cr.getDateRedaction()));
-        pst.executeUpdate();
-        System.out.println("Compte rendu ajouté !");
-    }
-
-    @Override
-    public void modifier(CompteRendu cr) throws SQLException {
-        String req = "UPDATE compte_rendu SET rdv_id=?, contenu=?, date_redaction=? WHERE id=?";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setInt(1, cr.getRdv_id());
-        pst.setString(2, cr.getContenu());
-        pst.setDate(3, Date.valueOf(cr.getDateRedaction()));
-        pst.setInt(4, cr.getId());
-        pst.executeUpdate();
-        System.out.println("Compte rendu modifié !");
-    }
-
-    @Override
-    public void supprimer(int id) throws SQLException {
-        String req = "DELETE FROM compte_rendu WHERE id=?";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setInt(1, id);
-        pst.executeUpdate();
-        System.out.println("Compte rendu supprimé !");
-    }
-
-    @Override
-    public List<CompteRendu> afficher() throws SQLException {
-        List<CompteRendu> liste = new ArrayList<>();
-        String req = "SELECT * FROM compte_rendu";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(req);
-
-        while (rs.next()) {
-            CompteRendu cr = new CompteRendu();
-            cr.setId(rs.getInt("id"));
-            cr.setRdv_id(rs.getInt("rdv_id"));
-            cr.setContenu(rs.getString("contenu"));
-            cr.setDateRedaction(rs.getDate("date_redaction").toLocalDate());
-            liste.add(cr);
-        }
-
-        return liste;
-    }
-}*/
-package Services;
-
-import Entites.CompteRendu;
-import Interfaces.InterfaceCRUD;
-import MyDB.MyBD;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CompteRenduCRUD implements InterfaceCRUD<CompteRendu> {
-    Connection conn;
-
-    public CompteRenduCRUD() {
-        try {
-            conn = MyBD.getConnection();
-        } catch (Exception e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void ajouter(CompteRendu cr) throws SQLException {
-        String req = "INSERT INTO compte_rendu (id_rdv, redige_par, contenu, diagnostic, traitement, prochain_rdv, confidentiel) " +
-                "VALUES (?,?,?,?,?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
-        pst.setInt(1, cr.getId_rdv());
-        pst.setInt(2, cr.getRedige_par());
-        pst.setString(3, cr.getContenu());
-        pst.setString(4, cr.getDiagnostic());
-        pst.setString(5, cr.getTraitement());
-        pst.setDate(6, cr.getProchain_rdv() != null ? Date.valueOf(cr.getProchain_rdv()) : null);
-        pst.setBoolean(7, cr.isConfidentiel());
-        pst.executeUpdate();
-        ResultSet keys = pst.getGeneratedKeys();
-        if (keys.next()) {
-            cr.setId_cr(keys.getInt(1));
-        }
-    }
-
-    @Override
-    public void modifier(CompteRendu cr) throws SQLException {
-        String req = "UPDATE compte_rendu SET id_rdv=?, redige_par=?, contenu=?, diagnostic=?, " +
-                "traitement=?, prochain_rdv=?, confidentiel=?, date_modification=NOW() " +
-                "WHERE id_cr=?";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setInt(1, cr.getId_rdv());
-        pst.setInt(2, cr.getRedige_par());
-        pst.setString(3, cr.getContenu());
-        pst.setString(4, cr.getDiagnostic());
-        pst.setString(5, cr.getTraitement());
-        pst.setDate(6, cr.getProchain_rdv() != null ? Date.valueOf(cr.getProchain_rdv()) : null);
-        pst.setBoolean(7, cr.isConfidentiel());
-        pst.setInt(8, cr.getId_cr());
-        pst.executeUpdate();
-        System.out.println("Compte rendu modifié !");
-    }
-
-    @Override
-    public void supprimer(int id) throws SQLException {
-        String req = "DELETE FROM compte_rendu WHERE id_cr=?";
-        PreparedStatement pst = conn.prepareStatement(req);
-        pst.setInt(1, id);
-        pst.executeUpdate();
-        System.out.println("Compte rendu supprimé !");
-    }
-
-    @Override
-    public List<CompteRendu> afficher() throws SQLException {
-        List<CompteRendu> liste = new ArrayList<>();
-        String req = "SELECT * FROM compte_rendu";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(req);
-
-        while (rs.next()) {
-            CompteRendu cr = new CompteRendu();
-            cr.setId_cr(rs.getInt("id_cr"));
-            cr.setId_rdv(rs.getInt("id_rdv"));
-            cr.setRedige_par(rs.getInt("redige_par"));
-            cr.setContenu(rs.getString("contenu"));
-            cr.setDiagnostic(rs.getString("diagnostic"));
-            cr.setTraitement(rs.getString("traitement"));
-
-            Date prochainRdv = rs.getDate("prochain_rdv");
-            cr.setProchain_rdv(prochainRdv != null ? prochainRdv.toLocalDate() : null);
-
-            cr.setConfidentiel(rs.getBoolean("confidentiel"));
-
-            Timestamp dateCreation = rs.getTimestamp("date_creation");
-            cr.setDate_creation(dateCreation != null ? dateCreation.toLocalDateTime() : null);
-
-            Timestamp dateMod = rs.getTimestamp("date_modification");
-            cr.setDate_modification(dateMod != null ? dateMod.toLocalDateTime() : null);
-
-            liste.add(cr);
-        }
-
-        return liste;
-    }
-    public CompteRendu trouverParRdv(int idRdv) throws SQLException {
-        String sql = "SELECT * FROM compte_rendu WHERE id_rdv = ? LIMIT 1";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idRdv);
-            ResultSet rs = ps.executeQuery();
+    public CompteRendu trouverParRdv(int idRdv) {
+        String sql = "SELECT * FROM compte_rendus WHERE id_rdv = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idRdv);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 CompteRendu cr = new CompteRendu();
                 cr.setId_cr(rs.getInt("id_cr"));
@@ -182,15 +29,168 @@ public class CompteRenduCRUD implements InterfaceCRUD<CompteRendu> {
                 cr.setContenu(rs.getString("contenu"));
                 cr.setDiagnostic(rs.getString("diagnostic"));
                 cr.setTraitement(rs.getString("traitement"));
+                cr.setProchain_rdv(rs.getObject("prochain_rdv", LocalDate.class));
                 cr.setConfidentiel(rs.getBoolean("confidentiel"));
-                // adapt column names to match your actual DB schema
-                if (rs.getDate("prochain_rdv") != null)
-                    cr.setProchain_rdv(rs.getDate("prochain_rdv").toLocalDate());
-                if (rs.getTimestamp("date_creation") != null)
-                    cr.setDate_creation(rs.getTimestamp("date_creation").toLocalDateTime());
+                cr.setDate_creation(rs.getObject("date_creation", LocalDateTime.class));
+                cr.setDate_modification(rs.getObject("date_modification", LocalDateTime.class));
                 return cr;
             }
-            return null; // pas de CR pour ce RDV
+        } catch (SQLException e) {
+            LOGGER.severe("Erreur trouverParRdv: " + e.getMessage());
         }
+        return null;
+    }
+
+    public void ajouter(CompteRendu cr) throws SQLException {
+        String sql = "INSERT INTO compte_rendus (id_rdv, redige_par, contenu, diagnostic, traitement, prochain_rdv, confidentiel, date_creation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, cr.getId_rdv());
+            stmt.setInt(2, cr.getRedige_par());
+            stmt.setString(3, cr.getContenu());
+            stmt.setString(4, cr.getDiagnostic());
+            stmt.setString(5, cr.getTraitement());
+            stmt.setObject(6, cr.getProchain_rdv());
+            stmt.setBoolean(7, cr.isConfidentiel());
+            stmt.setObject(8, LocalDateTime.now());
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<CompteRendu> afficher() throws SQLException {
+        List<CompteRendu> list = new ArrayList<>();
+        String sql = "SELECT * FROM compte_rendus ORDER BY date_creation DESC";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                CompteRendu cr = new CompteRendu();
+                cr.setId_cr(rs.getInt("id_cr"));
+                cr.setId_rdv(rs.getInt("id_rdv"));
+                cr.setRedige_par(rs.getInt("redige_par"));
+                cr.setContenu(rs.getString("contenu"));
+                cr.setDiagnostic(rs.getString("diagnostic"));
+                cr.setTraitement(rs.getString("traitement"));
+                cr.setProchain_rdv(rs.getObject("prochain_rdv", LocalDate.class));
+                cr.setConfidentiel(rs.getBoolean("confidentiel"));
+                cr.setDate_creation(rs.getObject("date_creation", LocalDateTime.class));
+                cr.setDate_modification(rs.getObject("date_modification", LocalDateTime.class));
+                list.add(cr);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Supprime un compte rendu par son ID
+     * @param idCr L'ID du compte rendu à supprimer
+     * @throws SQLException Si une erreur SQL survient
+     */
+    public void supprimer(int idCr) throws SQLException {
+        String sql = "DELETE FROM compte_rendus WHERE id_cr = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idCr);
+            int lignesAffectees = stmt.executeUpdate();
+            if (lignesAffectees == 0) {
+                throw new SQLException("Aucun compte rendu trouvé avec l'ID: " + idCr);
+            }
+            LOGGER.info("Compte rendu supprimé avec succès. ID: " + idCr);
+        }
+    }
+
+    /**
+     * Supprime tous les comptes rendus associés à un rendez-vous
+     * @param idRdv L'ID du rendez-vous
+     * @throws SQLException Si une erreur SQL survient
+     */
+    public void supprimerParRdv(int idRdv) throws SQLException {
+        String sql = "DELETE FROM compte_rendus WHERE id_rdv = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idRdv);
+            int lignesAffectees = stmt.executeUpdate();
+            LOGGER.info(lignesAffectees + " compte(s) rendu(s) supprimé(s) pour le RDV: " + idRdv);
+        }
+    }
+
+    /**
+     * Met à jour un compte rendu existant
+     * @param cr Le compte rendu avec les nouvelles valeurs
+     * @throws SQLException Si une erreur SQL survient
+     */
+    public void modifier(CompteRendu cr) throws SQLException {
+        String sql = "UPDATE compte_rendus SET id_rdv = ?, redige_par = ?, contenu = ?, diagnostic = ?, traitement = ?, prochain_rdv = ?, confidentiel = ?, date_modification = ? WHERE id_cr = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, cr.getId_rdv());
+            stmt.setInt(2, cr.getRedige_par());
+            stmt.setString(3, cr.getContenu());
+            stmt.setString(4, cr.getDiagnostic());
+            stmt.setString(5, cr.getTraitement());
+            stmt.setObject(6, cr.getProchain_rdv());
+            stmt.setBoolean(7, cr.isConfidentiel());
+            stmt.setObject(8, LocalDateTime.now());
+            stmt.setInt(9, cr.getId_cr());
+
+            int lignesAffectees = stmt.executeUpdate();
+            if (lignesAffectees == 0) {
+                throw new SQLException("Aucun compte rendu trouvé avec l'ID: " + cr.getId_cr());
+            }
+            LOGGER.info("Compte rendu modifié avec succès. ID: " + cr.getId_cr());
+        }
+    }
+
+    /**
+     * Trouve un compte rendu par son ID
+     * @param idCr L'ID du compte rendu
+     * @return Le compte rendu trouvé ou null
+     */
+    public CompteRendu trouverParId(int idCr) {
+        String sql = "SELECT * FROM compte_rendus WHERE id_cr = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idCr);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                CompteRendu cr = new CompteRendu();
+                cr.setId_cr(rs.getInt("id_cr"));
+                cr.setId_rdv(rs.getInt("id_rdv"));
+                cr.setRedige_par(rs.getInt("redige_par"));
+                cr.setContenu(rs.getString("contenu"));
+                cr.setDiagnostic(rs.getString("diagnostic"));
+                cr.setTraitement(rs.getString("traitement"));
+                cr.setProchain_rdv(rs.getObject("prochain_rdv", LocalDate.class));
+                cr.setConfidentiel(rs.getBoolean("confidentiel"));
+                cr.setDate_creation(rs.getObject("date_creation", LocalDateTime.class));
+                cr.setDate_modification(rs.getObject("date_modification", LocalDateTime.class));
+                return cr;
+            }
+        } catch (SQLException e) {
+            LOGGER.severe("Erreur trouverParId: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Compte le nombre de comptes rendus pour un rendez-vous
+     * @param idRdv L'ID du rendez-vous
+     * @return Le nombre de comptes rendus
+     * @throws SQLException Si une erreur SQL survient
+     */
+    public int compterParRdv(int idRdv) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM compte_rendus WHERE id_rdv = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idRdv);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+    /**
+     * Vérifie si un compte rendu existe pour un rendez-vous
+     * @param idRdv L'ID du rendez-vous
+     * @return true si un compte rendu existe, false sinon
+     * @throws SQLException Si une erreur SQL survient
+     */
+    public boolean existePourRdv(int idRdv) throws SQLException {
+        return compterParRdv(idRdv) > 0;
     }
 }
