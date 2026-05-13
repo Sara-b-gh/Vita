@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="540.0" prefHeight="500.0"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controles.ScannerUserController"
+            stylesheets="@STYLE1.css">
+    <VBox spacing="18.0" styleClass="scanner-root"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="scanner-header">
+            <Label text="QR" styleClass="scanner-icon"/>
+            <VBox spacing="3.0">
+                <Label text="Scanner evenement" styleClass="scanner-title"/>
+                <Label text="Ouvrir un evenement depuis un QR code VITA" styleClass="scanner-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Fermer" onAction="#fermer" styleClass="btn-outline scanner-btn"/>
+        </HBox>
+
+        <Separator styleClass="soft-separator"/>
+
+        <VBox spacing="8.0">
+            <Label text="Code scanne" styleClass="scanner-field-label"/>
+            <TextArea fx:id="scanInput" promptText="Collez le contenu du QR code evenement..."
+                      prefHeight="120.0" wrapText="true" styleClass="scanner-input"/>
+        </VBox>
+
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+            <Button text="Effacer" onAction="#effacer" styleClass="btn-outline scanner-btn"/>
+            <Button text="Scanner" onAction="#scanner" styleClass="btn-primary scanner-btn"/>
+        </HBox>
+
+        <VBox fx:id="resultBox" spacing="12.0" visible="false" managed="false" styleClass="scanner-result-card">
+            <Label fx:id="resultTitle" wrapText="true" styleClass="scanner-result-title"/>
+            <Label fx:id="resultDetail" wrapText="true" styleClass="scanner-result-detail"/>
+            <HBox alignment="CENTER_RIGHT">
+                <Button fx:id="voirDetailsBtn" text="Voir details" styleClass="btn-primary scanner-btn"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</AnchorPane>
