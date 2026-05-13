@@ -216,6 +216,10 @@ public class AdminDocteurController {
             SessionManager.clearSession();
             Parent root = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
             Stage stage = (Stage) doctorCardsPane.getScene().getWindow();
+            stage.setResizable(false);
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
             stage.setScene(new Scene(root));
             stage.setTitle("Connexion");
         } catch (Exception e) {

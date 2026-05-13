@@ -174,6 +174,13 @@ public class LoginController {
 
             Parent root = FXMLLoader.load(resource);
             Stage stage = (Stage) LoginButton.getScene().getWindow();
+
+            // ← DÉBLOQUER pour les dashboards
+            stage.setResizable(true);
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+
             stage.getScene().setRoot(root);
 
         } catch (Exception e) {

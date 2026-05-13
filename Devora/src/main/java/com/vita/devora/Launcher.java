@@ -24,8 +24,12 @@ public class Launcher extends Application {
         }
 
         Parent root = FXMLLoader.load(getClass().getResource("LoginTest.fxml"));
-        primaryStage.setScene(new Scene(root, 1280, 720));
+        primaryStage.setScene(new Scene(root, 1000, 600));
+        primaryStage.setTitle("");
+        primaryStage.setResizable(false);;
+        primaryStage.centerOnScreen();
         primaryStage.show();
+
     }
 
     @Override
