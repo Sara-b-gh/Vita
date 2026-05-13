@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e4f640ac-42d2-4d79-b472-9f7d5ded84bb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/AjouterQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/AjouterQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/HomeQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/HomeQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/ListeQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/ListeQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/MainQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/MainQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/PasserQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/PasserQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controlers/ReponsesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controlers/ReponsesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Entites/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Entites/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Entites/Reponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Entites/Reponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ServiceQuestion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ServiceQuestion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ServiceReponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ServiceReponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tests/MainQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tests/MainQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/AjouterQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/AjouterQuiz.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ListeQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ListeQuiz.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/LoginView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/LoginView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/PasserQuiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/PasserQuiz.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/QuizView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/QuizView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ReponsesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ReponsesView.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="JavaFXApplication" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="temurin-20" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="3CfLB66qEDNMM9H45wpxHL0lAMa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Launcher.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.vita [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.vita [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.vita [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Quiz&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/selmeen/Desktop/javax/vita/pom.xml&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Application.Launcher">
+    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.vita.Launcher" />
+      <module name="vita" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.vita.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tests.MainQuiz" />
+      <module name="vita" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="untrusted" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="untrusted" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.Launcher" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Launcher" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e4f640ac-42d2-4d79-b472-9f7d5ded84bb" name="Changes" comment="" />
+      <created>1776771540327</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776771540327</updated>
+      <workItem from="1776771544615" duration="1111000" />
+      <workItem from="1776776815691" duration="2077000" />
+      <workItem from="1776973401807" duration="1103000" />
+      <workItem from="1776976088295" duration="5891000" />
+      <workItem from="1777035791731" duration="4056000" />
+      <workItem from="1777570573682" duration="8459000" />
+      <workItem from="1777639900730" duration="20111000" />
+      <workItem from="1777994861016" duration="312000" />
+      <workItem from="1778109878291" duration="8235000" />
+      <workItem from="1778161241874" duration="4719000" />
+      <workItem from="1778182755637" duration="9540000" />
+      <workItem from="1778245351430" duration="2690000" />
+      <workItem from="1778362841683" duration="2987000" />
+      <workItem from="1778537800729" duration="5314000" />
+      <workItem from="1778631078292" duration="3811000" />
+      <workItem from="1778679294572" duration="4380000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

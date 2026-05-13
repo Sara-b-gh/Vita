@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controles.LoginController"
+      alignment="CENTER" spacing="0"
+      style="-fx-background-color: #f0f4f9;">
+
+    <!-- HEADER -->
+    <VBox alignment="CENTER"
+          style="-fx-background-color: #6D1B3A; -fx-padding: 50 0 50 0;">
+        <Label text="🧠 Vita Quiz"
+               style="-fx-font-size: 34px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <Label text="Connectez-vous pour continuer"
+               style="-fx-font-size: 14px; -fx-text-fill: #e0b0c0; -fx-padding: 10 0 0 0;"/>
+    </VBox>
+
+    <!-- CARD -->
+    <VBox alignment="CENTER_LEFT" spacing="16"
+          style="-fx-background-color: white; -fx-padding: 40;
+                 -fx-background-radius: 12;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 4);"
+          maxWidth="420">
+        <VBox.margin><Insets top="50" bottom="50"/></VBox.margin>
+
+        <Label text="Nom d'utilisateur"
+               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #444;"/>
+        <TextField fx:id="usernameField"
+                   promptText="Entrez votre nom d'utilisateur"
+                   maxWidth="Infinity"
+                   style="-fx-font-size: 14px; -fx-padding: 10 14;
+                          -fx-border-color: #c5c5c5; -fx-border-radius: 6;
+                          -fx-background-radius: 6; -fx-border-width: 1.5;"/>
+
+        <Label text="Mot de passe"
+               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #444;"/>
+        <PasswordField fx:id="passwordField"
+                       promptText="Entrez votre mot de passe"
+                       maxWidth="Infinity"
+                       style="-fx-font-size: 14px; -fx-padding: 10 14;
+                              -fx-border-color: #c5c5c5; -fx-border-radius: 6;
+                              -fx-background-radius: 6; -fx-border-width: 1.5;"/>
+
+        <Label fx:id="errorLabel" text=""
+               style="-fx-text-fill: #d32f2f; -fx-font-size: 13px;"/>
+
+        <Button text="Se connecter" onAction="#handleLogin"
+                maxWidth="Infinity"
+                style="-fx-background-color: #6D1B3A; -fx-text-fill: white;
+                       -fx-font-size: 15px; -fx-font-weight: bold;
+                       -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+    </VBox>
+</VBox>

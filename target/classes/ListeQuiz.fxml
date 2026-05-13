@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true"
+            style="-fx-background-color: #f0ebf4; -fx-background: #f0ebf4;"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controles.ListeQuizController">
+
+    <VBox spacing="16" style="-fx-background-color: #f0ebf4;">
+        <padding><Insets top="30" bottom="30" left="60" right="60"/></padding>
+
+        <!-- TITRE -->
+        <VBox style="-fx-background-color: white;
+                     -fx-background-radius: 10;
+                     -fx-border-color: #AD1457 transparent transparent transparent;
+                     -fx-border-width: 8 0 0 0;
+                     -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.08),8,0,0,2);">
+            <padding><Insets top="24" bottom="24" left="24" right="24"/></padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="📋 Aperçu des Questions"
+                       style="-fx-font-size: 26px; -fx-font-weight: bold;
+                              -fx-text-fill: #6D1B3A;" HBox.hgrow="ALWAYS"/>
+                <Button text="🔄 Rafraîchir" onAction="#loadData"
+                        style="-fx-background-color: #AD1457; -fx-text-fill: white;
+                               -fx-background-radius: 6; -fx-cursor: hand;
+                               -fx-font-size: 13px; -fx-padding: 8 16;"/>
+            </HBox>
+            <Label text="Consultez et gérez toutes les questions du quiz"
+                   style="-fx-font-size: 13px; -fx-text-fill: #888; -fx-padding: 4 0 0 0;"/>
+        </VBox>
+
+        <!-- ZONE DYNAMIQUE DES CARTES -->
+        <VBox fx:id="cardsContainer" spacing="16"
+              style="-fx-background-color: transparent;"/>
+
+    </VBox>
+</ScrollPane>
