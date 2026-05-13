@@ -1,27 +1,27 @@
 package com.vita.devora.Utils;
 
-import com.vita.devora.Entities.User;
+import com.vita.devora.Entities.user;
 
 
 /**
  * Garde en mémoire l'utilisateur connecté pendant toute la session.
  * Utilisation :
- *   SessionManager.setCurrentUser(u)   →  à la connexion
- *   SessionManager.getCurrentUser()    →  partout dans l'application
- *   SessionManager.clearSession()      →  à la déconnexion
+ *   sessionManager.setCurrentUser(u)   →  à la connexion
+ *   sessionManager.getCurrentUser()    →  partout dans l'application
+ *   sessionManager.clearSession()      →  à la déconnexion
  */
-public class SessionManager {
+public class sessionManager {
 
-    private static User currentUser;
+    private static user currentUser;
 
-    private SessionManager() {}
+    private sessionManager() {}
 
-    public static void setCurrentUser(User user) { currentUser = user; }
-    public static User getCurrentUser()           { return currentUser; }
+    public static void setCurrentUser(user user) { currentUser = user; }
+    public static user getCurrentUser()           { return currentUser; }
     public static void clearSession()                    { currentUser = null; }
 
     public static boolean isConnecte() { return currentUser != null; }
-    public static boolean isAdmin()    { return isConnecte() && currentUser.getRole() == User.Roles.ADMIN; }
-    public static boolean isMedecin()  { return isConnecte() && currentUser.getRole() == User.Roles.DOCTOR; }
-    public static boolean isPatient()  { return isConnecte() && currentUser.getRole() == User.Roles.PATIENT; }
+    public static boolean isAdmin()    { return isConnecte() && currentUser.getRole() == user.Roles.ADMIN; }
+    public static boolean isMedecin()  { return isConnecte() && currentUser.getRole() == user.Roles.DOCTOR; }
+    public static boolean isPatient()  { return isConnecte() && currentUser.getRole() == user.Roles.PATIENT; }
 }

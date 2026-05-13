@@ -2,14 +2,14 @@ package com.vita.devora.Controllers;
 
 import com.vita.devora.Entities.*;
 import com.vita.devora.Services.*;
-import com.vita.devora.Utils.SessionManager;
+import com.vita.devora.Utils.sessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -224,6 +224,55 @@ public class CommunityViewController {
 
             cRow.getChildren().addAll(textSide, spacer, delComm);
             commentSection.getChildren().add(cRow);
+
+            List<Commentaire> replies = serviceCommentaire.getReplies(c.getIdCommentaire());
+
+            System.out.println("Parent ID: " + c.getIdCommentaire() + " has " + replies.size() + " replies.");
+            for (Commentaire r : replies) {
+                VBox rBox = new VBox(5);
+                rBox.setStyle("-fx-background-color: #f9f9f9; -fx-padding: 12; -fx-background-radius: 8; -fx-border-color: #e0e0e0;");
+                VBox.setMargin(rBox, new Insets(0, 0, 0, 40));
+
+                HBox rHeader = new HBox(10);
+                rHeader.setAlignment(Pos.CENTER_LEFT);
+
+                // CHANGED: Display Name instead of "ID: " string
+                Label rUser = new Label(r.getUsername() != null ? r.getUsername() : "Utilisateur " + r.getIdUser());
+                rUser.setStyle("-fx-font-weight: bold; -fx-font-size: 11; -fx-text-fill: #555;");
+
+                // ADDED: Display Role Badge for replies
+                String rRoleStr = (r.getUserRole() != null) ? r.getUserRole().toUpperCase() : "USER";
+                Label rRoleBadge = new Label(rRoleStr);
+                //rRoleBadge.setStyle(getRoleBadgeStyle(rRoleStr));
+                rRoleBadge.setScaleX(0.8); rRoleBadge.setScaleY(0.8); // Smaller badge for nested replies
+
+                Region rSpacer = new Region();
+                HBox.setHgrow(rSpacer, Priority.ALWAYS);
+
+
+                //cRow.getChildren().addAll(textSide, spacer, delComm);
+                HBox rActions = new HBox(5);
+                rActions.setAlignment(Pos.CENTER_RIGHT);
+
+                Button delReply = new Button("Supprimer");
+                delReply.setStyle("-fx-background-color: #fee; -fx-text-fill: #c00; -fx-font-size: 10;");
+                delReply.setOnAction(e -> {
+                    try {
+                        serviceCommentaire.DeleteComment(r.getIdCommentaire());
+                        showPostDetails(post); // Refresh this view
+                    } catch (SQLException ex) { ex.printStackTrace(); }
+                });
+                rActions.getChildren().add(delReply);
+
+                // UPDATED: Added rRoleBadge to the reply header
+                rHeader.getChildren().addAll(rUser, rRoleBadge, rSpacer, rActions);
+                Label rContent = new Label(r.getContenu());
+                rContent.setWrapText(true);
+
+                rBox.getChildren().addAll(rHeader, rContent);
+                commentSection.getChildren().add(rBox);
+            }
+
         }
 
         detailRoot.getChildren().addAll(backBtn, title, content, new Separator(), commentSection);
@@ -263,7 +312,7 @@ public class CommunityViewController {
     }
     @FXML
     private void handleLogout(ActionEvent event) { // Add ActionEvent as a parameter
-        SessionManager.setCurrentUser(null);
+        sessionManager.setCurrentUser(null);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/Login.fxml"));

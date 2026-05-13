@@ -1,24 +1,24 @@
 package com.vita.devora.Services;
 
-import com.vita.devora.Entities.User;
+import com.vita.devora.Entities.user;
 import com.vita.devora.Interfaces.InterfaceUser;
-import com.vita.devora.MyDB.MyBD;
+import com.vita.devora.MyDB.MyDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ServiceUser implements InterfaceUser <User>{
+public class ServiceUser implements InterfaceUser <user>{
 
     private Connection conn;
 
     public ServiceUser() {
-        conn = MyBD.getInstance().getConnection();
+        conn = MyDB.getInstance().getConnection();
     }
 
     @Override
-    public User login(String email, String password) {
+    public user login(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
@@ -26,12 +26,12 @@ public class ServiceUser implements InterfaceUser <User>{
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                User user = new User();
+                user user = new user();
                 user.setId(rs.getInt("id"));
                 user.setNom(rs.getString("nom"));
                 user.setPrenom(rs.getString("prenom"));
                 user.setEmail(rs.getString("email"));
-                user.setRole(User.Roles.valueOf(rs.getString("role").toUpperCase()));
+                user.setRole(com.vita.devora.Entities.user.Roles.valueOf(rs.getString("role").toUpperCase()));
                 return user;
             }
         } catch (SQLException e) {

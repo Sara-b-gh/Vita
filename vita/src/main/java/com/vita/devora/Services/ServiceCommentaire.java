@@ -3,7 +3,7 @@ package com.vita.devora.Services;
 import com.vita.devora.Entities.CommentDisplay;
 import com.vita.devora.Entities.Commentaire;
 import com.vita.devora.Interfaces.InterfaceCommentaire;
-import com.vita.devora.MyDB.MyBD;
+import com.vita.devora.MyDB.MyDB;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -15,13 +15,13 @@ public class ServiceCommentaire implements InterfaceCommentaire<Commentaire> {
     Connection conn;
 
     public ServiceCommentaire() {
-        conn = MyBD.getInstance().getConnection();
+        conn = MyDB.getInstance().getConnection();
     }
 
     @Override
     public void AddComment(Commentaire c) throws SQLException {
-        String filteredContent = filterBadWords(c.getContenu()); // 👈 filter first
-        c.setContenu(filteredContent);
+        //String filteredContent = filterBadWords(c.getContenu()); // 👈 filter first
+        //c.setContenu(filteredContent);
         String sql = "INSERT INTO commentaires (IdPost, IdUser, contenu, statut, DateCreation, DateModification, ParentId) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -50,8 +50,8 @@ public class ServiceCommentaire implements InterfaceCommentaire<Commentaire> {
 
     @Override
     public void Updatecomment(Commentaire c) throws SQLException {
-        String filteredContent = filterBadWords(c.getContenu()); // 👈 filter first
-        c.setContenu(filteredContent);
+        //String filteredContent = filterBadWords(c.getContenu()); // 👈 filter first
+        //c.setContenu(filteredContent);
         String sql = "UPDATE commentaires SET contenu=?, statut=?, DateModification=? WHERE IdCommentaire=?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

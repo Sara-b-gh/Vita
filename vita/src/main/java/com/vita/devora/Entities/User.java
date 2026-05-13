@@ -1,6 +1,6 @@
 package com.vita.devora.Entities;
 
-public class User {
+public class user {
     public enum Roles{ADMIN, PATIENT,DOCTOR}
     private int id;
     private String nom;
@@ -72,7 +72,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "user{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +

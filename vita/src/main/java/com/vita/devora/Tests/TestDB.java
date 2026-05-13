@@ -1,12 +1,12 @@
 package com.vita.devora.Tests;
 
-import com.vita.devora.MyDB.MyBD;
+import com.vita.devora.MyDB.MyDB;
 
 import java.sql.Connection;
 
 public class TestDB {
     public static void main(String[] args) throws Exception {
-        Connection conn = MyBD.getInstance().getConnection();
+        Connection conn = MyDB.getInstance().getConnection();
 
         if (conn != null) {
             System.out.println("Connection successful!");

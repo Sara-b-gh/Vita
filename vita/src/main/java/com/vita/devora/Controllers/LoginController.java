@@ -1,8 +1,8 @@
 package com.vita.devora.Controllers;
 
-import com.vita.devora.Entities.User;
+import com.vita.devora.Entities.user;
 import com.vita.devora.Services.ServiceUser;
-import com.vita.devora.Utils.SessionManager;
+import com.vita.devora.Utils.sessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class LoginController {
+public class loginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
@@ -24,17 +24,17 @@ public class LoginController {
         String email = emailField.getText();
         String pass = passwordField.getText();
 
-        User user = serviceUser.login(email, pass);
+        user user = serviceUser.login(email, pass);
 
         if (user != null) {
-            SessionManager.setCurrentUser(user);
+            sessionManager.setCurrentUser(user);
             redirectBasedOnRole(user);
         } else {
             errorLabel.setText("Identifiants invalides !");
         }
     }
 
-    private void redirectBasedOnRole(User user) {
+    private void redirectBasedOnRole(user user) {
         String fxmlFile = "";
 
         switch (user.getRole()) {

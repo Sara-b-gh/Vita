@@ -41,6 +41,15 @@ public class Post {
     }
 
 
+//    public int getIdPost() {
+//        return idPost;
+//    }
+//
+//    public void setIdPost(int idPost) {
+//        this.idPost = idPost;
+//    }
+
+
     public int getIdPost() {
         return idPost;
     }
@@ -118,4 +127,5 @@ public class Post {
                 ", nbCommentaire=" + nbCommentaire +
                 '}';
     }
+
 }

@@ -5,6 +5,7 @@ module com.vita.devora.vita {
 
 
     opens com.vita.devora to javafx.fxml;
+    opens com.vita.devora.Entities;
     opens com.vita.devora.Controllers to javafx.fxml;
     exports com.vita.devora;
 }

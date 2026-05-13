@@ -9,5 +9,8 @@
         <module name="vita" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Devora" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

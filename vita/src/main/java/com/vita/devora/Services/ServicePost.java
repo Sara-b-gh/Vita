@@ -3,7 +3,7 @@ package com.vita.devora.Services;
 import com.vita.devora.Entities.Post;
 import com.vita.devora.Entities.PostView;
 import com.vita.devora.Interfaces.InterfacePost;
-import com.vita.devora.MyDB.MyBD;
+import com.vita.devora.MyDB.MyDB;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.util.List;
 public class ServicePost implements InterfacePost<Post> {
     Connection conn;
     public ServicePost() {
-        conn = MyBD.getInstance().getConnection();
+        conn = MyDB.getInstance().getConnection();
     }
 
     @Override

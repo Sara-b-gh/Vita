@@ -1,4 +1,4 @@
-package com.vita.devora;
+package com.example.vita;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
