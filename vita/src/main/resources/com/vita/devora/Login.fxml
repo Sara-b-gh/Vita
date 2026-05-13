@@ -4,7 +4,7 @@
 
 <VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.vita.devora.Controllers.LoginController"
+      fx:controller="com.vita.devora.Controllers.loginController"
       style="-fx-background-color: #F8F9FA; -fx-padding: 40;">
 
     <Label text="VITA Login" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #8a0037;"/>

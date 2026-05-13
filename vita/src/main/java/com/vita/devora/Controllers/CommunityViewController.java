@@ -2,7 +2,7 @@ package com.vita.devora.Controllers;
 
 import com.vita.devora.Entities.*;
 import com.vita.devora.Services.*;
-import com.vita.devora.Utils.SessionManager;
+import com.vita.devora.Utils.sessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -313,7 +312,7 @@ public class CommunityViewController {
     }
     @FXML
     private void handleLogout(ActionEvent event) { // Add ActionEvent as a parameter
-        SessionManager.setCurrentUser(null);
+        sessionManager.setCurrentUser(null);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vita/devora/Login.fxml"));

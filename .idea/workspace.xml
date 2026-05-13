@@ -50,7 +50,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
@@ -74,7 +74,7 @@
       <workItem from="1778685596189" duration="269000" />
       <workItem from="1778685880054" duration="57000" />
       <workItem from="1778686120265" duration="56000" />
-      <workItem from="1778686325358" duration="4607000" />
+      <workItem from="1778686325358" duration="7063000" />
     </task>
     <servers />
   </component>

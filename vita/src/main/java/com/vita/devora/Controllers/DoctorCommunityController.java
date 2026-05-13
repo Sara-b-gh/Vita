@@ -3,10 +3,10 @@ package com.vita.devora.Controllers;
 import com.vita.devora.Entities.Commentaire;
 import com.vita.devora.Entities.Post;
 import com.vita.devora.Entities.PostView;
-import com.vita.devora.Entities.User;
+import com.vita.devora.Entities.user;
 import com.vita.devora.Services.ServicePost;
 import com.vita.devora.Services.ServiceCommentaire;
-import com.vita.devora.Utils.SessionManager;
+import com.vita.devora.Utils.sessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class DoctorCommunityController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        User loggedIn = SessionManager.getCurrentUser();
+        user loggedIn = sessionManager.getCurrentUser();
         if (loggedIn != null) {
             System.out.println("Welcome, " + loggedIn.getNom());
         }
@@ -149,9 +148,9 @@ public class DoctorCommunityController implements Initializable {
 
         HBox ownerActions = new HBox(10);
         ownerActions.setAlignment(Pos.CENTER_RIGHT);
-        User currentUser = SessionManager.getCurrentUser();
+        user currentUser = sessionManager.getCurrentUser();
         System.out.println("DEBUG: Post Owner ID = " + post.getIdUser());
-        System.out.println("DEBUG: Logged-in User ID = " + (currentUser != null ? currentUser.getId() : "NULL"));
+        System.out.println("DEBUG: Logged-in user ID = " + (currentUser != null ? currentUser.getId() : "NULL"));
         if (currentUser != null && post.getIdUser() == currentUser.getId()) {
             // Only show buttons if the IDs match
             Button btnEdit = new Button("Modifier");
@@ -289,7 +288,7 @@ public class DoctorCommunityController implements Initializable {
         lblTitle.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
 
         List<Commentaire> comments = serviceCommentaire.getByPost(post.getIdPost());
-        User currentUser = SessionManager.getCurrentUser();
+        user currentUser = sessionManager.getCurrentUser();
 
         for (Commentaire c : comments) {
             // --- Parent Comment UI ---
@@ -410,7 +409,7 @@ public class DoctorCommunityController implements Initializable {
 
     private void handleSaveComment(int postId, String content) {
         try {
-            User currentUser = SessionManager.getCurrentUser();
+            user currentUser = sessionManager.getCurrentUser();
             if (currentUser == null) return;
             Commentaire newComment = new Commentaire();
             newComment.setIdPost(postId);
@@ -429,7 +428,7 @@ public class DoctorCommunityController implements Initializable {
 
     private void saveNewPost(Post.Category category, String content) {
         try {
-            User sessionUser = SessionManager.getCurrentUser();
+            user sessionUser = sessionManager.getCurrentUser();
             if (sessionUser != null){
                 Post p = new Post();
                 // For your demo, use a static user ID (ensure ID 61 exists in your 'users' table)
@@ -570,7 +569,7 @@ public class DoctorCommunityController implements Initializable {
         btnSend.setOnAction(e -> {
             if (!txtReply.getText().isEmpty()) {
                 try {
-                    User currentUser = SessionManager.getCurrentUser();
+                    user currentUser = sessionManager.getCurrentUser();
                     if (currentUser == null) return;
 
                     Commentaire reply = new Commentaire();
@@ -600,7 +599,7 @@ public class DoctorCommunityController implements Initializable {
     @FXML
     private void handleLogout() {
         // 1. Clear the session
-        SessionManager.setCurrentUser(null); // Assuming your SessionManager has this setter
+        sessionManager.setCurrentUser(null); // Assuming your sessionManager has this setter
 
         try {
             // 2. Load the Login Scene (Update the path to your actual login FXML)
@@ -614,7 +613,7 @@ public class DoctorCommunityController implements Initializable {
             stage.setScene(new javafx.scene.Scene(root));
             stage.show();
 
-            System.out.println("User logged out successfully.");
+            System.out.println("user logged out successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }

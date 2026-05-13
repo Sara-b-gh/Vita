@@ -3,7 +3,7 @@ package com.vita.devora.Services;
 import com.vita.devora.Entities.CommentDisplay;
 import com.vita.devora.Entities.Commentaire;
 import com.vita.devora.Interfaces.InterfaceCommentaire;
-import com.vita.devora.MyDB.MyBD;
+import com.vita.devora.MyDB.MyDB;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ public class ServiceCommentaire implements InterfaceCommentaire<Commentaire> {
     Connection conn;
 
     public ServiceCommentaire() {
-        conn = MyBD.getInstance().getConnection();
+        conn = MyDB.getInstance().getConnection();
     }
 
     @Override
