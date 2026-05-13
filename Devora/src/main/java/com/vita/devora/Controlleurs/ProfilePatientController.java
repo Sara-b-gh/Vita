@@ -147,6 +147,10 @@ public class ProfilePatientController {
             Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(loginRoot);
+            stage.setResizable(false);
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

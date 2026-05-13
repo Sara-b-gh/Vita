@@ -271,6 +271,13 @@ public class DoctorDashboardController {
             SessionManager.clearSession();
             Parent root = FXMLLoader.load(getClass().getResource("/com/vita/devora/LoginTest.fxml"));
             Stage stage = (Stage) patientCardsPane.getScene().getWindow();
+
+            // ← REBLOQUER pour le login
+            stage.setResizable(false);
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+
             stage.getScene().setRoot(root);
         } catch (Exception e) {
             e.printStackTrace();

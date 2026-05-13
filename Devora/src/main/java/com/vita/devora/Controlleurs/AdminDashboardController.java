@@ -266,6 +266,10 @@ public class AdminDashboardController {
 
             javafx.scene.Node sourceNode = (javafx.scene.Node) actionEvent.getSource();
             javafx.stage.Stage stage = (javafx.stage.Stage) sourceNode.getScene().getWindow();
+            stage.setResizable(false);
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
 
             stage.getScene().setRoot(root);
 
