@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid #fd6c9e;
+            border-radius: 10px;
+            padding: 12px 20px;
+            background: white;
+        }
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #e82a6c;
+        }
+        label {
+            font-size: 15px;
+            color: #73656a;
+            cursor: pointer;
+        }
+        .validated {
+            border-color: #4CAF50;
+            background: #f0fff0;
+        }
+        .validated label {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="captcha-box" id="box">
+    <input type="checkbox" id="check" disabled>
+    <label for="check" id="label">Je ne suis pas un robot 🛡️</label>
+</div>
+
+<script>
+    var validated = sessionStorage.getItem("captchaValidated") === "true";
+
+    if (validated) {
+        // Déjà validé → afficher coché
+        document.getElementById("check").checked = true;
+        document.getElementById("check").disabled = true;
+        document.getElementById("box").classList.add("validated");
+        document.getElementById("label").innerText = "✅ Vérifié";
+    } else {
+        // Pas encore validé → activer la case
+        document.getElementById("check").disabled = false;
+        document.getElementById("check").addEventListener("change", function() {
+            if (this.checked) {
+                sessionStorage.setItem("captchaValidated", "true");
+                window.location.href = "http://localhost:9090/captcha-done";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

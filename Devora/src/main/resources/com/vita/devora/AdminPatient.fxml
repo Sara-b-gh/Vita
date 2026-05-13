@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="dashboard-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminPatientController">
+   <stylesheets>
+      <URL value="@STYLE1.css" />
+   </stylesheets>
+
+   <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â SIDEBAR Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
+   <left>
+      <AnchorPane prefHeight="720.0" prefWidth="237.0" styleClass="dashboard-sidebar" BorderPane.alignment="CENTER">
+         <children>
+            <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" />
+            <Button layoutX="36.0" layoutY="155.0" onAction="#toDash" style="-fx-background-color: transparent;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="37.0" layoutY="201.0" onAction="#toDoctorDash" style="-fx-background-color: transparent;" styleClass="nav-item" text="Espace Docteurs" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="39.0" layoutY="242.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Espace Patients" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="50.0" layoutY="284.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Rendez-vous" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="53.0" layoutY="331.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Evenements" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="57.0" layoutY="373.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Formulaire" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Button layoutX="77.0" layoutY="415.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Quiz" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="18.0" /></font>
+            </Button>
+            <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="18.0" layoutY="18.0" opacity="0.42" stroke="WHITE" strokeDashOffset="50.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="70.0" strokeType="INSIDE" width="86.0" />
+            <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+               <image><Image url="@../../../image/logo.png" /></image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
+               <font><Font name="Berlin Sans FB" size="36.0" /></font>
+            </Label>
+            <Button layoutX="45.0" layoutY="455.0" mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="nav-item" text="Communaute" textFill="#fff4f1">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Button>
+
+            <!-- Bouton DÃƒÂ©connexion -->
+            <Button layoutX="42.0" layoutY="644.0" onAction="#handleDeconnexion" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: #fff4f1;" styleClass="logout-btn" text="Deconnexion" textFill="#8a0037">
+               <font><Font name="Berlin Sans FB" size="16.0" /></font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </left>
+
+   <center>
+      <AnchorPane styleClass="dashboard-content" BorderPane.alignment="CENTER">
+         <children>
+
+            <!-- Compteur Total patients -->
+            <AnchorPane layoutX="704.0" layoutY="100.0" prefHeight="66.0" prefWidth="85.0" styleClass="stat-card">
+               <Label layoutX="12.0" layoutY="8.0" text="Total patients" textFill="#636E72">
+                  <font><Font name="Berlin Sans FB" size="11.0" /></font>
+               </Label>
+               <Label fx:id="totalDoctorsLabel" layoutX="38.0" layoutY="25.0" styleClass="stat-number" text="0" />
+            </AnchorPane>
+
+            <!-- Titre -->
+            <Label layoutX="19.0" layoutY="9.0" prefHeight="44.0" prefWidth="316.0" text="Gestion des patients">
+               <font><Font name="Berlin Sans FB" size="24.0" /></font>
+            </Label>
+            <Label layoutX="19.0" layoutY="54.0" text="Ajouter, modifier ou supprimer des patients" textFill="#636E72">
+               <font><Font name="Berlin Sans FB" size="13.0" /></font>
+            </Label>
+
+            <!-- Ligne sÃƒÂ©paratrice -->
+            <Line endX="953.0" layoutX="19.0" layoutY="76.0" stroke="#8a0037" strokeWidth="2.0" />
+
+            <!-- Barre de recherche -->
+            <TextField fx:id="searchField" layoutX="42.0" layoutY="117.0" prefHeight="36.0" prefWidth="350.0" promptText="Rechercher par nom ou prenom..." styleClass="search-field" />
+            <!-- Filtre groupe sanguin -->
+            <ComboBox fx:id="bloodTypeFilter" layoutX="404.0" layoutY="117.0" onAction="#handleFilter" prefHeight="36.0" prefWidth="164.0" promptText="Groupe sanguin" styleClass="search-field" />
+
+            <!-- Tri A-Z / Z-A -->
+            <ComboBox fx:id="sortOrder" layoutX="580.0" layoutY="118.0" onAction="#handleFilter" prefHeight="36.0" prefWidth="89.0" styleClass="search-field" />
+            <!-- Bouton Ajouter -->
+            <Button layoutX="806.0" layoutY="90.0" onAction="#handleAddPatient" styleClass="add-btn" text="+ Ajouter un patient">
+               <padding><Insets bottom="10.0" left="20.0" right="20.0" top="10.0" /></padding>
+               <font><Font name="Berlin Sans FB" size="14.0" /></font>
+            </Button>
+
+            <!-- Ã¢Å“â€¦ ScrollPane SANS fitToWidth -->
+            <ScrollPane fitToWidth="true" layoutX="38.0" layoutY="185.0" prefHeight="470.0" prefWidth="919.0">
+               <content>
+                  <FlowPane fx:id="doctorCardsPane" hgap="15" styleClass="cards-pane" vgap="15">
+                  </FlowPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </center>
+
+</BorderPane>
