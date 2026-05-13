@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "question": "Quel organe produit la bile dans le corps humain ?",
+      "reponseA": "Le rein",
+      "reponseB": "Le foie",
+      "reponseC": "Le pancréas",
+      "reponseD": "L'estomac",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Quelle vitamine est essentielle pour la santé des os ?",
+      "reponseA": "Vitamine A",
+      "reponseB": "Vitamine B",
+      "reponseC": "Vitamine C",
+      "reponseD": "Vitamine D",
+      "bonneReponse": "D"
+    },
+    {
+      "question": "Quel est le rôle principal des globules rouges dans le sang ?",
+      "reponseA": "Combattre les infections",
+      "reponseB": "Transporter l'oxygène",
+      "reponseC": "Coaguler le sang",
+      "reponseD": "Produire des hormones",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Quelle maladie est causée par un manque de fer dans le sang ?",
+      "reponseA": "Le diabète",
+      "reponseB": "L'anémie",
+      "reponseC": "L'hypertension",
+      "reponseD": "L'obésité",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Quelle est la pression artérielle normale chez un adulte ?",
+      "reponseA": "80/60 mmHg",
+      "reponseB": "120/80 mmHg",
+      "reponseC": "150/100 mmHg",
+      "reponseD": "180/120 mmHg",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Combien de verres d'eau recommande-t-on de boire par jour ?",
+      "reponseA": "3 verres",
+      "reponseB": "5 verres",
+      "reponseC": "8 verres",
+      "reponseD": "15 verres",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Quel organe est responsable de la production d'insuline ?",
+      "reponseA": "Le foie",
+      "reponseB": "Les reins",
+      "reponseC": "Le pancréas",
+      "reponseD": "La rate",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Combien d'os contient le corps humain adulte ?",
+      "reponseA": "150 os",
+      "reponseB": "186 os",
+      "reponseC": "206 os",
+      "reponseD": "250 os",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Quelle hormone est responsable du sentiment de bonheur ?",
+      "reponseA": "Le cortisol",
+      "reponseB": "L'adrénaline",
+      "reponseC": "La sérotonine",
+      "reponseD": "L'insuline",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Combien d'heures de sommeil recommande-t-on pour un adulte ?",
+      "reponseA": "4 à 5 heures",
+      "reponseB": "5 à 6 heures",
+      "reponseC": "7 à 9 heures",
+      "reponseD": "10 à 12 heures",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Quelle activité physique améliore le moral et réduit le stress ?",
+      "reponseA": "Rester assis toute la journée",
+      "reponseB": "La marche et le jogging",
+      "reponseC": "Regarder la télévision",
+      "reponseD": "Manger beaucoup",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Quel symptôme est le plus associé à la dépression ?",
+      "reponseA": "Trop d'énergie",
+      "reponseB": "Tristesse persistante et perte de motivation",
+      "reponseC": "Excès d'appétit",
+      "reponseD": "Hyperactivité",
+      "bonneReponse": "B"
+    },
+    {
+      "question": "Quelle technique de relaxation aide à réduire l'anxiété ?",
+      "reponseA": "Fumer",
+      "reponseB": "Boire du café",
+      "reponseC": "La méditation et la respiration profonde",
+      "reponseD": "Travailler sans pause",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Quel médecin spécialiste traite les troubles du moral ?",
+      "reponseA": "Le cardiologue",
+      "reponseB": "Le dermatologue",
+      "reponseC": "Le psychiatre",
+      "reponseD": "Le chirurgien",
+      "bonneReponse": "C"
+    },
+    {
+      "question": "Quelle hormone augmente lors d'un état de stress intense ?",
+      "reponseA": "La sérotonine",
+      "reponseB": "La mélatonine",
+      "reponseC": "Le cortisol",
+      "reponseD": "L'insuline",
+      "bonneReponse": "C"
+    }
+  ]
+}
