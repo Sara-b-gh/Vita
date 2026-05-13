@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane fx:id="rootPane"
+            prefHeight="737.0"
+            prefWidth="1200.0"
+            styleClass="root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.vita.Controlers.MedicamentController">
+
+    <stylesheets>
+        <URL value="@styles/style.css" />
+    </stylesheets>
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <left>
+        <VBox spacing="15" styleClass="sidebar">
+            <Label styleClass="sidebar-title" text="VITA" />
+            <Separator style="-fx-background-color: rgba(255,255,255,0.3);" />
+            <Button styleClass="nav-item" text="Tableau de bord" />
+            <Button styleClass="nav-item" text="Espace Docteurs" />
+            <Button styleClass="nav-item" text="Espace Patients" />
+            <Button styleClass="nav-item" text="Espace Rendez-vous" />
+            <Button styleClass="nav-item" text="Les Comptes Rendus" />
+            <Button styleClass="nav-item-active" text="Medicaments" />
+            <Button onAction="#allerAuxEquipements" styleClass="nav-item" text="Equipements" />
+            <Button onAction="#allerAuxCommandes" styleClass="nav-item"
+                    text="Commandes" maxWidth="Infinity" />
+        </VBox>
+    </left>
+
+    <!-- ══════════════════ CONTENU PRINCIPAL ══════════════════ -->
+    <center>
+        <BorderPane>
+
+            <!-- ── En-tête ── -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-card"
+                      style="-fx-border-color: transparent transparent #ececec transparent;">
+                    <padding><Insets bottom="14" left="20" right="20" top="14" /></padding>
+                    <Label styleClass="page-title" text="Medicaments" />
+                    <Label style="-fx-text-fill:#888; -fx-font-size:13px;"
+                           text="Gestion du stock pharmaceutique" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button onAction="#chargerMedicaments" text="Actualiser"
+                            styleClass="button, btn-cancel" />
+                    <Button onAction="#ajouterMedicament"
+                            styleClass="button, btn-create" text="+ Ajouter" />
+                </HBox>
+            </top>
+
+            <!-- ── Corps ── -->
+            <center>
+                <HBox spacing="16" styleClass="page">
+
+                    <!-- ════ TABLEAU ════ -->
+                    <VBox HBox.hgrow="ALWAYS" spacing="10">
+                        <Label styleClass="form-title" text="Liste" />
+
+                        <TableView fx:id="medicamentTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <!-- ✅ COLONNE IMAGE AJOUTÉE ICI -->
+                                <TableColumn fx:id="colImage"  text="Image"  prefWidth="85" />
+
+                                <TableColumn fx:id="colId"     text="ID"     prefWidth="45"  />
+                                <TableColumn fx:id="colNom"    text="Nom"    prefWidth="130" />
+                                <TableColumn fx:id="colDosage" text="Dosage" prefWidth="75"  />
+                                <TableColumn fx:id="colForme"  text="Forme"  prefWidth="85"  />
+                                <TableColumn fx:id="colPrix"   text="Prix"   prefWidth="65"  />
+                                <TableColumn fx:id="colStock"  text="Stock"  prefWidth="55"  />
+                                <TableColumn fx:id="colStatut" text="Statut" prefWidth="95"  />
+                            </columns>
+                        </TableView>
+
+                        <HBox spacing="8">
+                            <Button onAction="#modifierMedicament" text="Modifier"
+                                    styleClass="button, btn-edit"
+                                    maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#supprimerMedicament" text="Supprimer"
+                                    styleClass="button, btn-delete"
+                                    maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+                        </HBox>
+                    </VBox>
+
+                    <Separator orientation="VERTICAL" />
+
+                    <!-- ════ FORMULAIRE ════ -->
+                    <VBox spacing="12" prefWidth="280">
+                        <Label styleClass="form-title" text="Formulaire" />
+
+                        <!-- ✅ IMAGE FORMULAIRE AJOUTÉE ICI -->
+                        <VBox alignment="CENTER" spacing="6"
+                              style="-fx-background-color:#f8fafc;
+                                     -fx-background-radius:12;
+                                     -fx-border-color:#e2e8f0;
+                                     -fx-border-radius:12;
+                                     -fx-padding:10;">
+                            <ImageView fx:id="imgFormulaire"
+                                       fitWidth="240"
+                                       fitHeight="140"
+                                       preserveRatio="true"
+                                       smooth="true" />
+                            <Label fx:id="lblImgHint"
+                                   text="Sélectionnez un médicament"
+                                   style="-fx-text-fill:#94a3b8;
+                                          -fx-font-size:11px;" />
+                        </VBox>
+
+                        <VBox styleClass="form-card" spacing="10">
+                            <VBox spacing="4">
+                                <Label text="Nom" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <TextField fx:id="nomField"
+                                           promptText="Nom du medicament"
+                                           styleClass="text-field" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Description" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <TextField fx:id="descField"
+                                           promptText="Description"
+                                           styleClass="text-field" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Dosage" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <TextField fx:id="dosageField"
+                                           promptText="Ex: 500mg"
+                                           styleClass="text-field" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Forme" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <ComboBox fx:id="formeCombo"
+                                          maxWidth="Infinity"
+                                          styleClass="combo-box" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Prix (DT)" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <TextField fx:id="prixField"
+                                           promptText="Ex: 5.50"
+                                           styleClass="text-field" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Stock" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <TextField fx:id="stockField"
+                                           promptText="Quantite"
+                                           styleClass="text-field" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Statut" style="-fx-font-weight:bold; -fx-text-fill:#555;" />
+                                <ComboBox fx:id="statutCombo"
+                                          maxWidth="Infinity"
+                                          styleClass="combo-box" />
+                            </VBox>
+
+                            <Label fx:id="messageLabel" text=""
+                                   wrapText="true"
+                                   style="-fx-font-size:13px;" />
+
+                            <HBox spacing="8">
+                                <Button onAction="#ajouterMedicament"
+                                        text="Ajouter"
+                                        styleClass="button, btn-create"
+                                        HBox.hgrow="ALWAYS"
+                                        maxWidth="Infinity" />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                </HBox>
+            </center>
+
+            <!-- ── Pied de page ── -->
+            <bottom>
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-border-color:#ececec transparent transparent transparent;">
+                    <padding><Insets bottom="8" left="20" right="20" top="8" /></padding>
+                    <Label fx:id="lblTotal"
+                           style="-fx-text-fill:#888;"
+                           text="0 medicament(s)" />
+                </HBox>
+            </bottom>
+
+        </BorderPane>
+    </center>
+</BorderPane>

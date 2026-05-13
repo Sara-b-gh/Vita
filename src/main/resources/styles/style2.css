@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════
+   STYLE GLOBAL VITA
+   ═══════════════════════════════════════════════ */
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #f5f7fa;
+}
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR (Style sombre du tableau de bord)
+   ═══════════════════════════════════════════════ */
+.sidebar {
+    -fx-background-color: #1a0a0d; /* Noir bordeaux très sombre */
+    -fx-padding: 24 12;
+    -fx-pref-width: 220;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 10 15 10;
+}
+
+/* Éléments de navigation */
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255, 255, 255, 0.75);
+    -fx-background-radius: 10;
+    -fx-padding: 11 16;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.nav-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+}
+
+.nav-item-active {
+    -fx-background-color: #6b0d1e; /* Rouge bordeaux VITA */
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 11 16;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-weight: bold;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTENU PRINCIPAL ET TITRES
+   ═══════════════════════════════════════════════ */
+.page {
+    -fx-padding: 20 30;
+}
+
+.page-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a2e;
+}
+
+.form-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b0d1e;
+    -fx-padding: 0 0 5 0;
+}
+
+/* Cartes et conteneurs */
+.form-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #eee;
+    -fx-padding: 20;
+}
+
+/* ═══════════════════════════════════════════════
+   TABLEVIEW (Style propre et aéré)
+   ═══════════════════════════════════════════════ */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: #eee;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 5 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 40;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #7a8494;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell {
+    -fx-cell-size: 45;
+    -fx-border-color: transparent transparent #f1f1f1 transparent;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #fff1f3;
+    -fx-text-fill: #6b0d1e;
+}
+
+/* ═══════════════════════════════════════════════
+   INPUTS (Champs de saisie)
+   ═══════════════════════════════════════════════ */
+.text-field, .combo-box, .date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #e0e4e9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #6b0d1e;
+    -fx-border-width: 1.5;
+}
+
+/* ═══════════════════════════════════════════════
+   BOUTONS
+   ═══════════════════════════════════════════════ */
+.btn-create {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-edit {
+    -fx-background-color: white;
+    -fx-text-fill: #1a237e; /* Bleu pour l'édition */
+    -fx-border-color: #c5cae9;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-delete {
+    -fx-background-color: white;
+    -fx-text-fill: #d32f2f; /* Rouge pour suppression */
+    -fx-border-color: #ffcdd2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-cancel {
+    -fx-background-color: white;
+    -fx-text-fill: #6b7a8a;
+    -fx-border-color: #e0e4e9;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-padding: 8 18;
+    -fx-cursor: hand;
+}
+
+.btn-create:hover { -fx-background-color: #8b1a2e; }
+.btn-edit:hover { -fx-background-color: #f5f6ff; }
+.btn-delete:hover { -fx-background-color: #fff5f5; }

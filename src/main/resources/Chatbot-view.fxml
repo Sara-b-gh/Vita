@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="450.0" style="-fx-background-color: #f8fafc;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vita.Controlers.Chatbotcontroller">
+
+    <top>
+        <VBox spacing="5.0" style="-fx-background-color: #6b0d1e; -fx-padding: 15;">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="🤖" textFill="WHITE">
+                    <font>
+                        <Font size="22.0" />
+                    </font>
+                </Label>
+                <VBox HBox.hgrow="ALWAYS">
+                    <Label text="VITA Assistant" textFill="WHITE">
+                        <font>
+                            <Font name="Segoe UI Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    <Label text="Support &amp; Gestion hospitalière Tunisie" textFill="#f1f5f9">
+                        <font>
+                            <Font name="Segoe UI" size="11.0" />
+                        </font>
+                    </Label>
+                </VBox>
+                <Button mnemonicParsing="false" onAction="#reinitialiserConversation" style="-fx-background-color: rgba(255, 255, 255, 0.15); -fx-text-fill: white; -fx-background-radius: 15;" text="Réinitialiser">
+                    <font>
+                        <Font name="Segoe UI Bold" size="11.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="6.0" left="12.0" right="12.0" top="6.0" />
+                    </padding>
+                </Button>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #ffffff; -fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="messagesContainer" spacing="12.0" style="-fx-background-color: #ffffff;">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                    </VBox>
+                </content>
+            </ScrollPane>
+
+            <VBox spacing="8.0" style="-fx-padding: 0 15 10 15;">
+                <Label text="Questions fréquentes :" textFill="#64748b">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="12.0" />
+                    </font>
+                </Label>
+                <FlowPane hgap="8.0" vgap="8.0">
+                    <Button mnemonicParsing="false" onAction="#demanderAideMedicaments" style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-background-radius: 12; -fx-border-color: #cbd5e1; -fx-border-radius: 12;" text="💊 Médicaments">
+                        <font>
+                            <Font name="Segoe UI" size="11.0" />
+                        </font>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#demanderAideEquipements" style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-background-radius: 12; -fx-border-color: #cbd5e1; -fx-border-radius: 12;" text="⚙️ Équipements">
+                        <font>
+                            <Font name="Segoe UI" size="11.0" />
+                        </font>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#demanderAideCommandes" style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-background-radius: 12; -fx-border-color: #cbd5e1; -fx-border-radius: 12;" text="📦 Commandes">
+                        <font>
+                            <Font name="Segoe UI" size="11.0" />
+                        </font>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#demanderAidePaiement" style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-background-radius: 12; -fx-border-color: #cbd5e1; -fx-border-radius: 12;" text="💳 Paiement">
+                        <font>
+                            <Font name="Segoe UI" size="11.0" />
+                        </font>
+                    </Button>
+                </FlowPane>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox spacing="5.0" style="-fx-background-color: #ffffff; -fx-padding: 0 15 15 15;" BorderPane.alignment="CENTER">
+            <Label fx:id="statusLabel" text="VITA écrit..." textFill="#64748b" visible="false">
+                <font>
+                    <Font name="Segoe UI Italic" size="11.0" />
+                </font>
+                <padding>
+                    <Insets left="5.0" />
+                </padding>
+            </Label>
+
+            <HBox spacing="10.0" alignment="CENTER">
+                <TextField fx:id="messageInput" promptText="Posez votre question ici..." style="-fx-background-color: #f1f5f9; -fx-border-color: #e2e8f0; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 10 15 10 15;" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Segoe UI" size="13.0" />
+                    </font>
+                </TextField>
+                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#envoyerMessage" style="-fx-background-color: #6b0d1e; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand;" text="Envoyer">
+                    <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="10.0" left="18.0" right="18.0" top="10.0" />
+                    </padding>
+                </Button>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

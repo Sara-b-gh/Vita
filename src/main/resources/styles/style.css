@@ -1,0 +1,1012 @@
+/* ═══════════════════════════════════════════════════════════════
+   VITA - Global Stylesheet
+   Primary color: #6b0d1e  |  Background: #f5f7fa
+   Font: Segoe UI
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Variables simulées via sélecteurs racine ─────────────────
+   (JavaFX CSS ne supporte pas var(), on centralise les valeurs
+    dans les commentaires et on les répète dans les règles.)
+
+   --red-dark   : #6b0d1e
+   --red-mid    : #8b1a2e
+   --red-light  : #fce4ec
+   --green-dark : #3B6D11
+   --green-light: #e8f5e9
+   --amber-dark : #854F0B
+   --amber-light: #fff8e1
+   --blue-dark  : #534AB7
+   --blue-light : #ede7f6
+   --navy       : #1a237e
+   --bg         : #f5f7fa
+   --surface    : #ffffff
+   --border     : #e8eaf0
+   --text-main  : #1a1a2e
+   --text-muted : #64748b
+   --text-faint : #94a3b8
+══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   1. RESET & BASE
+═══════════════════════════════════════════════════════════════ */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f5f7fa;
+}
+
+/* Supprime le focus ring bleu par défaut sur tous les contrôles */
+.button:focused,
+.text-field:focused,
+.combo-box:focused,
+.date-picker:focused,
+.table-view:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Scrollbar minimaliste */
+.scroll-bar {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+    -fx-pref-height: 8px;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #d1d5db;
+    -fx-background-radius: 10;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: #9ca3af;
+}
+.scroll-bar .track,
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   2. SIDEBAR
+═══════════════════════════════════════════════════════════════ */
+
+.sidebar {
+    -fx-background-color: #1a0a0d;
+    -fx-padding: 24 12 24 12;
+    -fx-pref-width: 220px;
+    -fx-min-width: 200px;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 10 4 10;
+}
+
+.sidebar-section {
+    -fx-text-fill: rgba(255,255,255,0.38);
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 10 6 10;
+}
+
+/* Bouton inactif */
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255,255,255,0.75);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 11 16;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+}
+.nav-item:hover {
+    -fx-background-color: rgba(107,13,30,0.35);
+    -fx-text-fill: white;
+}
+
+/* Bouton actif */
+.nav-item-active {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 11 16;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+}
+.nav-item-active:hover {
+    -fx-background-color: #8b1a2e;
+}
+
+/* Bouton inventaire (sous-module) */
+.nav-subitem {
+    -fx-background-color: rgba(107,13,30,0.38);
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255,255,255,0.14);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 11 16;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+}
+.nav-subitem:hover {
+    -fx-background-color: #6b0d1e;
+    -fx-border-color: rgba(255,255,255,0.25);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   3. PAGE & CONTENEURS GÉNÉRAUX
+═══════════════════════════════════════════════════════════════ */
+
+.page {
+    -fx-background-color: #f5f7fa;
+    -fx-padding: 24 28;
+    -fx-spacing: 20;
+}
+
+/* Carte de surface blanche */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e8eaf0;
+    -fx-border-width: 1;
+    -fx-padding: 20 22;
+}
+
+.card:hover {
+    -fx-border-color: #d0d4e0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 12, 0, 0, 3);
+}
+
+/* Carte formulaire (fond blanc, ombre légère) */
+.form-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #ececec;
+    -fx-padding: 18 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 8, 0, 0, 2);
+}
+
+/* Titre de page (h1) */
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a2e;
+}
+
+/* Titre de section (h2) */
+.form-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a2e;
+    -fx-padding: 0 0 4 0;
+}
+
+/* Texte secondaire */
+.text-muted {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 12px;
+}
+
+.text-faint {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 11px;
+}
+
+/* Séparateur */
+.separator {
+    -fx-background-color: #ececec;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   4. CHAMPS DE FORMULAIRE
+═══════════════════════════════════════════════════════════════ */
+
+.text-field,
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #e5b7c4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 9 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1a1a2e;
+    -fx-prompt-text-fill: #aab4c0;
+}
+
+.text-field:focused,
+.text-area:focused {
+    -fx-border-color: #6b0d1e;
+    -fx-effect: dropshadow(gaussian, rgba(107,13,30,0.15), 6, 0, 0, 0);
+}
+
+.text-field:hover,
+.text-area:hover {
+    -fx-border-color: #c0788a;
+}
+
+/* Label de champ */
+.label {
+    -fx-text-fill: #374151;
+    -fx-font-size: 12px;
+}
+
+.label-required {
+    -fx-text-fill: #6b0d1e;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   5. COMBO BOX
+═══════════════════════════════════════════════════════════════ */
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #e5b7c4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 4 8;
+    -fx-font-size: 13px;
+}
+
+.combo-box:focused {
+    -fx-border-color: #6b0d1e;
+}
+
+.combo-box:hover {
+    -fx-border-color: #c0788a;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #1a1a2e;
+    -fx-padding: 6 10;
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e5b7c4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 3);
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #fce4ec;
+    -fx-text-fill: #6b0d1e;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+.combo-box .arrow {
+    -fx-background-color: #6b0d1e;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. DATE PICKER
+═══════════════════════════════════════════════════════════════ */
+
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #e5b7c4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-pref-height: 42px;
+}
+
+.date-picker:focused {
+    -fx-border-color: #6b0d1e;
+}
+
+.date-picker .text-field {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 6 10;
+}
+
+.date-picker-popup {
+    -fx-background-color: white;
+    -fx-border-color: #e5b7c4;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #6b0d1e;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.date-picker-popup .spinner .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #fce4ec;
+    -fx-text-fill: #6b0d1e;
+    -fx-background-radius: 50%;
+}
+
+.date-picker-popup .selected {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-background-radius: 50%;
+}
+
+.date-picker-popup .today {
+    -fx-border-color: #6b0d1e;
+    -fx-border-radius: 50%;
+    -fx-text-fill: #6b0d1e;
+    -fx-font-weight: bold;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   7. BOUTONS
+═══════════════════════════════════════════════════════════════ */
+
+/* Base commune */
+.button {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 9 20;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+/* Bouton principal rouge (Ajouter / Enregistrer) */
+.btn-create {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+.btn-create:hover {
+    -fx-background-color: #8b1a2e;
+}
+.btn-create:pressed {
+    -fx-background-color: #4a0914;
+}
+
+/* Bouton édition (Modifier) */
+.btn-edit {
+    -fx-background-color: #1a237e;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+.btn-edit:hover {
+    -fx-background-color: #283593;
+}
+.btn-edit:pressed {
+    -fx-background-color: #0d1460;
+}
+
+/* Bouton suppression */
+.btn-delete {
+    -fx-background-color: #c62828;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+.btn-delete:hover {
+    -fx-background-color: #e53935;
+}
+.btn-delete:pressed {
+    -fx-background-color: #8e0000;
+}
+
+/* Bouton secondaire / Annuler */
+.btn-cancel {
+    -fx-background-color: white;
+    -fx-text-fill: #374151;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1;
+}
+.btn-cancel:hover {
+    -fx-background-color: #f9fafb;
+    -fx-border-color: #9ca3af;
+}
+
+/* Bouton fantôme rouge (outline) */
+.btn-outline-red {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b0d1e;
+    -fx-border-color: #e8c0c8;
+    -fx-border-width: 1;
+}
+.btn-outline-red:hover {
+    -fx-background-color: #fce4ec;
+    -fx-border-color: #6b0d1e;
+}
+
+/* ToggleButton (switch de vue : Liste / Calendrier) */
+.toggle-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #374151;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-padding: 8 18;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+.toggle-button:selected {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+}
+.toggle-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   8. TABLE VIEW
+═══════════════════════════════════════════════════════════════ */
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e8eaf0;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-table-cell-border-color: #f0f2f5;
+}
+
+/* En-tête */
+.table-view .column-header-background {
+    -fx-background-color: #fafafa;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #ececec transparent;
+    -fx-size: 40px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #6b0d1e;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 8;
+}
+
+/* Lignes */
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f5f5f5 transparent;
+    -fx-padding: 2 0;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #fef5f7;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #fce4ec;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #6b0d1e;
+}
+
+/* Alternance de lignes */
+.table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+.table-row-cell:odd:hover {
+    -fx-background-color: #fef5f7;
+}
+.table-row-cell:odd:selected {
+    -fx-background-color: #fce4ec;
+}
+
+.table-cell {
+    -fx-text-fill: #374151;
+    -fx-font-size: 12px;
+    -fx-padding: 8 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Masquer le coin vide en bas à droite */
+.table-view .corner {
+    -fx-background-color: #fafafa;
+}
+
+/* Placeholder (table vide) */
+.table-view .placeholder .label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. LIST VIEW (ListView)
+═══════════════════════════════════════════════════════════════ */
+
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e8eaf0;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #374151;
+    -fx-padding: 8 12;
+    -fx-border-color: transparent transparent #f5f5f5 transparent;
+}
+
+.list-cell:hover {
+    -fx-background-color: #fef5f7;
+}
+
+.list-cell:selected {
+    -fx-background-color: #fce4ec;
+    -fx-text-fill: #6b0d1e;
+}
+
+.list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   10. BADGES DE STATUT
+═══════════════════════════════════════════════════════════════ */
+
+.badge-success {
+    -fx-background-color: #e8f5e9;
+    -fx-text-fill: #27500A;
+    -fx-padding: 3 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-warning {
+    -fx-background-color: #fff8e1;
+    -fx-text-fill: #854F0B;
+    -fx-padding: 3 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-danger {
+    -fx-background-color: #fce4ec;
+    -fx-text-fill: #6b0d1e;
+    -fx-padding: 3 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-info {
+    -fx-background-color: #ede7f6;
+    -fx-text-fill: #534AB7;
+    -fx-padding: 3 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-neutral {
+    -fx-background-color: #e8edf2;
+    -fx-text-fill: #6b7a8a;
+    -fx-padding: 3 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   11. PROGRESS BAR
+═══════════════════════════════════════════════════════════════ */
+
+.progress-bar {
+    -fx-pref-height: 8px;
+    -fx-background-color: #f0e4e8;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: #6b0d1e;
+    -fx-background-radius: 10;
+    -fx-background-insets: 0;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #f0e4e8;
+    -fx-background-radius: 10;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   12. CARTES MODULES (MainView)
+═══════════════════════════════════════════════════════════════ */
+
+/* Bandeau rouge médicaments */
+.module-header-red {
+    -fx-background-color: linear-gradient(to right, #6b0d1e, #a01428);
+    -fx-background-radius: 20 20 0 0;
+    -fx-padding: 22 24;
+}
+
+/* Bandeau bleu équipements */
+.module-header-blue {
+    -fx-background-color: linear-gradient(to right, #1a237e, #283593);
+    -fx-background-radius: 20 20 0 0;
+    -fx-padding: 22 24;
+}
+
+/* Mini KPI dans les cartes */
+.mini-kpi {
+    -fx-background-radius: 12;
+    -fx-padding: 12 14;
+}
+
+.mini-kpi-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #888888;
+}
+
+.mini-kpi-value {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   13. HEADER PRINCIPAL (gradient rouge)
+═══════════════════════════════════════════════════════════════ */
+
+.app-header {
+    -fx-background-color: linear-gradient(to right, #6b0d1e, #8b1a2e);
+    -fx-padding: 18 30;
+}
+
+.app-header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.app-header-subtitle {
+    -fx-text-fill: rgba(255,255,255,0.70);
+    -fx-font-size: 14px;
+}
+
+.user-badge {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-background-color: rgba(255,255,255,0.18);
+    -fx-padding: 6 14;
+    -fx-background-radius: 25;
+}
+
+.btn-logout {
+    -fx-background-color: rgba(255,255,255,0.13);
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255,255,255,0.33);
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-padding: 6 18;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+.btn-logout:hover {
+    -fx-background-color: rgba(255,255,255,0.22);
+}
+
+/* Barre de navigation secondaire (sous le header) */
+.toolbar {
+    -fx-background-color: white;
+    -fx-padding: 12 28;
+    -fx-border-color: #e8edf2;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Barre de statut (footer) */
+.statusbar {
+    -fx-background-color: white;
+    -fx-padding: 9 28;
+    -fx-border-color: #e8edf2;
+    -fx-border-width: 1 0 0 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   14. CALENDRIER
+═══════════════════════════════════════════════════════════════ */
+
+.calendar-wrapper {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+.calendar-day-header {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b0d1e;
+    -fx-alignment: CENTER;
+    -fx-padding: 6;
+    -fx-border-color: transparent transparent #f0f0f0 transparent;
+}
+
+.calendar-cell {
+    -fx-background-color: white;
+    -fx-border-color: #ececec;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-min-height: 85px;
+}
+
+.calendar-cell-today {
+    -fx-background-color: #fff3f5;
+    -fx-border-color: #6b0d1e;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-min-height: 85px;
+}
+
+.calendar-event-chip {
+    -fx-background-color: #fce4ec;
+    -fx-background-radius: 4;
+    -fx-padding: 2 4;
+    -fx-font-size: 10px;
+    -fx-text-fill: #6b0d1e;
+    -fx-cursor: hand;
+}
+
+/* Boutons navigation calendrier */
+.btn-cal-nav {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 30;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+.btn-cal-nav:hover {
+    -fx-background-color: #f9fafb;
+    -fx-border-color: #6b0d1e;
+    -fx-text-fill: #6b0d1e;
+}
+
+.btn-cal-today {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+.btn-cal-today:hover {
+    -fx-background-color: #8b1a2e;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   15. CARDS UTILISATEUR (FlowPane)
+═══════════════════════════════════════════════════════════════ */
+
+.user-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: #e8eaf0;
+    -fx-padding: 16;
+    -fx-pref-width: 260px;
+    -fx-cursor: hand;
+}
+
+.user-card:hover {
+    -fx-border-color: #6b0d1e;
+    -fx-effect: dropshadow(gaussian, rgba(107,13,30,0.12), 12, 0, 0, 3);
+}
+
+.user-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a2e;
+    -fx-wrap-text: true;
+}
+
+.user-card-sub {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748b;
+}
+
+.user-card-desc {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+    -fx-wrap-text: true;
+}
+
+/* Bouton "Voir détails" dans la carte */
+.btn-details {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-max-width: Infinity;
+    -fx-padding: 8 0;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+.btn-details:hover {
+    -fx-background-color: #8b1a2e;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   16. SEARCH FIELD (barre de recherche toolbar)
+═══════════════════════════════════════════════════════════════ */
+
+.search-field {
+    -fx-background-color: #f5f7fa;
+    -fx-border-color: #e0e4ea;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-padding: 8 16;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-pref-width: 250px;
+}
+
+.search-field:focused {
+    -fx-border-color: #6b0d1e;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(107,13,30,0.12), 6, 0, 0, 0);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   17. DIALOG / ALERT
+═══════════════════════════════════════════════════════════════ */
+
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #fce4ec;
+    -fx-background-radius: 16 16 0 0;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #6b0d1e;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-radius: 10;
+    -fx-padding: 8 20;
+}
+
+/* Bouton OK dans les alertes */
+.dialog-pane .button:default {
+    -fx-background-color: #6b0d1e;
+    -fx-text-fill: white;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   18. MESSAGE / FEEDBACK LABEL
+═══════════════════════════════════════════════════════════════ */
+
+.msg-success {
+    -fx-text-fill: #3B6D11;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.msg-error {
+    -fx-text-fill: #c62828;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.msg-warning {
+    -fx-text-fill: #854F0B;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   19. TOOLTIP
+═══════════════════════════════════════════════════════════════ */
+
+.tooltip {
+    -fx-background-color: #1a1a2e;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-size: 11px;
+    -fx-padding: 6 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 8, 0, 0, 2);
+}
+/* --- CORRECTION DE LA HAUTEUR DES LIGNES DU TABLEAU --- */
+.table-view .table-row-cell {
+    -fx-cell-size: 40px !important; /* Augmente la hauteur de la ligne pour que le texte respire */
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8px 5px !important; /* Donne de l'espace vertical au texte */
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-size: 13px; /* Taille de police lisible */
+}
+
+/* --- CORRECTION DES CHAMPS DE SAISIE (FORMULAIRE) --- */
+.text-field {
+    -fx-pref-height: 35px !important; /* Évite que les inputs coupent le texte saisi */
+    -fx-padding: 5px 10px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   20. TRANSITIONS & ANIMATIONS (simulées via pseudo-classes)
+═══════════════════════════════════════════════════════════════ */
+
+/* Toutes les transitions sur boutons et cartes */
+.button,
+.nav-item,
+.nav-item-active,
+.nav-subitem,
+.user-card,
+.card {
+    /* JavaFX 21 ne supporte pas transition CSS native,
+       mais on prépare les règles pour les pseudo-classes */
+
+}

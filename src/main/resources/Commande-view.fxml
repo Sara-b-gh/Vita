@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<BorderPane prefHeight="737.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.vita.Controlers.CommandeController">
+
+    <stylesheets>
+        <URL value="@styles/style.css" />
+    </stylesheets>
+
+    <left>
+        <VBox styleClass="sidebar" spacing="6">
+            <padding><Insets top="24" right="12" bottom="24" left="12"/></padding>
+            <Label text="VITA" styleClass="sidebar-title" />
+            <Label text="Espace Admin"
+                   style="-fx-text-fill:rgba(255,255,255,0.5); -fx-font-size:11px; -fx-padding:0 10 12 10;" />
+            <Separator style="-fx-background-color:rgba(255,255,255,0.12);" />
+            <Button text="Tableau de bord" styleClass="nav-item"
+                    onAction="#allerAuDashboard" maxWidth="Infinity" />
+            <Button text="Medicaments"     styleClass="nav-item"
+                    onAction="#allerAuxMedicaments" maxWidth="Infinity" />
+            <Button text="Equipements"     styleClass="nav-item"
+                    onAction="#allerAuxEquipements" maxWidth="Infinity" />
+            <Button text="Commandes"       styleClass="nav-subitem" maxWidth="Infinity" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button text="Deconnexion"     styleClass="btn-logout"
+                    onAction="#allerAuDashboard" maxWidth="Infinity" />
+        </VBox>
+    </left>
+
+    <center>
+        <BorderPane>
+            <top>
+                <VBox styleClass="app-header" spacing="2">
+                    <Label text="Commandes et Paiements" styleClass="app-header-title" />
+                    <Label text="Gestion des commandes de medicaments et equipements"
+                           styleClass="app-header-subtitle" />
+                </VBox>
+            </top>
+
+            <center>
+                <HBox spacing="16" styleClass="page">
+
+                    <!-- Colonne gauche : nouvelle commande -->
+                    <VBox spacing="14" prefWidth="380">
+                        <Label text="Nouvelle Commande" styleClass="form-title" />
+                        <VBox styleClass="form-card" spacing="12">
+
+                            <VBox spacing="5">
+                                <Label text="Type d article" styleClass="label"
+                                       style="-fx-font-weight:bold;" />
+                                <ComboBox fx:id="typeArticleCombo"
+                                          styleClass="combo-box" maxWidth="Infinity" />
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label text="Article" styleClass="label"
+                                       style="-fx-font-weight:bold;" />
+                                <ComboBox fx:id="articleCombo"
+                                          styleClass="combo-box" maxWidth="Infinity" />
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label text="Quantite" styleClass="label"
+                                       style="-fx-font-weight:bold;" />
+                                <TextField fx:id="quantiteField" promptText="1"
+                                           styleClass="text-field" />
+                            </VBox>
+
+                            <Button text="+ Ajouter a la commande"
+                                    onAction="#ajouterLigne"
+                                    styleClass="button, btn-create"
+                                    maxWidth="Infinity" />
+
+                            <Separator />
+
+                            <Label text="Lignes de commande" styleClass="label"
+                                   style="-fx-font-weight:bold;" />
+                            <ListView fx:id="lignesListView" prefHeight="150" />
+
+                            <HBox alignment="CENTER_RIGHT" spacing="10">
+                                <Label text="Total :" styleClass="label" />
+                                <Label fx:id="totalLabel"
+                                       style="-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#6b0d1e;"
+                                       text="0.00 DT" />
+                            </HBox>
+
+                            <VBox spacing="5">
+                                <Label text="Mode de paiement" styleClass="label"
+                                       style="-fx-font-weight:bold;" />
+                                <ComboBox fx:id="modePaiementCombo"
+                                          styleClass="combo-box" maxWidth="Infinity" />
+                            </VBox>
+
+                            <Button text="Payer et Confirmer"
+                                    onAction="#payerCommande"
+                                    styleClass="button, btn-create"
+                                    maxWidth="Infinity"
+                                    style="-fx-font-size:14px; -fx-padding:12;" />
+
+                            <Label fx:id="messageLabel" text="" wrapText="true"
+                                   style="-fx-font-size:12px;" />
+                        </VBox>
+                    </VBox>
+
+                    <Separator orientation="VERTICAL" />
+
+                    <!-- Colonne droite : historique -->
+                    <VBox spacing="14" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Historique des Commandes" styleClass="form-title" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="Actualiser" onAction="#chargerCommandes"
+                                    styleClass="button, btn-cancel" />
+                        </HBox>
+
+                        <TableView fx:id="commandeTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colId"       text="ID"         prefWidth="50"  />
+                                <TableColumn fx:id="colDate"     text="Date"       prefWidth="140" />
+                                <TableColumn fx:id="colStatut"   text="Statut"     prefWidth="110" />
+                                <TableColumn fx:id="colMontant"  text="Montant"    prefWidth="100" />
+                                <TableColumn fx:id="colMode"     text="Paiement"   prefWidth="100" />
+                                <TableColumn fx:id="colRef"      text="Reference"  prefWidth="160" />
+                            </columns>
+                        </TableView>
+
+                        <Button text="Supprimer la commande selectionnee"
+                                onAction="#supprimerCommande"
+                                styleClass="button, btn-delete" />
+                    </VBox>
+
+                </HBox>
+            </center>
+
+            <bottom>
+                <HBox styleClass="statusbar" alignment="CENTER_LEFT">
+                    <Label fx:id="lblTotal" text="0 commande(s)" styleClass="text-muted" />
+                </HBox>
+            </bottom>
+
+        </BorderPane>
+    </center>
+
+</BorderPane>

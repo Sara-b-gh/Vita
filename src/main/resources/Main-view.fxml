@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?> <?import javafx.geometry.Insets?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.vita.Controlers.mainControler"
+           prefWidth="1200" prefHeight="750"
+           style="-fx-background-color:#f5f7fa;">
+
+    <BorderPane>
+        <top>
+            <VBox spacing="0">
+                <HBox alignment="CENTER_LEFT" spacing="18"
+                      style="-fx-background-color:linear-gradient(to right,#6b0d1e,#8b1a2e);
+                             -fx-padding:20 30;">
+
+                    <VBox spacing="2">
+                        <Label text="VITA"
+                               style="-fx-text-fill:white; -fx-font-size:34px;
+                                      -fx-font-weight:bold; -fx-font-family:'Segoe UI';"/>
+                        <Label text="Système de Gestion Hospitalière"
+                               style="-fx-text-fill:rgba(255,255,255,0.70);
+                                      -fx-font-size:12px; -fx-font-family:'Segoe UI';"/>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <HBox spacing="12" alignment="CENTER">
+                        <Button text="Admin" onAction="#ouvrirLoginAdmin"
+                                styleClass="user-badge"
+                                style="-fx-cursor:hand;" />
+
+                        <Button text="Chatbot" onAction="#toggleChatbot"
+                                style="-fx-background-color:rgba(255,255,255,0.15);
+                                       -fx-text-fill:white; -fx-border-color:rgba(255,255,255,0.3);
+                                       -fx-border-radius:25; -fx-background-radius:25;
+                                       -fx-padding:6 18; -fx-cursor:hand;" />
+
+                        <Button text="Deconnexion" onAction="#deconnecter"
+                                styleClass="btn-logout" />
+                    </HBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="6"
+                      style="-fx-background-color:white; -fx-padding:10 30;
+                             -fx-border-color:#ececec; -fx-border-width:0 0 1 0;">
+                    <Label text="🏠 Accueil"
+                           style="-fx-font-size:13px; -fx-font-weight:bold;
+                                  -fx-text-fill:#6b0d1e; -fx-font-family:'Segoe UI';"/>
+                    <Label text="›" style="-fx-text-fill:#888;"/>
+                    <Label text="Tableau de bord"
+                           style="-fx-font-size:13px; -fx-text-fill:#888;
+                                  -fx-font-family:'Segoe UI';"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="clockLabel" text="--:--"
+                           style="-fx-text-fill:#888; -fx-font-size:13px;
+                                  -fx-font-family:'Segoe UI';"/>
+                </HBox>
+            </VBox>
+        </top>
+
+        <left>
+            <VBox spacing="6" prefWidth="220"
+                  style="-fx-background-color:#1a0a0d; -fx-padding:24 12;">
+
+                <Label text="NAVIGATION"
+                       style="-fx-text-fill:rgba(255,255,255,0.40);
+                              -fx-font-size:10px; -fx-font-weight:bold;
+                              -fx-font-family:'Segoe UI'; -fx-padding:0 10 8 10;"/>
+
+                <Button text="🏠   Tableau de bord" maxWidth="Infinity"
+                        style="-fx-background-color:#6b0d1e; -fx-text-fill:white;
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="👨‍⚕️   Espace Docteurs" maxWidth="Infinity"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="🛏   Espace Patients" maxWidth="Infinity"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="📆   Rendez-vous" maxWidth="Infinity"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="📋   Comptes Rendus" maxWidth="Infinity"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="Quizz" styleClass="nav-item"
+                        onAction="#ouvrirQuizz" maxWidth="Infinity" />
+
+                <Button text="Evenements" styleClass="nav-item"
+                        onAction="#ouvrirEvenements" maxWidth="Infinity" />
+
+                <Button text="📝   Posts" maxWidth="Infinity"
+                        onAction="#ouvrirPosts"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Button text="💬   Commentaires" maxWidth="Infinity"
+                        onAction="#ouvrirCommentaires"
+                        style="-fx-background-color:transparent; -fx-text-fill:rgba(255,255,255,0.75);
+                               -fx-background-radius:10; -fx-padding:11 16;
+                               -fx-font-size:13px; -fx-alignment:CENTER_LEFT;
+                               -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+
+                <Separator style="-fx-background-color:rgba(255,255,255,0.12); -fx-padding:6 0;"/>
+
+                <Label text="INVENTAIRE"
+                       style="-fx-text-fill:rgba(255,255,255,0.40);
+                              -fx-font-size:10px; -fx-font-weight:bold;
+                              -fx-font-family:'Segoe UI'; -fx-padding:4 10 8 10;"/>
+
+                <Button text="💊   Médicaments" maxWidth="Infinity"
+                        onAction="#ouvrirMedicaments"
+                        style="-fx-background-color:rgba(107,13,30,0.40);
+                               -fx-text-fill:white;
+                               -fx-border-color:rgba(255,255,255,0.15);
+                               -fx-border-radius:10; -fx-background-radius:10;
+                               -fx-padding:11 16; -fx-font-size:13px;
+                               -fx-alignment:CENTER_LEFT; -fx-cursor:hand;
+                               -fx-font-family:'Segoe UI';"/>
+
+                <Button text="🔧   Équipements" maxWidth="Infinity"
+                        onAction="#ouvrirEquipements"
+                        style="-fx-background-color:rgba(107,13,30,0.40);
+                               -fx-text-fill:white;
+                               -fx-border-color:rgba(255,255,255,0.15);
+                               -fx-border-radius:10; -fx-background-radius:10;
+                               -fx-padding:11 16; -fx-font-size:13px;
+                               -fx-alignment:CENTER_LEFT; -fx-cursor:hand;
+                               -fx-font-family:'Segoe UI';"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Label text="VITA v1.0  •  2025"
+                       style="-fx-text-fill:rgba(255,255,255,0.25);
+                              -fx-font-size:10px; -fx-padding:0 10;
+                              -fx-font-family:'Segoe UI';"/>
+            </VBox>
+        </left>
+
+        <center>
+            <ScrollPane fitToWidth="true" fitToHeight="true"
+                        style="-fx-background-color:transparent; -fx-background:transparent;">
+                <VBox spacing="30" style="-fx-padding:30 35;">
+
+                    <VBox spacing="4">
+                        <Label text="Tableau de bord"
+                               style="-fx-font-size:26px; -fx-font-weight:bold;
+                                      -fx-text-fill:#1a1a2e; -fx-font-family:'Segoe UI';"/>
+                        <Label text="Vue d'ensemble de la gestion de l'inventaire hospitalier"
+                               style="-fx-font-size:13px; -fx-text-fill:#7a8494;
+                                      -fx-font-family:'Segoe UI';"/>
+                    </VBox>
+
+                    <HBox spacing="18">
+                        <VBox fx:id="kpiMedTotal" spacing="6" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:16;
+                                     -fx-border-radius:16; -fx-border-color:#f0e4e8;
+                                     -fx-padding:20 22; -fx-cursor:hand;">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="💊"  style="-fx-font-size:26px;"/>
+                                <VBox spacing="2">
+                                    <Label text="Médicaments"
+                                           style="-fx-font-size:11px; -fx-text-fill:#888;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                    <Label fx:id="kpiMedTotalVal" text="—"
+                                           style="-fx-font-size:28px; -fx-font-weight:bold;
+                                                  -fx-text-fill:#6b0d1e;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="Total en base"
+                                   style="-fx-font-size:11px; -fx-text-fill:#aaa;
+                                          -fx-font-family:'Segoe UI';"/>
+                        </VBox>
+
+                        <VBox fx:id="kpiMedDispo" spacing="6" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:16;
+                                     -fx-border-radius:16; -fx-border-color:#d6ecd6;
+                                     -fx-padding:20 22; -fx-cursor:hand;">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="✅"  style="-fx-font-size:26px;"/>
+                                <VBox spacing="2">
+                                    <Label text="Disponibles"
+                                           style="-fx-font-size:11px; -fx-text-fill:#888;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                    <Label fx:id="kpiMedDispoVal" text="—"
+                                           style="-fx-font-size:28px; -fx-font-weight:bold;
+                                                  -fx-text-fill:#3B6D11;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="Médicaments en stock"
+                                   style="-fx-font-size:11px; -fx-text-fill:#aaa;
+                                          -fx-font-family:'Segoe UI';"/>
+                        </VBox>
+
+                        <VBox fx:id="kpiEqTotal" spacing="6" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:16;
+                                     -fx-border-radius:16; -fx-border-color:#e4eaf5;
+                                     -fx-padding:20 22; -fx-cursor:hand;">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="🔧"  style="-fx-font-size:26px;"/>
+                                <VBox spacing="2">
+                                    <Label text="Équipements"
+                                           style="-fx-font-size:11px; -fx-text-fill:#888;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                    <Label fx:id="kpiEqTotalVal" text="—"
+                                           style="-fx-font-size:28px; -fx-font-weight:bold;
+                                                  -fx-text-fill:#534AB7;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="Total en base"
+                                   style="-fx-font-size:11px; -fx-text-fill:#aaa;
+                                          -fx-font-family:'Segoe UI';"/>
+                        </VBox>
+
+                        <VBox fx:id="kpiEqMaint" spacing="6" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:16;
+                                     -fx-border-radius:16; -fx-border-color:#f5ecd6;
+                                     -fx-padding:20 22; -fx-cursor:hand;">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="⚠️"  style="-fx-font-size:26px;"/>
+                                <VBox spacing="2">
+                                    <Label text="En maintenance"
+                                           style="-fx-font-size:11px; -fx-text-fill:#888;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                    <Label fx:id="kpiEqMaintVal" text="—"
+                                           style="-fx-font-size:28px; -fx-font-weight:bold;
+                                                  -fx-text-fill:#854F0B;
+                                                  -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="Équipements indisponibles"
+                                   style="-fx-font-size:11px; -fx-text-fill:#aaa;
+                                          -fx-font-family:'Segoe UI';"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Modules d'inventaire"
+                               style="-fx-font-size:18px; -fx-font-weight:bold;
+                                      -fx-text-fill:#1a1a2e; -fx-font-family:'Segoe UI';"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="🔄 Actualiser" onAction="#actualiserStats"
+                                style="-fx-background-color:white; -fx-text-fill:#6b0d1e;
+                                       -fx-border-color:#e8c0c8; -fx-border-radius:25;
+                                       -fx-background-radius:25; -fx-padding:6 18;
+                                       -fx-cursor:hand; -fx-font-family:'Segoe UI';"/>
+                    </HBox>
+
+                    <HBox spacing="22">
+                        <VBox spacing="0" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:20;
+                                     -fx-border-radius:20; -fx-border-color:#eee;">
+                            <HBox alignment="CENTER_LEFT" spacing="14"
+                                  style="-fx-background-color:linear-gradient(to right,#6b0d1e,#a01428);
+                                         -fx-background-radius:20 20 0 0; -fx-padding:12 24;">
+                                <ImageView fx:id="medicationRealImage" fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" />
+                                <VBox spacing="3" alignment="CENTER_LEFT">
+                                    <Label text="Médicaments"
+                                           style="-fx-text-fill:white; -fx-font-size:20px;
+                                                  -fx-font-weight:bold; -fx-font-family:'Segoe UI';"/>
+                                    <Label text="Gestion du stock pharmaceutique"
+                                           style="-fx-text-fill:rgba(255,255,255,0.75);
+                                                  -fx-font-size:12px; -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <VBox spacing="14" style="-fx-padding:22 24;">
+                                <HBox spacing="12">
+                                    <VBox spacing="2" HBox.hgrow="ALWAYS" style="-fx-background-color:#fce4ec; -fx-background-radius:12; -fx-padding:12 14;">
+                                        <Label text="Total" style="-fx-font-size:10px; -fx-text-fill:#888;"/>
+                                        <Label fx:id="medTotalMini" text="—" style="-fx-font-size:20px; -fx-font-weight:bold; -fx-text-fill:#6b0d1e;"/>
+                                    </VBox>
+                                    <VBox spacing="2" HBox.hgrow="ALWAYS" style="-fx-background-color:#e8f5e9; -fx-background-radius:12; -fx-padding:12 14;">
+                                        <Label text="Disponibles" style="-fx-font-size:10px; -fx-text-fill:#888;"/>
+                                        <Label fx:id="medDispoMini" text="—" style="-fx-font-size:20px; -fx-font-weight:bold; -fx-text-fill:#3B6D11;"/>
+                                    </VBox>
+                                </HBox>
+                                <Button text="💊  Ouvrir la gestion" onAction="#ouvrirMedicaments" maxWidth="Infinity"
+                                        style="-fx-background-color:#6b0d1e; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:12 0; -fx-font-weight:bold; -fx-cursor:hand;"/>
+                            </VBox>
+                        </VBox>
+
+                        <VBox spacing="0" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color:white; -fx-background-radius:20;
+                                     -fx-border-radius:20; -fx-border-color:#eee;">
+                            <HBox alignment="CENTER_LEFT" spacing="14"
+                                  style="-fx-background-color:linear-gradient(to right,#1a237e,#283593);
+                                         -fx-background-radius:20 20 0 0; -fx-padding:12 24;">
+                                <ImageView fx:id="equipmentRealImage" fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" />
+                                <VBox spacing="3" alignment="CENTER_LEFT">
+                                    <Label text="Équipements"
+                                           style="-fx-text-fill:white; -fx-font-size:20px;
+                                                  -fx-font-weight:bold; -fx-font-family:'Segoe UI';"/>
+                                    <Label text="Gestion du parc matériel hospitalier"
+                                           style="-fx-text-fill:rgba(255,255,255,0.75);
+                                                  -fx-font-size:12px; -fx-font-family:'Segoe UI';"/>
+                                </VBox>
+                            </HBox>
+                            <VBox spacing="14" style="-fx-padding:22 24;">
+                                <HBox spacing="12">
+                                    <VBox spacing="2" HBox.hgrow="ALWAYS" style="-fx-background-color:#ede7f6; -fx-background-radius:12; -fx-padding:12 14;">
+                                        <Label text="Total" style="-fx-font-size:10px; -fx-text-fill:#888;"/>
+                                        <Label fx:id="eqTotalMini" text="—" style="-fx-font-size:20px; -fx-font-weight:bold; -fx-text-fill:#534AB7;"/>
+                                    </VBox>
+                                    <VBox spacing="2" HBox.hgrow="ALWAYS" style="-fx-background-color:#fff8e1; -fx-background-radius:12; -fx-padding:12 14;">
+                                        <Label text="Maintenance" style="-fx-font-size:10px; -fx-text-fill:#888;"/>
+                                        <Label fx:id="eqMaintMini" text="—" style="-fx-font-size:20px; -fx-font-weight:bold; -fx-text-fill:#854F0B;"/>
+                                    </VBox>
+                                </HBox>
+                                <Button text="🔧  Ouvrir la gestion" onAction="#ouvrirEquipements" maxWidth="Infinity"
+                                        style="-fx-background-color:#1a237e; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:12 0; -fx-font-weight:bold; -fx-cursor:hand;"/>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+
+    <VBox fx:id="chatbotPanel"
+          visible="false" managed="false"
+          style="-fx-background-color:white;
+                 -fx-border-color:#e5b7c4;
+                 -fx-border-width: 1 1 0 1;
+                 -fx-border-radius:16 16 0 0;
+                 -fx-background-radius:16 16 0 0;
+                 -fx-effect:dropshadow(three-pass-box,rgba(0,0,0,0.15),15,0,0,0);"
+          prefWidth="360" maxWidth="360" prefHeight="400" maxHeight="400"
+          StackPane.alignment="BOTTOM_RIGHT">
+
+        <StackPane.margin>
+            <Insets bottom="0.0" right="30.0"/>
+        </StackPane.margin>
+
+        <HBox alignment="CENTER_LEFT" spacing="10"
+              style="-fx-background-color:#6b0d1e;
+                     -fx-background-radius:15 15 0 0;
+                     -fx-padding:12 16;">
+            <Label text="🤖 Assistant VITA"
+                   style="-fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:14px; -fx-font-family:'Segoe UI';" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="✕" onAction="#toggleChatbot"
+                    style="-fx-background-color:transparent;
+                           -fx-text-fill:white; -fx-font-size:14px;
+                           -fx-font-weight:bold;
+                           -fx-cursor:hand; -fx-padding:0 4;" />
+        </HBox>
+
+        <ListView fx:id="chatMessages"
+                  VBox.vgrow="ALWAYS"
+                  style="-fx-background-color:white;
+                         -fx-border-color:transparent;" />
+
+        <HBox spacing="8" style="-fx-padding:10 12; -fx-background-color:#f9fafb;
+                                  -fx-border-color:#ececec transparent transparent transparent;">
+            <TextField fx:id="chatInput"
+                       promptText="Posez votre question..."
+                       HBox.hgrow="ALWAYS"
+                       onAction="#envoyerMessage"
+                       style="-fx-background-radius:15; -fx-padding:8 12;"/>
+            <Button text="Envoyer" onAction="#envoyerMessage"
+                    style="-fx-background-color:#6b0d1e; -fx-text-fill:white; -fx-background-radius:15; -fx-padding:8 14; -fx-cursor:hand;-fx-font-weight:bold;" />
+        </HBox>
+    </VBox>
+
+</StackPane>

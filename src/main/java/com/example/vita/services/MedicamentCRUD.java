@@ -1,16 +1,14 @@
-package Services;
+package com.example.vita.services;
 
-import Entites.Medicament;
-import Interffaces.InterfaceCRUD;
-import Utils.MyBD;
+import com.example.vita.Entites.medicaments;
+import com.example.vita.Interfaces.InterfaceCRUD;
+import com.example.vita.utils.MyBD;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-implements InterfaceCRUD<Medicament>
-
-public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
+public class MedicamentCRUD implements InterfaceCRUD<medicaments> {
 
     Connection conn;
 
@@ -19,10 +17,9 @@ public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
     }
 
     @Override
-    public void ajouter(Medicament medicament) throws SQLException {
+    public void ajouter(medicaments medicament) throws SQLException {
         String req = "INSERT INTO medicament (nom, description, dosage, forme, prix, stock, statut) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
         PreparedStatement pst = conn.prepareStatement(req);
         pst.setString(1, medicament.getNom());
         pst.setString(2, medicament.getDescription());
@@ -36,11 +33,10 @@ public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
     }
 
     @Override
-    public void modifier(Medicament medicament) throws SQLException {
+    public void modifier(medicaments medicament) throws SQLException {
         String req = "UPDATE medicament SET nom=?, description=?, dosage=?, forme=?, " +
                 "prix=?, stock=?, statut=?, date_modification=NOW() " +
                 "WHERE id_medicament=?";
-
         PreparedStatement pst = conn.prepareStatement(req);
         pst.setString(1, medicament.getNom());
         pst.setString(2, medicament.getDescription());
@@ -57,7 +53,6 @@ public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
     @Override
     public void supprimer(int id) throws SQLException {
         String req = "DELETE FROM medicament WHERE id_medicament=?";
-
         PreparedStatement pst = conn.prepareStatement(req);
         pst.setInt(1, id);
         pst.executeUpdate();
@@ -65,15 +60,13 @@ public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
     }
 
     @Override
-    public List<Medicament> afficher() throws SQLException {
+    public List<medicaments> afficher() throws SQLException {
         String req = "SELECT * FROM medicament";
-        List<Medicament> medicaments = new ArrayList<>();
-
+        List<medicaments> listMedicaments = new ArrayList<>();
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(req);
-
         while (rs.next()) {
-            Medicament m = new Medicament();
+            medicaments m = new medicaments();   // corrigé : medicamentsn et mesdicaments → medicaments
             m.setId_medicament(rs.getInt("id_medicament"));
             m.setNom(rs.getString("nom"));
             m.setDescription(rs.getString("description"));
@@ -82,9 +75,8 @@ public class MedicamentCRUD implements InterfaceCRUD<Medicament> {
             m.setPrix(rs.getDouble("prix"));
             m.setStock(rs.getInt("stock"));
             m.setStatut(rs.getString("statut"));
-            medicaments.add(m);
+            listMedicaments.add(m);
         }
-        return medicaments;
+        return listMedicaments;
     }
 }
-

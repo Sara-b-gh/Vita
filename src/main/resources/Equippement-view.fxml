@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="737.0" prefWidth="1200.0" styleClass="root"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.vita.Controlers.EquipementController">
+
+    <stylesheets>
+        <URL value="@styles/style.css" />
+    </stylesheets>
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <left>
+        <VBox spacing="15" styleClass="sidebar">
+            <Label styleClass="sidebar-title" text="VITA" />
+            <Separator style="-fx-background-color: rgba(255,255,255,0.3);" />
+            <Button styleClass="nav-item" text="Tableau de bord" />
+            <Button styleClass="nav-item" text="Espace Docteurs" />
+            <Button styleClass="nav-item" text="Espace Patients" />
+            <Button styleClass="nav-item" text="Espace Rendez-vous" />
+            <Button styleClass="nav-item" text="Les Comptes Rendus" />
+            <Button onAction="#allerAuxMedicaments"
+                    styleClass="nav-item" text="Medicaments" />
+            <Button styleClass="nav-item-active" text="Equipements" />
+            <Button onAction="#allerAuxCommandes"
+                    styleClass="nav-item" text="Commandes"
+                    maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <!-- ══════════════════ CONTENU ══════════════════ -->
+    <center>
+        <BorderPane>
+
+            <!-- ── En-tête ── -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="form-card"
+                      style="-fx-border-color: transparent transparent #ececec transparent;">
+                    <padding><Insets bottom="14" left="20" right="20" top="14"/></padding>
+                    <Label styleClass="page-title" text="Equipements"/>
+                    <Label style="-fx-text-fill:#888; -fx-font-size:13px;"
+                           text="Gestion du parc médical"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#chargerEquipements" text="Actualiser"
+                            styleClass="button, btn-cancel"/>
+                    <Button onAction="#ajouterEquipement"
+                            styleClass="button, btn-create" text="+ Ajouter"/>
+                </HBox>
+            </top>
+
+            <!-- ── Corps ── -->
+            <center>
+                <HBox spacing="16" styleClass="page">
+
+                    <!-- ════ TABLEAU ════ -->
+                    <VBox HBox.hgrow="ALWAYS" spacing="10">
+                        <Label styleClass="form-title" text="Liste"/>
+                        <TableView fx:id="equipementTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <!-- ✅ COLONNE IMAGE AJOUTÉE -->
+                                <TableColumn fx:id="colImage"
+                                             text="Image" prefWidth="85"/>
+
+                                <TableColumn fx:id="colId"
+                                             text="ID" prefWidth="40"/>
+                                <TableColumn fx:id="colNom"
+                                             text="Nom" prefWidth="120"/>
+                                <TableColumn fx:id="colType"
+                                             text="Type" prefWidth="95"/>
+                                <TableColumn fx:id="colMarque"
+                                             text="Marque" prefWidth="95"/>
+                                <TableColumn fx:id="colEtat"
+                                             text="Etat" prefWidth="105"/>
+                                <TableColumn fx:id="colLocalisation"
+                                             text="Localisation" prefWidth="105"/>
+                                <TableColumn fx:id="colDate"
+                                             text="Acquisition" prefWidth="95"/>
+                            </columns>
+                        </TableView>
+                        <HBox spacing="8">
+                            <Button onAction="#modifierEquipement" text="Modifier"
+                                    styleClass="button, btn-edit"
+                                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                            <Button onAction="#supprimerEquipement" text="Supprimer"
+                                    styleClass="button, btn-delete"
+                                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                    </VBox>
+
+                    <Separator orientation="VERTICAL"/>
+
+                    <!-- ════ FORMULAIRE ════ -->
+                    <VBox spacing="12" prefWidth="280">
+                        <Label styleClass="form-title" text="Formulaire"/>
+
+                        <!-- ✅ IMAGE FORMULAIRE AJOUTÉE -->
+                        <VBox alignment="CENTER" spacing="6"
+                              style="-fx-background-color:#f8fafc;
+                                     -fx-background-radius:12;
+                                     -fx-border-color:#e2e8f0;
+                                     -fx-border-radius:12;
+                                     -fx-padding:10;">
+                            <ImageView fx:id="imgFormulaire"
+                                       fitWidth="240" fitHeight="140"
+                                       preserveRatio="true" smooth="true"/>
+                            <Label fx:id="lblImgHint"
+                                   text="Sélectionnez un équipement"
+                                   style="-fx-text-fill:#94a3b8;
+                                          -fx-font-size:11px;"/>
+                        </VBox>
+
+                        <VBox styleClass="form-card" spacing="10">
+                            <VBox spacing="4">
+                                <Label text="Nom"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <TextField fx:id="nomField"
+                                           promptText="Nom de l equipement"
+                                           styleClass="text-field"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Description"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <TextField fx:id="descField"
+                                           promptText="Description"
+                                           styleClass="text-field"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Type"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <TextField fx:id="typeField"
+                                           promptText="Ex: Imagerie..."
+                                           styleClass="text-field"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Marque"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <TextField fx:id="marqueField"
+                                           promptText="Ex: Siemens..."
+                                           styleClass="text-field"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Etat"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <ComboBox fx:id="etatCombo"
+                                          maxWidth="Infinity"
+                                          styleClass="combo-box"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Localisation"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <TextField fx:id="localisationField"
+                                           promptText="Ex: Salle B12"
+                                           styleClass="text-field"/>
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Date d acquisition"
+                                       style="-fx-font-weight:bold; -fx-text-fill:#555;"/>
+                                <DatePicker fx:id="datePicker"
+                                            style="-fx-pref-height:42;
+                                                   -fx-background-color:white;
+                                                   -fx-border-color:#e5b7c4;
+                                                   -fx-border-radius:10;
+                                                   -fx-background-radius:10;"/>
+                            </VBox>
+
+                            <Label fx:id="messageLabel" text=""
+                                   wrapText="true"
+                                   style="-fx-font-size:13px;"/>
+
+                            <HBox spacing="8">
+                                <Button onAction="#ajouterEquipement"
+                                        text="Ajouter"
+                                        styleClass="button, btn-create"
+                                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                                <Button onAction="#modifierEquipement"
+                                        text="Modifier"
+                                        styleClass="button, btn-edit"
+                                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                </HBox>
+            </center>
+
+            <!-- ── Pied de page ── -->
+            <bottom>
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-background-color:white;
+                             -fx-border-color:#ececec transparent transparent transparent;">
+                    <padding><Insets bottom="8" left="20" right="20" top="8"/></padding>
+                    <Label fx:id="lblTotal"
+                           style="-fx-text-fill:#888;"
+                           text="0 equipement(s)"/>
+                </HBox>
+            </bottom>
+
+        </BorderPane>
+    </center>
+</BorderPane>

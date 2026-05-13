@@ -1,0 +1,19 @@
+
+# ============================================================
+#  VITA - Configuration des clés API
+# ============================================================
+
+# --- Unsplash désactivé (pas de clé) ------------------------
+unsplash.api.key=
+unsplash.base.url=https://api.unsplash.com/search/photos
+
+# --- OpenAI API (chatbot) -----------------------------------
+openai.api.key=VOTRE_CLE_OPENAI_ICI
+openai.model=gpt-4o-mini
+openai.max.tokens=600
+
+# --- Konnect API (paiement Tunisie) -------------------------
+konnect.api.key=VOTRE_CLE_KONNECT_ICI
+konnect.wallet.id=VOTRE_WALLET_ID_ICI
+konnect.base.url=https://api.konnect.network/api/v2
+konnect.sandbox=true
