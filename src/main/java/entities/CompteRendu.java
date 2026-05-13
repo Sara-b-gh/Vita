@@ -33,7 +33,7 @@ public class CompteRendu {
         return "CompteRendu{id=" + id + ", rdv_id=" + rdv_id + ", date=" + dateRedaction + "}";
     }
 }*/
-package Entites;
+package entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

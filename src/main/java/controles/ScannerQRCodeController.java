@@ -1,7 +1,6 @@
 package controles;
 
-import entities.Evenn;
-import entities.ReservationPersonne;
+import entities.RendezVous;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
@@ -54,7 +53,7 @@ public class ScannerQRCodeController {
 
     private void verifierReservation(int reservationId) {
         try {
-            ReservationPersonne r = srp.getById(reservationId);
+            RendezVous.ReservationPersonne r = srp.getById(reservationId);
             if (r == null) {
                 showAlert("Erreur", "Réservation non trouvée", Alert.AlertType.ERROR);
                 return;
@@ -97,7 +96,7 @@ public class ScannerQRCodeController {
 
     private void verifierEvenement(int eventId) {
         try {
-            Evenn ev = se.getById(eventId);
+            RendezVous.Evenn ev = se.getById(eventId);
             if (ev == null) {
                 showAlert("Erreur", "Événement non trouvé", Alert.AlertType.ERROR);
                 return;
@@ -119,7 +118,7 @@ public class ScannerQRCodeController {
         }
     }
 
-    private void validerPresence(int reservationId, ReservationPersonne r) {
+    private void validerPresence(int reservationId, RendezVous.ReservationPersonne r) {
         try {
             srp.updatePresence(reservationId, true);
             showAlert("Succès", "✅ Présence validée pour " + r.getNomComplet(), Alert.AlertType.INFORMATION);

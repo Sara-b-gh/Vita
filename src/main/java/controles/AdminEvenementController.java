@@ -1,8 +1,8 @@
 package controles;
-
-import entities.Evenn;
 import entities.Notification;
-import entities.Ressource;
+import java.time.LocalDateTime;
+import entities.RendezVous.Evenn;
+import entities.RendezVous.Ressource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -1646,9 +1646,9 @@ public class AdminEvenementController {
 
     private void chargerNotifications() {
         try {
-            List<Notification> liste = sn.getAll();
+            List<entities.LocalDateTime.Notification> liste = sn.getAll();
 
-            notifications.setAll(liste);
+            notifications.setAll((Notification) liste);
 
             if (notificationListView != null) {
                 notificationListView.setItems(notifications);

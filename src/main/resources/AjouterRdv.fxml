@@ -7,12 +7,12 @@
 <?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controlers.AjouterRdvController"
+      fx:controller="controles.RendezVousController"
       prefWidth="480" prefHeight="600" spacing="0"
       styleClass="root">
 
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@admin.css" />
     </stylesheets>
 
     <!-- Header -->

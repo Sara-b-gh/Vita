@@ -1,13 +1,13 @@
 package services;
 
-import Entites.RendezVous;
+import entities.RendezVous;
 import utils.MyBD;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceRessource implements IService<RendezVous.Ressource> {
+public class ServiceRessource implements IService<entities.RendezVous.Ressource> {
 
     private Connection cnx;
 
@@ -16,7 +16,7 @@ public class ServiceRessource implements IService<RendezVous.Ressource> {
     }
 
     @Override
-    public void add(RendezVous.Ressource r) throws SQLException {
+    public void add(entities.RendezVous.Ressource r) throws SQLException {
         String req = "INSERT INTO ressource (id_evenement, nom_Ressource, type, quantite_requise, quantite_disponible, cout_unitaire, responsable, statut, evenement_titre, delai_reapprovisionnement_jours) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, r.getIdEvenement());
@@ -33,7 +33,7 @@ public class ServiceRessource implements IService<RendezVous.Ressource> {
     }
 
     @Override
-    public void update(RendezVous.Ressource r) throws SQLException {
+    public void update(entities.RendezVous.Ressource r) throws SQLException {
         String req = "UPDATE ressource SET id_evenement=?, nom_Ressource=?, type=?, quantite_requise=?, quantite_disponible=?, cout_unitaire=?, responsable=?, statut=?, evenement_titre=?, delai_reapprovisionnement_jours=? WHERE id_Ressource=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, r.getIdEvenement());
@@ -51,7 +51,7 @@ public class ServiceRessource implements IService<RendezVous.Ressource> {
     }
 
     @Override
-    public void delete(RendezVous.Ressource r) throws SQLException {
+    public void delete(entities.RendezVous.Ressource r) throws SQLException {
         String req = "DELETE FROM ressource WHERE id_Ressource=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, r.getIdRessource());
@@ -59,13 +59,13 @@ public class ServiceRessource implements IService<RendezVous.Ressource> {
     }
 
     @Override
-    public List<RendezVous.Ressource> getAll() throws SQLException {
-        List<RendezVous.Ressource> list = new ArrayList<>();
+    public List<entities.RendezVous.Ressource> getAll() throws SQLException {
+        List<entities.RendezVous.Ressource> list = new ArrayList<>();
         String req = "SELECT * FROM ressource";
         Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(req);
         while (rs.next()) {
-            RendezVous.Ressource r = new RendezVous.Ressource();
+            entities.RendezVous.Ressource r = new RendezVous.Ressource();
             r.setIdRessource(rs.getInt("id_Ressource"));      // ← underscore
             r.setIdEvenement(rs.getInt("id_evenement"));      // ← underscore
             r.setNomRessource(rs.getString("nom_Ressource")); // ← underscore

@@ -1,7 +1,7 @@
-package Services;
+package services;
 
-import Entites.RendezVous;
-import Entites.User;
+import entities.RendezVous;
+import entities.User;
 
 import java.net.URI;
 import java.net.URLEncoder;

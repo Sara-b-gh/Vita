@@ -14,10 +14,10 @@
 <VBox prefHeight="580" prefWidth="480" spacing="0" styleClass="root"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controlers.ModifierCompteRenduController">
+      fx:controller="controles.ModifierCompteRenduController">
 
 <stylesheets>
-    <URL value="@style.css" />
+    <URL value="@admin.css" />
 </stylesheets>
 
 <!-- Header -->

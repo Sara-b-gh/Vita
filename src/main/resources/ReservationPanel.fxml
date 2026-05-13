@@ -6,8 +6,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controlers.NavigationManager.ReservationPanelController"
-            stylesheets="@style.css">
+            fx:controller="controles.ReservationPanelController"
+            stylesheets="@admin.css">
 
     <VBox spacing="16" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">

@@ -1,13 +1,13 @@
 package services;
 
-import Entites.RendezVous;
+import entities.RendezVous;
 import utils.MyBD;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceEvenn implements IService<RendezVous.Evenn> {
+public class ServiceEvenn implements IService<entities.RendezVous.Evenn> {
 
     private Connection cnx;
 
@@ -16,7 +16,7 @@ public class ServiceEvenn implements IService<RendezVous.Evenn> {
     }
 
     @Override
-    public void add(RendezVous.Evenn e) throws SQLException {
+    public void add(entities.RendezVous.Evenn e) throws SQLException {
         String req = "INSERT INTO evenn (titre, date_evenement, description, lieu) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, e.getTitre());
@@ -27,7 +27,7 @@ public class ServiceEvenn implements IService<RendezVous.Evenn> {
     }
 
     @Override
-    public void update(RendezVous.Evenn e) throws SQLException {
+    public void update(entities.RendezVous.Evenn e) throws SQLException {
         String req = "UPDATE evenn SET titre=?, date_evenement=?, description=?, lieu=? WHERE id_Evenn=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, e.getTitre());
@@ -39,7 +39,7 @@ public class ServiceEvenn implements IService<RendezVous.Evenn> {
     }
 
     @Override
-    public void delete(RendezVous.Evenn e) throws SQLException {
+    public void delete(entities.RendezVous.Evenn e) throws SQLException {
         String req = "DELETE FROM evenn WHERE id_Evenn=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, e.getId_Evenn());
@@ -47,13 +47,13 @@ public class ServiceEvenn implements IService<RendezVous.Evenn> {
     }
 
     @Override
-    public List<RendezVous.Evenn> getAll() throws SQLException {
-        List<RendezVous.Evenn> list = new ArrayList<>();
+    public List<entities.RendezVous.Evenn> getAll() throws SQLException {
+        List<entities.RendezVous.Evenn> list = new ArrayList<>();
         String req = "SELECT * FROM evenn";
         Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(req);
         while (rs.next()) {
-            RendezVous.Evenn e = new RendezVous.Evenn();
+            entities.RendezVous.Evenn e = new RendezVous.Evenn();
             e.setId_Evenn(rs.getInt("id_Evenn"));
             e.setTitre(rs.getString("titre"));
             e.setDateEvenement(rs.getTimestamp("date_evenement").toLocalDateTime());
@@ -64,7 +64,7 @@ public class ServiceEvenn implements IService<RendezVous.Evenn> {
         return list;
     }
 
-    public RendezVous.Evenn getById(int id) throws SQLException {
+    public entities.RendezVous.Evenn getById(int id) throws SQLException {
         String req = "SELECT * FROM evenn WHERE id_Evenn = ?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, id);

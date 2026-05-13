@@ -1,146 +1,128 @@
 package services;
 
-import Entites.Disponibilite;
-import utils.MyBD;
+import entities.Disponibilite;
+import MyDB.MyBD;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DisponibiliteCRUD {
-    private Connection connection;
+
+    private Connection conn;
 
     public DisponibiliteCRUD() {
-        try {
-            this.connection = MyBD.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try { conn = MyBD.getConnection(); }
+        catch (Exception e) { System.out.println("Erreur connexion : " + e.getMessage()); }
+    }
+
+    // ── Ajouter un créneau ────────────────────────────────────────────
+    public void ajouter(Disponibilite d) throws SQLException {
+        String req = "INSERT INTO disponibilite (medecin_id, date_dispo, heure_debut, heure_fin, statut) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
+        pst.setInt(1, d.getMedecin_id());
+        pst.setDate(2, Date.valueOf(d.getDate_dispo()));
+        pst.setTime(3, Time.valueOf(d.getHeure_debut()));
+        pst.setTime(4, Time.valueOf(d.getHeure_fin()));
+        pst.setString(5, d.getStatut());
+        pst.executeUpdate();
+        ResultSet rs = pst.getGeneratedKeys();
+        if (rs.next()) d.setId_dispo(rs.getInt(1));
+    }
+
+    // ── Modifier statut d'un créneau ─────────────────────────────────
+    public void modifierStatut(int id_dispo, String statut, Integer id_rdv) throws SQLException {
+        String req = "UPDATE disponibilite SET statut=?, id_rdv=? WHERE id_dispo=?";
+        PreparedStatement pst = conn.prepareStatement(req);
+        pst.setString(1, statut);
+        if (id_rdv == null) pst.setNull(2, Types.INTEGER);
+        else                pst.setInt(2, id_rdv);
+        pst.setInt(3, id_dispo);
+        pst.executeUpdate();
+    }
+
+    // ── Supprimer un créneau ─────────────────────────────────────────
+    public void supprimer(int id_dispo) throws SQLException {
+        PreparedStatement pst = conn.prepareStatement(
+                "DELETE FROM disponibilite WHERE id_dispo=?");
+        pst.setInt(1, id_dispo);
+        pst.executeUpdate();
+    }
+
+    // ── Lister les créneaux d'un médecin ─────────────────────────────
+    public List<Disponibilite> parMedecin(int medecin_id) throws SQLException {
+        List<Disponibilite> liste = new ArrayList<>();
+        String req = "SELECT * FROM disponibilite WHERE medecin_id=? ORDER BY date_dispo, heure_debut";
+        PreparedStatement pst = conn.prepareStatement(req);
+        pst.setInt(1, medecin_id);
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) liste.add(map(rs));
+        return liste;
+    }
+
+    // ── Créneaux libres d'un médecin à partir d'aujourd'hui ──────────
+    public List<Disponibilite> creneauxLibres(int medecin_id) throws SQLException {
+        List<Disponibilite> liste = new ArrayList<>();
+        String req = "SELECT * FROM disponibilite WHERE medecin_id=? AND statut='libre' " +
+                "AND date_dispo >= CURDATE() ORDER BY date_dispo, heure_debut";
+        PreparedStatement pst = conn.prepareStatement(req);
+        pst.setInt(1, medecin_id);
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) liste.add(map(rs));
+        return liste;
+    }
+
+    // ── Synchroniser : quand un RDV change de statut ─────────────────
+    /**
+     * Appelé depuis RendezVousCRUD après chaque modification de statut.
+     * - RDV "en_attente" ou "confirme" → créneau "occupee"
+     * - RDV "annule" ou "termine"      → créneau "libre"
+     */
+    public void syncAvecRdv(int id_rdv, String nouveauStatutRdv) throws SQLException {
+        if ("annule".equals(nouveauStatutRdv) || "termine".equals(nouveauStatutRdv)) {
+            // Libérer le créneau lié à ce RDV
+            PreparedStatement pst = conn.prepareStatement(
+                    "UPDATE disponibilite SET statut='libre', id_rdv=NULL WHERE id_rdv=?");
+            pst.setInt(1, id_rdv);
+            pst.executeUpdate();
+        } else {
+            // Marquer occupée
+            PreparedStatement pst = conn.prepareStatement(
+                    "UPDATE disponibilite SET statut='occupee' WHERE id_rdv=?");
+            pst.setInt(1, id_rdv);
+            pst.executeUpdate();
         }
     }
 
-    public DisponibiliteCRUD(Connection connection) {
-        this.connection = connection;
+    /**
+     * Quand un nouveau RDV est créé : trouver le créneau correspondant et le marquer occupé.
+     */
+    public void occuperCreneau(int medecin_id, java.time.LocalDateTime dateRdv, int id_rdv)
+            throws SQLException {
+        String req = "UPDATE disponibilite SET statut='occupee', id_rdv=? " +
+                "WHERE medecin_id=? AND date_dispo=? " +
+                "AND heure_debut <= ? AND heure_fin > ? AND statut='libre' LIMIT 1";
+        PreparedStatement pst = conn.prepareStatement(req);
+        pst.setInt(1, id_rdv);
+        pst.setInt(2, medecin_id);
+        pst.setDate(3, Date.valueOf(dateRdv.toLocalDate()));
+        pst.setTime(4, Time.valueOf(dateRdv.toLocalTime()));
+        pst.setTime(5, Time.valueOf(dateRdv.toLocalTime()));
+        pst.executeUpdate();
     }
 
-    // Ajouter
-    public boolean ajouter(Disponibilite dispo) {
-        String sql = "INSERT INTO disponibilites (medecin_id, date_dispo, heure_debut, heure_fin, statut, id_rdv) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, dispo.getMedecin_id());
-            stmt.setObject(2, dispo.getDate_dispo());
-            stmt.setObject(3, dispo.getHeure_debut());
-            stmt.setObject(4, dispo.getHeure_fin());
-            stmt.setString(5, dispo.getStatut());
-            if (dispo.getId_rdv() != null) {
-                stmt.setInt(6, dispo.getId_rdv());
-            } else {
-                stmt.setNull(6, Types.INTEGER);
-            }
-
-            int affected = stmt.executeUpdate();
-            if (affected > 0) {
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    dispo.setId_dispo(rs.getInt(1));
-                }
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Créneaux libres
-    public List<Disponibilite> getCreneauxLibres(int medecinId) {
-        List<Disponibilite> list = new ArrayList<>();
-        String sql = "SELECT * FROM disponibilites WHERE medecin_id = ? AND statut = 'libre' AND date_dispo >= CURDATE() ORDER BY date_dispo, heure_debut";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, medecinId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(extractDisponibilite(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    // Toutes les disponibilités par médecin
-    public List<Disponibilite> getByMedecin(int medecinId) {
-        List<Disponibilite> list = new ArrayList<>();
-        String sql = "SELECT * FROM disponibilites WHERE medecin_id = ? ORDER BY date_dispo, heure_debut";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, medecinId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(extractDisponibilite(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    // Modifier le statut
-    public boolean updateStatut(int idDispo, String nouveauStatut, Integer idRdv) {
-        String sql = "UPDATE disponibilites SET statut = ?";
-        if (idRdv != null) {
-            sql += ", id_rdv = ?";
-        }
-        sql += " WHERE id_dispo = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, nouveauStatut);
-            if (idRdv != null) {
-                stmt.setInt(2, idRdv);
-                stmt.setInt(3, idDispo);
-            } else {
-                stmt.setInt(2, idDispo);
-            }
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Occuper un créneau
-    public boolean occuperCreneau(int idDispo, int idRdv) {
-        return updateStatut(idDispo, "occupee", idRdv);
-    }
-
-    // Supprimer
-    public boolean delete(int idDispo) {
-        String sql = "DELETE FROM disponibilites WHERE id_dispo = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, idDispo);
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean supprimer(int idDispo) {
-        return delete(idDispo);
-    }
-
-    private Disponibilite extractDisponibilite(ResultSet rs) throws SQLException {
+    // ── Mapping ResultSet → Disponibilite ────────────────────────────
+    private Disponibilite map(ResultSet rs) throws SQLException {
         Disponibilite d = new Disponibilite();
         d.setId_dispo(rs.getInt("id_dispo"));
         d.setMedecin_id(rs.getInt("medecin_id"));
-        d.setDate_dispo(rs.getObject("date_dispo", LocalDate.class));
-        d.setHeure_debut(rs.getObject("heure_debut", LocalTime.class));
-        d.setHeure_fin(rs.getObject("heure_fin", LocalTime.class));
+        d.setDate_dispo(rs.getDate("date_dispo").toLocalDate());
+        d.setHeure_debut(rs.getTime("heure_debut").toLocalTime());
+        d.setHeure_fin(rs.getTime("heure_fin").toLocalTime());
         d.setStatut(rs.getString("statut"));
-        int idRdv = rs.getInt("id_rdv");
-        if (!rs.wasNull()) {
-            d.setId_rdv(idRdv);
-        }
+        int rdvId = rs.getInt("id_rdv");
+        d.setId_rdv(rs.wasNull() ? null : rdvId);
         return d;
     }
 }

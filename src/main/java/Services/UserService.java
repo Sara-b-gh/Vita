@@ -1,6 +1,6 @@
 package services;
 
-import Entites.User;
+import entities.User;
 import MyDB.MyBD;
 
 import java.sql.*;
@@ -100,7 +100,7 @@ public class UserService {
         }
     }
 
-    public User findById(int id) {
+    public entities.User findById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -115,7 +115,7 @@ public class UserService {
         return null;
     }
 
-    public List<User> afficherTous() throws SQLException {
+    public List<entities.User> afficherTous() throws SQLException {
         List<User> liste = new ArrayList<>();
         String sql = "SELECT * FROM users";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -126,7 +126,7 @@ public class UserService {
         return liste;
     }
 
-    public List<User> getDoctors() throws SQLException {
+    public List<entities.User> getDoctors() throws SQLException {
         List<User> liste = new ArrayList<>();
         // Role stocké comme "Doctor" dans votre DB (pas "DOCTOR")
         String sql = "SELECT * FROM users WHERE Role = 'Doctor' ORDER BY Nom, Prenom";

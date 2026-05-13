@@ -6,58 +6,44 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Mainfx extends Application {
 
-    private static Stage stg;
+    private static Stage primaryStage; // Stocker la fenêtre principale
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void naviguerVers(String s, String s1) {
+
+
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
 
+        // Charger l'interface principale
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserEvenementView.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("VITA Hospital");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    // Méthode pour changer d'interface (accessible depuis tous les controllers)
+    public static void changerInterface(String fxmlPath) {
         try {
-
-            stg = primaryStage;
-
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/AfficherRendezVous.fxml")
-            );
-
+            FXMLLoader loader = new FXMLLoader(Mainfx.class.getResource(fxmlPath));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
-
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Rendez-vous");
             primaryStage.show();
-
-        } catch (IOException e) {
-
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erreur: " + e.getMessage());
         }
     }
 
-    public static void naviguerVers(String fxml, String titre) {
-
-        try {
-
-            Parent root = FXMLLoader.load(
-                    Mainfx.class.getResource(fxml)
-            );
-
-            Stage stage = new Stage();
-
-            stage.setScene(new Scene(root));
-
-            stage.setTitle(titre);
-
-            stage.show();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

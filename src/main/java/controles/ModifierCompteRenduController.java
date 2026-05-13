@@ -1,7 +1,6 @@
-package Controlers;
-
-import Entites.CompteRendu;
-import Entites.User;
+package controles;
+import entities.CompteRendu;
+import entities.User;
 import services.CompteRenduCRUD;
 import services.UserService;
 import javafx.fxml.FXML;
@@ -20,7 +19,7 @@ public class ModifierCompteRenduController {
     @FXML private Label lblDocteur;
     private final UserService userService = new UserService();
 
-    private CompteRendu      compteRendu;
+    private CompteRendu compteRendu;
     private CompteRenduCRUD  service;
 
     {

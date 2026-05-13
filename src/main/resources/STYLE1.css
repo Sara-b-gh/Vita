@@ -1,25 +1,21 @@
 /* =====================================================
-   VITA Santé - Thème Bordeaux & Blanc
+   VITA Santé — Thème Bordeaux & Blanc  (v2)
    ===================================================== */
-.root,
-.app-root {
+
+/* ── BASE ─────────────────────────────────────────── */
+.root, .app-root {
     -fx-font-family: "Segoe UI", "System";
     -fx-background-color: #F9F2F5;
 }
-.label {
-    -fx-text-fill: #4D2332;
-}
-/* =====================================================
-   SIDEBAR
-   ===================================================== */
+.label { -fx-text-fill: #4D2332; }
+
+/* ── SIDEBAR ──────────────────────────────────────── */
 .sidebar {
-    -fx-min-width: 280;
-    -fx-pref-width: 280;
+    -fx-min-width: 290;
+    -fx-pref-width: 290;
     -fx-background-color: linear-gradient(to bottom, #8B1538, #6E122C);
 }
-.logo-card,
-.sidebar-card,
-.sidebar-card-dark {
+.logo-card, .sidebar-card, .sidebar-card-dark {
     -fx-background-radius: 18;
     -fx-padding: 18;
 }
@@ -32,7 +28,7 @@
     -fx-background-color: rgba(255,255,255,0.10);
     -fx-border-color: rgba(255,255,255,0.08);
     -fx-border-radius: 18;
-    -fx-padding: 16 14 16 14;
+    -fx-padding: 14 14 14 14;
 }
 .sidebar-card-dark {
     -fx-background-color: rgba(58,8,23,0.32);
@@ -40,90 +36,55 @@
     -fx-border-radius: 18;
     -fx-padding: 16 14 16 14;
 }
-.logo-box {
-    -fx-background-color: rgba(255,255,255,0.16);
-    -fx-background-radius: 16;
-    -fx-padding: 12;
-}
-.logo-heart {
-    -fx-font-size: 26px;
-    -fx-text-fill: white;
-}
-.logo-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-.logo-subtitle {
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(255,255,255,0.72);
-}
-.sidebar-caption {
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-text-fill: rgba(255,255,255,0.62);
-}
-.sidebar-note-title {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-.sidebar-note-text {
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(255,255,255,0.74);
-    -fx-line-spacing: 2px;
-}
-.sidebar-separator .line {
-    -fx-border-color: rgba(255,255,255,0.10);
-}
-.menu-block {
-    -fx-padding: 22 0 0 0;
-}
+.logo-box       { -fx-background-color: rgba(255,255,255,0.16); -fx-background-radius: 16; -fx-padding: 12; }
+.logo-heart     { -fx-font-size: 26px; -fx-text-fill: white; }
+.logo-title     { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white; }
+.logo-subtitle  { -fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.72); }
+.sidebar-caption       { -fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.62); }
+.sidebar-note-title    { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white; }
+.sidebar-note-text     { -fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.74); -fx-line-spacing: 2px; }
+.sidebar-separator .line { -fx-border-color: rgba(255,255,255,0.10); }
+.menu-block { -fx-padding: 20 0 0 0; }
+
 .menu-btn {
     -fx-background-color: transparent;
     -fx-background-radius: 12;
     -fx-text-fill: rgba(255,255,255,0.84);
     -fx-font-size: 14px;
     -fx-font-weight: 600;
-    -fx-padding: 12 14 12 14;
+    -fx-padding: 11 14 11 14;
     -fx-alignment: CENTER_LEFT;
     -fx-cursor: hand;
     -fx-border-color: transparent;
 }
-.menu-btn:hover {
-    -fx-background-color: rgba(255,255,255,0.12);
-    -fx-text-fill: white;
+.menu-btn:hover     { -fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white; }
+.menu-btn-active    { -fx-background-color: white; -fx-text-fill: #8B1538; -fx-font-weight: bold; }
+
+/* Mini-stats sidebar */
+.mini-stat-box {
+    -fx-background-radius: 12;
+    -fx-padding: 8 10 8 10;
+    -fx-min-width: 56;
 }
-.menu-btn-active {
-    -fx-background-color: white;
-    -fx-text-fill: #8B1538;
-    -fx-font-weight: bold;
-}
-/* =====================================================
-   MAIN CONTENT
-   ===================================================== */
-.content-root {
-    -fx-background-color: #F9F2F5;
-}
+.mini-stat-total    { -fx-background-color: rgba(255,255,255,0.16); }
+.mini-stat-accepted { -fx-background-color: rgba(39,174,96,0.25); }
+.mini-stat-pending  { -fx-background-color: rgba(243,156,18,0.25); }
+.mini-stat-refused  { -fx-background-color: rgba(193,40,62,0.25); }
+.mini-stat-value    { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white; }
+.mini-stat-label    { -fx-font-size: 9px;  -fx-text-fill: rgba(255,255,255,0.75); }
+
+/* ── MAIN CONTENT ─────────────────────────────────── */
+.content-root { -fx-background-color: #F9F2F5; }
 .topbar {
     -fx-background-color: white;
     -fx-padding: 22 28 22 28;
     -fx-border-color: #F1DBE2;
     -fx-border-width: 0 0 1 0;
 }
-.content-wrapper {
-    -fx-padding: 24 28 28 28;
-}
-.eyebrow {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #A36277;
-}
-.page-title {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
+.content-wrapper { -fx-padding: 24 28 28 28; }
+.eyebrow     { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #A36277; }
+.page-title  { -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+
 .search-box {
     -fx-min-width: 360;
     -fx-background-color: #FFF8FA;
@@ -132,10 +93,7 @@
     -fx-border-radius: 24;
     -fx-padding: 0 16 0 16;
 }
-.search-icon {
-    -fx-font-size: 15px;
-    -fx-text-fill: #8B1538;
-}
+.search-icon  { -fx-font-size: 15px; -fx-text-fill: #8B1538; }
 .search-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -151,16 +109,10 @@
     -fx-border-radius: 24;
     -fx-padding: 4 10 4 10;
 }
-.forum-combo .list-cell {
-    -fx-text-fill: #5A1730;
-    -fx-padding: 10 12 10 12;
-}
-.forum-combo .arrow-button {
-    -fx-background-color: transparent;
-}
-/* =====================================================
-   BUTTONS
-   ===================================================== */
+.forum-combo .list-cell  { -fx-text-fill: #5A1730; -fx-padding: 10 12 10 12; }
+.forum-combo .arrow-button { -fx-background-color: transparent; }
+
+/* ── BUTTONS ──────────────────────────────────────── */
 .button {
     -fx-background-radius: 16;
     -fx-font-size: 13px;
@@ -168,52 +120,28 @@
     -fx-cursor: hand;
     -fx-padding: 10 16 10 16;
 }
-.btn-primary {
-    -fx-background-color: #8B1538;
-    -fx-text-fill: white;
-}
-.btn-primary:hover {
-    -fx-background-color: #74112F;
-}
-.btn-outline {
-    -fx-background-color: white;
-    -fx-text-fill: #8B1538;
-    -fx-border-color: #DBB5C1;
-    -fx-border-radius: 16;
-}
-.btn-outline:hover {
-    -fx-background-color: #FFF6F8;
-}
-.btn-soft {
-    -fx-background-color: #F8E9EE;
-    -fx-text-fill: #8B1538;
-}
-.btn-soft:hover {
-    -fx-background-color: #F3DCE3;
-}
-.btn-light {
-    -fx-background-color: white;
-    -fx-text-fill: #8B1538;
-}
-.btn-light:hover {
-    -fx-background-color: #FFF5F8;
-}
-.btn-sidebar-outline {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-border-color: rgba(255,255,255,0.30);
-    -fx-border-radius: 16;
-}
-.btn-sidebar-outline:hover {
-    -fx-background-color: rgba(255,255,255,0.12);
-}
-.btn-danger {
-    -fx-background-color: #B41F49;
-    -fx-text-fill: white;
-}
-.btn-danger:hover {
-    -fx-background-color: #98183C;
-}
+.btn-primary         { -fx-background-color: #8B1538; -fx-text-fill: white; }
+.btn-primary:hover   { -fx-background-color: #74112F; }
+.btn-outline         { -fx-background-color: white; -fx-text-fill: #8B1538; -fx-border-color: #DBB5C1; -fx-border-radius: 16; }
+.btn-outline:hover   { -fx-background-color: #FFF6F8; }
+.btn-soft            { -fx-background-color: #F8E9EE; -fx-text-fill: #8B1538; }
+.btn-soft:hover      { -fx-background-color: #F3DCE3; }
+.btn-light           { -fx-background-color: white;   -fx-text-fill: #8B1538; }
+.btn-light:hover     { -fx-background-color: #FFF5F8; }
+.btn-sidebar-outline { -fx-background-color: transparent; -fx-text-fill: white; -fx-border-color: rgba(255,255,255,0.30); -fx-border-radius: 16; }
+.btn-sidebar-outline:hover { -fx-background-color: rgba(255,255,255,0.12); }
+.btn-danger          { -fx-background-color: #B41F49; -fx-text-fill: white; }
+.btn-danger:hover    { -fx-background-color: #98183C; }
+.btn-success         { -fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 9 14; -fx-font-weight: bold; }
+.btn-success:hover   { -fx-background-color: #219a52; }
+.btn-warning         { -fx-background-color: #e67e22; -fx-text-fill: white; -fx-background-radius: 12; }
+.btn-warning:hover   { -fx-background-color: #ca6f1e; }
+.btn-disabled        { -fx-opacity: 0.65; }
+.btn-link            { -fx-background-color: transparent; -fx-text-fill: #7A5160; -fx-padding: 8 12; }
+.btn-link:hover      { -fx-background-color: #FAEEF2; }
+.btn-modal-close     { -fx-background-color: rgba(255,255,255,0.16); -fx-text-fill: white; -fx-border-color: rgba(255,255,255,0.18); -fx-border-radius: 18; -fx-background-radius: 18; }
+.btn-modal-close:hover { -fx-background-color: rgba(255,255,255,0.24); }
+
 .btn-tab {
     -fx-background-color: white;
     -fx-text-fill: #8B1538;
@@ -222,409 +150,178 @@
     -fx-background-radius: 20;
     -fx-padding: 10 18 10 18;
 }
-.btn-tab:hover {
-    -fx-background-color: #FFF6F8;
-}
-.btn-tab-active {
-    -fx-background-color: #8B1538;
-    -fx-text-fill: white;
-    -fx-border-color: #8B1538;
-}
-.btn-link {
-    -fx-background-color: transparent;
-    -fx-text-fill: #7A5160;
-    -fx-padding: 8 12 8 12;
-}
-.btn-link:hover {
-    -fx-background-color: #FAEEF2;
-}
-.btn-modal-close {
-    -fx-background-color: rgba(255,255,255,0.16);
-    -fx-text-fill: white;
-    -fx-border-color: rgba(255,255,255,0.18);
-    -fx-border-radius: 18;
-    -fx-background-radius: 18;
-}
-.btn-modal-close:hover {
-    -fx-background-color: rgba(255,255,255,0.24);
-}
-/* =====================================================
-   CARDS
-   ===================================================== */
-.stat-card,
-.chart-card,
-.event-card,
-.empty-state-card,
-.details-card {
+.btn-tab:hover      { -fx-background-color: #FFF6F8; }
+.btn-tab-active     { -fx-background-color: #8B1538; -fx-text-fill: white; -fx-border-color: #8B1538; }
+
+/* ── CARDS ────────────────────────────────────────── */
+.stat-card, .chart-card, .event-card, .empty-state-card, .details-card {
     -fx-background-color: white;
     -fx-background-radius: 22;
     -fx-border-color: #F0D7DF;
     -fx-border-radius: 22;
     -fx-effect: dropshadow(gaussian, rgba(87,20,43,0.08), 24, 0.12, 0, 8);
 }
-.stat-card {
-    -fx-padding: 20;
+.stat-card     { -fx-padding: 20; }
+.stat-label    { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #A46A7D; }
+.stat-value    { -fx-font-size: 34px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.stat-hint     { -fx-font-size: 12px; -fx-text-fill: #9A6C7B; }
+.stat-icon-box { -fx-background-color: #F9EDF1; -fx-background-radius: 16; -fx-padding: 12; }
+.stat-icon     { -fx-font-size: 20px; }
+.chart-card    { -fx-padding: 22; }
+.card-title    { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.card-subtitle { -fx-font-size: 12px; -fx-text-fill: #A46A7D; }
+
+.donut-caption  { -fx-font-size: 12px; -fx-text-fill: #A46A7D; }
+.donut-value    { -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.legend-primary   { -fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #8B1538; }
+.legend-secondary { -fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #8E7480; }
+
+.month-bar       { -fx-background-color: linear-gradient(to top, #8B1538, #C26D89); -fx-background-radius: 12 12 0 0; -fx-min-width: 40; }
+.bar-count-label { -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #A46A7D; }
+.bar-month-label { -fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #7A5160; }
+
+/* ── EVENT LIST ───────────────────────────────────── */
+.section-title    { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.section-subtitle { -fx-font-size: 13px; -fx-text-fill: #A36277; }
+.dot-upcoming     { -fx-text-fill: #8B1538; -fx-font-size: 13px; }
+.dot-past         { -fx-text-fill: #B08A98; -fx-font-size: 13px; }
+
+.event-card          { -fx-padding: 22; -fx-spacing: 12; }
+.event-card:hover    { -fx-effect: dropshadow(gaussian, rgba(87,20,43,0.14), 30, 0.18, 0, 10); }
+.event-title         { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.event-icon-box      { -fx-background-color: #F8E9EE; -fx-background-radius: 14; -fx-padding: 8 10; -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #8B1538; }
+.event-badge-upcoming { -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 5 12; -fx-background-radius: 20; -fx-background-color: #F8E9EE; -fx-text-fill: #8B1538; }
+.event-badge-past     { -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 5 12; -fx-background-radius: 20; -fx-background-color: #F3EEF0; -fx-text-fill: #856671; }
+
+/* Status chips (event cards + reservation cards) */
+.reservation-status-chip {
+    -fx-font-size: 11px; -fx-font-weight: bold;
+    -fx-padding: 4 10; -fx-background-radius: 18;
 }
-.stat-label {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #A46A7D;
+.reservation-status-chip-lg {
+    -fx-font-size: 13px; -fx-font-weight: bold;
+    -fx-padding: 6 14; -fx-background-radius: 20;
 }
-.stat-value {
-    -fx-font-size: 34px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.stat-hint {
-    -fx-font-size: 12px;
-    -fx-text-fill: #9A6C7B;
-}
-.stat-icon-box {
-    -fx-background-color: #F9EDF1;
-    -fx-background-radius: 16;
-    -fx-padding: 12;
-}
-.stat-icon {
-    -fx-font-size: 20px;
-}
-.chart-card {
-    -fx-padding: 22;
-}
-.card-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.card-subtitle {
-    -fx-font-size: 12px;
-    -fx-text-fill: #A46A7D;
-}
-.donut-caption {
-    -fx-font-size: 12px;
-    -fx-text-fill: #A46A7D;
-}
-.donut-value {
-    -fx-font-size: 26px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.legend-primary,
-.legend-secondary {
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-}
-.legend-primary {
-    -fx-text-fill: #8B1538;
-}
-.legend-secondary {
-    -fx-text-fill: #8E7480;
-}
-.month-bar {
-    -fx-background-color: linear-gradient(to top, #8B1538, #C26D89);
-    -fx-background-radius: 12 12 0 0;
-    -fx-min-width: 40;
-}
-.bar-count-label {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #A46A7D;
-}
-.bar-month-label {
-    -fx-font-size: 11px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #7A5160;
-}
-/* =====================================================
-   EVENT LIST
-   ===================================================== */
-.section-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.dot-upcoming {
-    -fx-text-fill: #8B1538;
-    -fx-font-size: 13px;
-}
-.dot-past {
-    -fx-text-fill: #B08A98;
-    -fx-font-size: 13px;
-}
-.event-card {
-    -fx-padding: 22;
-}
-.event-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.event-icon-box {
-    -fx-background-color: #F8E9EE;
-    -fx-background-radius: 14;
-    -fx-padding: 8 10 8 10;
-}
-.event-badge-upcoming,
-.event-badge-past {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-padding: 5 12 5 12;
-    -fx-background-radius: 20;
-}
-.event-badge-upcoming {
-    -fx-background-color: #F8E9EE;
-    -fx-text-fill: #8B1538;
-}
-.event-badge-past {
-    -fx-background-color: #F3EEF0;
-    -fx-text-fill: #856671;
-}
-.soft-separator .line {
-    -fx-border-color: #F0D7DF;
-}
-.detail-icon {
-    -fx-font-size: 14px;
-}
-.detail-label {
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #8B1538;
-}
-.detail-value {
-    -fx-font-size: 13px;
-    -fx-text-fill: #5C4350;
-}
-.event-description {
-    -fx-font-size: 13px;
-    -fx-text-fill: #6C515D;
-    -fx-line-spacing: 2px;
-}
-.empty-state-card {
-    -fx-padding: 34;
-    -fx-alignment: center;
-}
-.empty-state-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-.empty-state-text {
-    -fx-font-size: 13px;
-    -fx-text-fill: #8B6A77;
-}
-/* =====================================================
-   CALENDAR
-   ===================================================== */
-.calendar-grid {
-    -fx-background-color: transparent;
-}
-.calendar-header {
-    -fx-background-color: #F8E9EE;
-    -fx-background-radius: 16;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #8B1538;
-    -fx-padding: 10 8 10 8;
-}
-.calendar-cell {
+.reservation-status-accepted { -fx-background-color: #E7F7EE; -fx-text-fill: #23824C; }
+.reservation-status-refused  { -fx-background-color: #FBE9ED; -fx-text-fill: #B32E4A; }
+.reservation-status-pending  { -fx-background-color: #FEF5E7; -fx-text-fill: #D08A00; }
+
+.soft-separator .line { -fx-border-color: #F0D7DF; }
+.detail-icon  { -fx-font-size: 14px; }
+.detail-label { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #8B1538; }
+.detail-value { -fx-font-size: 13px; -fx-text-fill: #5C4350; }
+.event-description { -fx-font-size: 13px; -fx-text-fill: #6C515D; -fx-line-spacing: 2px; }
+
+.empty-state-card   { -fx-padding: 34; -fx-alignment: center; }
+.empty-state-title  { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.empty-state-text   { -fx-font-size: 13px; -fx-text-fill: #8B6A77; }
+
+/* ── RÉSERVATIONS (vue intégrée) ─────────────────── */
+.reservations-header {
     -fx-background-color: white;
     -fx-background-radius: 18;
     -fx-border-color: #F0D7DF;
     -fx-border-radius: 18;
-    -fx-cursor: hand;
+    -fx-padding: 18 22 18 22;
+    -fx-effect: dropshadow(gaussian, rgba(87,20,43,0.06), 16, 0.10, 0, 4);
 }
-.calendar-cell:hover {
-    -fx-background-color: #FFF8FA;
+.reservations-header-icon {
+    -fx-background-color: #F8E9EE;
+    -fx-background-radius: 16;
+    -fx-padding: 12;
 }
-.calendar-cell-today {
-    -fx-border-color: #8B1538;
-    -fx-border-width: 2;
+
+/* Bandeau légende */
+.legend-bar {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #F0D7DF;
+    -fx-border-radius: 14;
+    -fx-padding: 12 18 12 18;
 }
-.calendar-day-number {
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
+.legend-chip-box    { -fx-background-radius: 14; -fx-padding: 5 12; }
+.legend-chip-label  { -fx-font-size: 12px; -fx-font-weight: bold; }
+.legend-chip-accepted { -fx-background-color: #E7F7EE; }
+.legend-chip-accepted .legend-chip-label { -fx-text-fill: #23824C; }
+.legend-chip-pending  { -fx-background-color: #FEF5E7; }
+.legend-chip-pending  .legend-chip-label { -fx-text-fill: #D08A00; }
+.legend-chip-refused  { -fx-background-color: #FBE9ED; }
+.legend-chip-refused  .legend-chip-label { -fx-text-fill: #B32E4A; }
+
+/* Bordure colorée selon statut sur la carte réservation */
+.reservation-card-accepte {
+    -fx-border-color: #27ae60;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-radius: 22;
 }
-.calendar-day-number-today {
-    -fx-background-color: #8B1538;
-    -fx-background-radius: 100;
-    -fx-text-fill: white;
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-padding: 6 10 6 10;
+.reservation-card-en_attente {
+    -fx-border-color: #f39c12;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-radius: 22;
 }
-.calendar-event-chip {
-    -fx-background-color: #FAEDF2;
-    -fx-background-radius: 12;
-    -fx-padding: 4 8 4 8;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #7A1F3E;
+.reservation-card-refuse {
+    -fx-border-color: #e74c3c;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-radius: 22;
 }
-.calendar-more-label {
-    -fx-font-size: 11px;
-    -fx-text-fill: #9A6C7B;
+
+/* Bloc message statut */
+.statut-message-box-accepte    { -fx-background-color: #eafaf1; -fx-background-radius: 12; }
+.statut-message-box-en_attente { -fx-background-color: #fef9e7; -fx-background-radius: 12; }
+.statut-message-box-refuse     { -fx-background-color: #fdedee; -fx-background-radius: 12; }
+.statut-message-text           { -fx-font-size: 12px; -fx-text-fill: #5C4350; -fx-line-spacing: 2px; }
+
+/* ── CALENDAR ─────────────────────────────────────── */
+.calendar-grid { -fx-background-color: transparent; }
+.calendar-header {
+    -fx-background-color: #F8E9EE; -fx-background-radius: 16;
+    -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #8B1538;
+    -fx-padding: 10 8;
 }
-.month-title {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-/* =====================================================
-   FOOTER
-   ===================================================== */
+.calendar-cell       { -fx-background-color: white; -fx-background-radius: 18; -fx-border-color: #F0D7DF; -fx-border-radius: 18; -fx-cursor: hand; }
+.calendar-cell:hover { -fx-background-color: #FFF8FA; }
+.calendar-cell-today { -fx-border-color: #8B1538; -fx-border-width: 2; }
+.calendar-day-number       { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.calendar-day-number-today { -fx-background-color: #8B1538; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 6 10; }
+.calendar-event-chip       { -fx-background-color: #FAEDF2; -fx-background-radius: 12; -fx-padding: 4 8; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7A1F3E; }
+.calendar-more-label       { -fx-font-size: 11px; -fx-text-fill: #9A6C7B; }
+.month-title               { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+
+/* ── FOOTER ───────────────────────────────────────── */
 .footer-bar {
     -fx-background-color: white;
     -fx-border-color: #F1DBE2;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 14 28 14 28;
 }
-.footer-icon {
-    -fx-text-fill: #9A6C7B;
-}
-.footer-text {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7A5160;
-}
-/* =====================================================
-   DETAILS MODAL
-   ===================================================== */
-.details-modal-root {
-    -fx-background-color: white;
-    -fx-background-radius: 22;
-}
-.details-modal-header {
-    -fx-background-color: linear-gradient(to right, #8B1538, #A72E55);
-    -fx-background-radius: 22 22 0 0;
-}
-.details-eyebrow {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-text-fill: rgba(255,255,255,0.72);
-}
-.details-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-.details-card {
-    -fx-padding: 18;
-}
-.details-section-title {
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #8B1538;
-}
-.details-description {
-    -fx-font-size: 13px;
-    -fx-text-fill: #5C4350;
-    -fx-line-spacing: 2px;
-}
-/* =====================================================
-   SCROLL / DIALOG
-   ===================================================== */
-.transparent-scroll {
-    -fx-background-color: transparent;
-    -fx-background: transparent;
-    -fx-border-color: transparent;
-}
-.transparent-scroll > .viewport {
-    -fx-background-color: transparent;
-}
-.app-dialog {
-    -fx-background-color: white;
-}
-.app-dialog .content.label {
-    -fx-text-fill: #5C4350;
-}
-.btn-success {
-    -fx-background-color: #27ae60;
-    -fx-text-fill: white;
-    -fx-background-radius: 8;
-    -fx-padding: 8 16;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
+.footer-icon { -fx-text-fill: #9A6C7B; }
+.footer-text { -fx-font-size: 12px; -fx-text-fill: #7A5160; }
 
-.btn-success:hover {
-    -fx-background-color: #219a52;
-}
+/* ── DETAILS MODAL ────────────────────────────────── */
+.details-modal-root   { -fx-background-color: white; -fx-background-radius: 22; }
+.details-modal-header { -fx-background-color: linear-gradient(to right, #8B1538, #A72E55); -fx-background-radius: 22 22 0 0; }
+.details-eyebrow      { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: rgba(255,255,255,0.72); }
+.details-title        { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white; }
+.details-card         { -fx-padding: 18; }
+.details-section-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #8B1538; }
+.details-description  { -fx-font-size: 13px; -fx-text-fill: #5C4350; -fx-line-spacing: 2px; }
 
-.dialog-pane {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-}
+/* ── SCROLL / DIALOG ──────────────────────────────── */
+.transparent-scroll                   { -fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent; }
+.transparent-scroll > .viewport       { -fx-background-color: transparent; }
+.app-dialog                           { -fx-background-color: white; }
+.app-dialog .content.label            { -fx-text-fill: #5C4350; }
+.dialog-pane                          { -fx-background-color: white; -fx-background-radius: 12; }
+.dialog-pane .header-panel            { -fx-background-color: #fdf5f7; -fx-background-radius: 12 12 0 0; }
+.dialog-pane .content                 { -fx-padding: 20; }
 
-.dialog-pane .header-panel {
-    -fx-background-color: #fdf5f7;
-    -fx-background-radius: 12 12 0 0;
-}
-
-.dialog-pane .content {
-    -fx-padding: 20;
-}
-
-/* =====================================================
-   SCANNER QR
-   ===================================================== */
-.scanner-root {
-    -fx-background-color: #F9F2F5;
-    -fx-padding: 22;
-}
-
-.scanner-header,
-.scanner-result-card {
-    -fx-background-color: white;
-    -fx-background-radius: 22;
-    -fx-border-color: #F0D7DF;
-    -fx-border-radius: 22;
-    -fx-padding: 18;
-}
-
-.scanner-icon {
-    -fx-background-color: #F8E9EE;
-    -fx-background-radius: 16;
-    -fx-text-fill: #8B1538;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-padding: 12;
-}
-
-.scanner-title {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-
-.scanner-subtitle,
-.scanner-result-detail {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7A5160;
-}
-
-.scanner-field-label {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #8B1538;
-}
-
-.scanner-input {
-    -fx-background-color: white;
-    -fx-border-color: #EDD4DC;
-    -fx-border-radius: 16;
-    -fx-background-radius: 16;
-    -fx-font-family: "Consolas";
-    -fx-font-size: 13px;
-    -fx-text-fill: #5A1730;
-    -fx-prompt-text-fill: #B78A98;
-}
-
-.scanner-result-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #5A1730;
-}
-
-.scanner-btn {
-    -fx-min-width: 118;
-    -fx-pref-height: 40;
-}
+/* ── SCANNER QR ───────────────────────────────────── */
+.scanner-root          { -fx-background-color: #F9F2F5; -fx-padding: 22; }
+.scanner-header, .scanner-result-card { -fx-background-color: white; -fx-background-radius: 22; -fx-border-color: #F0D7DF; -fx-border-radius: 22; -fx-padding: 18; }
+.scanner-icon          { -fx-background-color: #F8E9EE; -fx-background-radius: 16; -fx-text-fill: #8B1538; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12; }
+.scanner-title         { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.scanner-subtitle, .scanner-result-detail { -fx-font-size: 12px; -fx-text-fill: #7A5160; }
+.scanner-field-label   { -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #8B1538; }
+.scanner-input         { -fx-background-color: white; -fx-border-color: #EDD4DC; -fx-border-radius: 16; -fx-background-radius: 16; -fx-font-family: "Consolas"; -fx-font-size: 13px; -fx-text-fill: #5A1730; -fx-prompt-text-fill: #B78A98; }
+.scanner-result-title  { -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #5A1730; }
+.scanner-btn           { -fx-min-width: 118; -fx-pref-height: 40; }

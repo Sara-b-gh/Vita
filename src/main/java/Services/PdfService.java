@@ -1,7 +1,7 @@
 package services;
 
-import Entites.CompteRendu;
-import Entites.User;
+import entities.CompteRendu;
+import entities.User;
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;

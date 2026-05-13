@@ -1,8 +1,8 @@
-package Entites;
+package entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+import entities.Disponibilite;
 public class Disponibilite {
     private int id_dispo;
     private int medecin_id;

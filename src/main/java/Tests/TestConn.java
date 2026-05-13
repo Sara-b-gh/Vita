@@ -1,6 +1,6 @@
 package tests;
 
-import Entites.RendezVous;
+import entities.RendezVous;
 import services.RendezVousCRUD;
 import java.sql.SQLException;
 

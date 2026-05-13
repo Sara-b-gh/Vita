@@ -9,12 +9,12 @@
 <StackPane fx:id="rootStack"
            xmlns="http://javafx.com/javafx/21"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="Controlers.RendezVousController"
+           fx:controller="controles.RendezVousController"
            prefWidth="1140" prefHeight="750"
            style="-fx-background-color: #f4f6fb;">
 
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@admin.css"/>
     </stylesheets>
 
     <BorderPane fx:id="mainPane">

@@ -1,7 +1,7 @@
-package Controlers;
+package controles;
 
-import Entites.CompteRendu;
-import Entites.User;
+import entities.CompteRendu;
+import entities.User;
 import services.CompteRenduCRUD;
 import services.UserService;
 import javafx.collections.FXCollections;
@@ -122,9 +122,6 @@ public class CompteRenduController {
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Format d'ID invalide", e);
             showAlert("Erreur", "L'ID du rendez-vous doit être un nombre valide.");
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Erreur SQL lors de l'ajout", e);
-            showAlert("Erreur", "Erreur lors de l'ajout : " + e.getMessage());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Erreur inattendue", e);
             showAlert("Erreur", "Erreur inattendue : " + e.getMessage());

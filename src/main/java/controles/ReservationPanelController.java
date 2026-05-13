@@ -1,7 +1,7 @@
 package controles;
 
-import entities.Evenn;
-import entities.ReservationPersonne;
+import entities.RendezVous;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,27 +37,20 @@ public class ReservationPanelController {
     // ===== FXML DECLARATIONS =====
     @FXML private Label evenementLabel;
     @FXML private ComboBox<String> statutFilter;
-    @FXML private ListView<ReservationPersonne> reservationListView;
+    @FXML private ListView<RendezVous.ReservationPersonne> reservationListView;
     @FXML private Label statAttente;
     @FXML private Label statAccepte;
     @FXML private Label statRefuse;
 
     private final ServiceReservationPersonne srp = new ServiceReservationPersonne();
     private final ServiceEvenn se = new ServiceEvenn();
-    private final ObservableList<ReservationPersonne> reservations = FXCollections.observableArrayList();
-    private Evenn evenement;
+    private final ObservableList<RendezVous.ReservationPersonne> reservations = FXCollections.observableArrayList();
+    private RendezVous.Evenn evenement;
     private Runnable onRefreshCallback;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    public void setEvenement(Evenn evenement, Runnable onRefresh) {
-        this.evenement = evenement;
-        this.onRefreshCallback = onRefresh;
-        if (evenementLabel != null) {
-            evenementLabel.setText("Événement : " + evenement.getTitre());
-        }
-        chargerReservations();
-    }
+
 
     @FXML
     public void initialize() {
@@ -71,7 +64,7 @@ public class ReservationPanelController {
         // Configuration de la liste des réservations
         reservationListView.setCellFactory(lv -> new ListCell<>() {
             @Override
-            protected void updateItem(ReservationPersonne r, boolean empty) {
+            protected void updateItem(RendezVous.ReservationPersonne r, boolean empty) {
                 super.updateItem(r, empty);
                 if (empty || r == null) {
                     setText(null);
@@ -215,7 +208,7 @@ public class ReservationPanelController {
     private void chargerReservations() {
         if (evenement == null) return;
         try {
-            List<ReservationPersonne> list = srp.getByEvenement(evenement.getId_Evenn());
+            List<RendezVous.ReservationPersonne> list = srp.getByEvenement(evenement.getId_Evenn());
             reservations.setAll(list);
             mettreAJourStatistiques();
             filtrerReservations();
@@ -246,14 +239,14 @@ public class ReservationPanelController {
         if ("TOUS".equals(filter)) {
             reservationListView.setItems(FXCollections.observableArrayList(reservations));
         } else {
-            List<ReservationPersonne> filtered = reservations.stream()
+            List<RendezVous.ReservationPersonne> filtered = reservations.stream()
                     .filter(r -> r.getStatut().equals(filter))
                     .collect(Collectors.toList());
             reservationListView.setItems(FXCollections.observableArrayList(filtered));
         }
     }
 
-    private void accepterReservation(ReservationPersonne r) {
+    private void accepterReservation(RendezVous.ReservationPersonne r) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
         confirm.setHeaderText("Accepter la réservation");
@@ -274,7 +267,7 @@ public class ReservationPanelController {
         });
     }
 
-    private void refuserReservation(ReservationPersonne r) {
+    private void refuserReservation(RendezVous.ReservationPersonne r) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
         confirm.setHeaderText("Refuser la réservation");
@@ -295,7 +288,7 @@ public class ReservationPanelController {
         });
     }
 
-    private void supprimerReservation(ReservationPersonne r) {
+    private void supprimerReservation(RendezVous.ReservationPersonne r) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
         confirm.setHeaderText("Supprimer la réservation");
@@ -316,7 +309,7 @@ public class ReservationPanelController {
         });
     }
 
-    private void afficherQRCodeReservation(ReservationPersonne r) {
+    private void afficherQRCodeReservation(RendezVous.ReservationPersonne r) {
         Stage stage = new Stage();
         stage.setTitle("QR Code - " + r.getNomComplet());
 
@@ -353,7 +346,7 @@ public class ReservationPanelController {
 
     @FXML
     private void accepterTout() {
-        List<ReservationPersonne> pending = reservations.stream()
+        List<RendezVous.ReservationPersonne> pending = reservations.stream()
                 .filter(r -> "EN_ATTENTE".equals(r.getStatut()))
                 .collect(Collectors.toList());
         if (pending.isEmpty()) {
@@ -368,7 +361,7 @@ public class ReservationPanelController {
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
-                    for (ReservationPersonne r : pending) {
+                    for (RendezVous.ReservationPersonne r : pending) {
                         srp.updateStatut(r.getId(), "ACCEPTE");
                     }
                     chargerReservations();
@@ -385,7 +378,7 @@ public class ReservationPanelController {
 
     @FXML
     private void refuserTout() {
-        List<ReservationPersonne> pending = reservations.stream()
+        List<RendezVous.ReservationPersonne> pending = reservations.stream()
                 .filter(r -> "EN_ATTENTE".equals(r.getStatut()))
                 .collect(Collectors.toList());
         if (pending.isEmpty()) {
@@ -400,7 +393,7 @@ public class ReservationPanelController {
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
-                    for (ReservationPersonne r : pending) {
+                    for (RendezVous.ReservationPersonne r : pending) {
                         srp.updateStatut(r.getId(), "REFUSE");
                     }
                     chargerReservations();
@@ -428,7 +421,7 @@ public class ReservationPanelController {
 
         try (FileWriter fw = new FileWriter(file)) {
             fw.write("ID;Nom complet;Email;Téléphone;Date réservation;Statut;Commentaire\n");
-            for (ReservationPersonne r : reservations) {
+            for (RendezVous.ReservationPersonne r : reservations) {
                 fw.write(r.getId() + ";" +
                         r.getNomComplet() + ";" +
                         r.getEmail() + ";" +
@@ -455,5 +448,13 @@ public class ReservationPanelController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    public void setEvenement(RendezVous.Evenn evenement, Runnable onRefresh) {
+        this.evenement = evenement;
+        this.onRefreshCallback = onRefresh;
+        if (evenementLabel != null) {
+            evenementLabel.setText("Événement : " + evenement.getTitre());
+        }
+        chargerReservations();
     }
 }

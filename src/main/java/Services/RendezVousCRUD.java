@@ -1,6 +1,6 @@
 package services;
 
-import Entites.RendezVous;
+import entities.RendezVous;
 import utils.MyBD;
 
 import java.sql.*;

@@ -1,6 +1,7 @@
 package services;
 
-import Entites.CompteRendu;
+import entities.CompteRendu;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class CompteRenduCRUD {
         this.connection = utils.MyBD.getConnection();
     }
 
-    public CompteRendu trouverParRdv(int idRdv) {
+    public entities.CompteRendu trouverParRdv(int idRdv) {
         String sql = "SELECT * FROM compte_rendus WHERE id_rdv = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idRdv);
@@ -56,7 +57,7 @@ public class CompteRenduCRUD {
         }
     }
 
-    public List<CompteRendu> afficher() throws SQLException {
+    public List<entities.CompteRendu> afficher() throws SQLException {
         List<CompteRendu> list = new ArrayList<>();
         String sql = "SELECT * FROM compte_rendus ORDER BY date_creation DESC";
         try (Statement stmt = connection.createStatement();
@@ -193,4 +194,7 @@ public class CompteRenduCRUD {
     public boolean existePourRdv(int idRdv) throws SQLException {
         return compterParRdv(idRdv) > 0;
     }
-}
+
+
+
+    }

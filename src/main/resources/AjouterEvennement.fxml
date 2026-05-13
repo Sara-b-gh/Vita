@@ -7,8 +7,8 @@
 
 <StackPane xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="Controlers.ModifierRdvController.AdminEvenementController"
-           stylesheets="@style.css"
+           fx:controller="controles.AdminEvenementController"
+           stylesheets="@admin.css"
            prefWidth="1440"
            prefHeight="820"
            styleClass="app-root">

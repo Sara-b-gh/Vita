@@ -1,6 +1,6 @@
-package Controlers;
+package controles;
 
-import Entites.RendezVous;
+import entities.RendezVous;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,7 +31,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import entities.*;
 public class NavigationManager {
 
     private static NavigationManager instance;

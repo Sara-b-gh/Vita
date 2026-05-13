@@ -1,7 +1,6 @@
 package controles;
 
-import entities.Evenn;
-import entities.Ressource;
+import entities.RendezVous;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
@@ -99,7 +98,7 @@ public class GestionRessourceController {
 
     /*
      * Important :
-     * On n’affiche plus directement Ressource dans la ListView.
+     * On n’affiche plus directement RendezVous.Ressource dans la ListView.
      * On affiche RessourceRow, pour pouvoir insérer des titres de groupe.
      */
     @FXML private ListView<RessourceRow> ressourceListView;
@@ -122,9 +121,9 @@ public class GestionRessourceController {
     private final ServiceRessource sr = new ServiceRessource();
     private final ServiceEvenn se = new ServiceEvenn();
 
-    private List<Ressource> allRessources = List.of();
-    private List<Ressource> currentRessources = List.of();
-    private List<Evenn> allEvenements = List.of();
+    private List<RendezVous.Ressource> allRessources = List.of();
+    private List<RendezVous.Ressource> currentRessources = List.of();
+    private List<RendezVous.Evenn> allEvenements = List.of();
 
     /* ========================================================= */
     /* THEME                                                     */
@@ -189,9 +188,9 @@ public class GestionRessourceController {
     private static class RessourceRow {
         private final boolean header;
         private final String headerTitle;
-        private final Ressource ressource;
+        private final RendezVous.Ressource ressource;
 
-        private RessourceRow(boolean header, String headerTitle, Ressource ressource) {
+        private RessourceRow(boolean header, String headerTitle, RendezVous.Ressource ressource) {
             this.header = header;
             this.headerTitle = headerTitle;
             this.ressource = ressource;
@@ -201,7 +200,7 @@ public class GestionRessourceController {
             return new RessourceRow(true, title, null);
         }
 
-        static RessourceRow resource(Ressource ressource) {
+        static RessourceRow resource(RendezVous.Ressource ressource) {
             return new RessourceRow(false, null, ressource);
         }
 
@@ -213,7 +212,7 @@ public class GestionRessourceController {
             return headerTitle;
         }
 
-        Ressource getRessource() {
+        RendezVous.Ressource getRessource() {
             return ressource;
         }
     }
@@ -395,7 +394,7 @@ public class GestionRessourceController {
         String selected = eventFilterCombo.getValue();
 
         List<String> titres = allEvenements.stream()
-                .map(Evenn::getTitre)
+                .map(RendezVous.Evenn::getTitre)
                 .filter(t -> t != null && !t.isBlank())
                 .distinct()
                 .sorted()
@@ -432,13 +431,13 @@ public class GestionRessourceController {
                 ? "Tous"
                 : statusFilterCombo.getValue();
 
-        List<Ressource> filtered = allRessources.stream()
+        List<RendezVous.Ressource> filtered = allRessources.stream()
                 .filter(r -> matchesSearch(r, query))
                 .filter(r -> matchesType(r, typeFilter))
                 .filter(r -> matchesEvent(r, eventFilter))
                 .filter(r -> matchesStatus(r, statusFilter))
                 .sorted(Comparator
-                        .comparing((Ressource r) -> getTypeRessource(r).ordinal())
+                        .comparing((RendezVous.Ressource r) -> getTypeRessource(r).ordinal())
                         .thenComparing(this::scoreOccupationRisque, Comparator.reverseOrder())
                         .thenComparing(r -> safe(r.getNomRessource()).toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
@@ -463,7 +462,7 @@ public class GestionRessourceController {
         }
     }
 
-    private boolean matchesSearch(Ressource r, String query) {
+    private boolean matchesSearch(RendezVous.Ressource r, String query) {
         if (r == null) return false;
         if (query == null || query.isBlank()) return true;
 
@@ -474,12 +473,12 @@ public class GestionRessourceController {
                 || getTypeRessource(r).label().toLowerCase(Locale.ROOT).contains(query);
     }
 
-    private boolean matchesType(Ressource r, String typeFilter) {
+    private boolean matchesType(RendezVous.Ressource r, String typeFilter) {
         if (typeFilter == null || "Tous les types".equals(typeFilter)) return true;
         return getTypeRessource(r).label().equals(typeFilter);
     }
 
-    private boolean matchesEvent(Ressource r, String eventFilter) {
+    private boolean matchesEvent(RendezVous.Ressource r, String eventFilter) {
         if (eventFilter == null || "Tous les événements".equals(eventFilter)) return true;
 
         if ("Non affectées".equals(eventFilter)) {
@@ -489,7 +488,7 @@ public class GestionRessourceController {
         return safe(r.getEvenementTitre()).equals(eventFilter);
     }
 
-    private boolean matchesStatus(Ressource r, String statusFilter) {
+    private boolean matchesStatus(RendezVous.Ressource r, String statusFilter) {
         if (statusFilter == null || "Tous".equals(statusFilter)) return true;
 
         return switch (statusFilter) {
@@ -533,20 +532,20 @@ public class GestionRessourceController {
     /* LISTE GROUPÉE                                             */
     /* ========================================================= */
 
-    private List<RessourceRow> construireListeGroupee(List<Ressource> ressources) {
+    private List<RessourceRow> construireListeGroupee(List<RendezVous.Ressource> ressources) {
         List<RessourceRow> rows = new ArrayList<>();
 
         if (ressources == null || ressources.isEmpty()) {
             return rows;
         }
 
-        Map<ResourceType, List<Ressource>> groupes = new LinkedHashMap<>();
+        Map<ResourceType, List<RendezVous.Ressource>> groupes = new LinkedHashMap<>();
         groupes.put(ResourceType.MATERIELLE, new ArrayList<>());
         groupes.put(ResourceType.LOGICIELLE, new ArrayList<>());
         groupes.put(ResourceType.HUMAINE, new ArrayList<>());
         groupes.put(ResourceType.NON_CLASSEE, new ArrayList<>());
 
-        for (Ressource r : ressources) {
+        for (RendezVous.Ressource r : ressources) {
             groupes.get(getTypeRessource(r)).add(r);
         }
 
@@ -558,12 +557,12 @@ public class GestionRessourceController {
         return rows;
     }
 
-    private void ajouterGroupe(List<RessourceRow> rows, String titre, List<Ressource> ressources) {
+    private void ajouterGroupe(List<RessourceRow> rows, String titre, List<RendezVous.Ressource> ressources) {
         if (ressources == null || ressources.isEmpty()) return;
 
         rows.add(RessourceRow.header(titre + " — " + ressources.size()));
 
-        for (Ressource r : ressources) {
+        for (RendezVous.Ressource r : ressources) {
             rows.add(RessourceRow.resource(r));
         }
     }
@@ -626,7 +625,7 @@ public class GestionRessourceController {
         return box;
     }
 
-    private VBox creerCarteRessourceListe(Ressource r) {
+    private VBox creerCarteRessourceListe(RendezVous.Ressource r) {
         if (r == null) {
             return new VBox();
         }
@@ -786,7 +785,7 @@ public class GestionRessourceController {
         return badge;
     }
 
-    private Label creerBadgeEtatRessource(Ressource r, boolean tension, int disponible) {
+    private Label creerBadgeEtatRessource(RendezVous.Ressource r, boolean tension, int disponible) {
         Label badge = new Label();
         badge.getStyleClass().add("status-pill");
 
@@ -823,7 +822,7 @@ public class GestionRessourceController {
     /* GRILLE                                                    */
     /* ========================================================= */
 
-    private void afficherRessourcesGrille(List<Ressource> ressources) {
+    private void afficherRessourcesGrille(List<RendezVous.Ressource> ressources) {
         if (ressourceGridPane == null) return;
 
         ressourceGridPane.getChildren().clear();
@@ -835,12 +834,12 @@ public class GestionRessourceController {
             return;
         }
 
-        for (Ressource r : ressources) {
+        for (RendezVous.Ressource r : ressources) {
             ressourceGridPane.getChildren().add(creerCarteGrille(r));
         }
     }
 
-    private VBox creerCarteGrille(Ressource r) {
+    private VBox creerCarteGrille(RendezVous.Ressource r) {
         ResourceType type = getTypeRessource(r);
 
         int capacite = quantiteCapacite(r);
@@ -933,7 +932,7 @@ public class GestionRessourceController {
     /* ========================================================= */
 
     private void mettreAJourKPI() {
-        List<Ressource> base = currentRessources == null ? List.of() : currentRessources;
+        List<RendezVous.Ressource> base = currentRessources == null ? List.of() : currentRessources;
 
         int total = base.size();
 
@@ -965,7 +964,7 @@ public class GestionRessourceController {
 
         long eventsCouverts = base.stream()
                 .filter(this::estAffectee)
-                .map(Ressource::getEvenementTitre)
+                .map(RendezVous.Ressource::getEvenementTitre)
                 .filter(s -> s != null && !s.isBlank())
                 .distinct()
                 .count();
@@ -1037,14 +1036,14 @@ public class GestionRessourceController {
             return;
         }
 
-        List<Ressource> critiques = currentRessources.stream()
+        List<RendezVous.Ressource> critiques = currentRessources.stream()
                 .filter(this::estEnTension)
                 .sorted(Comparator.comparing(this::scoreOccupationRisque).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
 
         String noms = critiques.stream()
-                .map(Ressource::getNomRessource)
+                .map(RendezVous.Ressource::getNomRessource)
                 .filter(s -> s != null && !s.isBlank())
                 .collect(Collectors.joining(", "));
 
@@ -1071,7 +1070,7 @@ public class GestionRessourceController {
     private void dessinerRepartitionParType() {
         if (repartitionCanvas == null) return;
 
-        List<Ressource> base = currentRessources == null ? List.of() : currentRessources;
+        List<RendezVous.Ressource> base = currentRessources == null ? List.of() : currentRessources;
 
         GraphicsContext gc = repartitionCanvas.getGraphicsContext2D();
 
@@ -1146,7 +1145,7 @@ public class GestionRessourceController {
     private void dessinerOccupationParEvenement() {
         if (risqueCanvas == null) return;
 
-        List<Ressource> base = currentRessources == null ? List.of() : currentRessources;
+        List<RendezVous.Ressource> base = currentRessources == null ? List.of() : currentRessources;
 
         GraphicsContext gc = risqueCanvas.getGraphicsContext2D();
 
@@ -1155,11 +1154,11 @@ public class GestionRessourceController {
 
         gc.clearRect(0, 0, w, h);
 
-        Map<String, List<Ressource>> grouped = base.stream()
+        Map<String, List<RendezVous.Ressource>> grouped = base.stream()
                 .filter(this::estAffectee)
                 .collect(Collectors.groupingBy(r -> safe(r.getEvenementTitre(), "Sans événement")));
 
-        List<Map.Entry<String, List<Ressource>>> top = grouped.entrySet().stream()
+        List<Map.Entry<String, List<RendezVous.Ressource>>> top = grouped.entrySet().stream()
                 .sorted((a, b) -> Double.compare(
                         tauxOccupationEvenement(b.getValue()),
                         tauxOccupationEvenement(a.getValue())
@@ -1188,7 +1187,7 @@ public class GestionRessourceController {
         }
 
         for (int i = 0; i < top.size(); i++) {
-            Map.Entry<String, List<Ressource>> entry = top.get(i);
+            Map.Entry<String, List<RendezVous.Ressource>> entry = top.get(i);
 
             double occupation = tauxOccupationEvenement(entry.getValue());
             double bh = maxH * Math.min(1.0, occupation);
@@ -1218,7 +1217,7 @@ public class GestionRessourceController {
         }
     }
 
-    private double tauxOccupationEvenement(List<Ressource> ressources) {
+    private double tauxOccupationEvenement(List<RendezVous.Ressource> ressources) {
         int cap = ressources.stream()
                 .mapToInt(this::quantiteCapacite)
                 .sum();
@@ -1248,7 +1247,7 @@ public class GestionRessourceController {
         ouvrirFormulaire(null);
     }
 
-    private void ouvrirFormulaire(Ressource resEdit) {
+    private void ouvrirFormulaire(RendezVous.Ressource resEdit) {
         Stage ownerStage = getStage();
 
         Stage stage = new Stage();
@@ -1285,7 +1284,7 @@ public class GestionRessourceController {
         ComboBox<String> cbEvt = new ComboBox<>();
 
         List<String> events = allEvenements.stream()
-                .map(Evenn::getTitre)
+                .map(RendezVous.Evenn::getTitre)
                 .filter(t -> t != null && !t.isBlank())
                 .distinct()
                 .sorted()
@@ -1392,7 +1391,7 @@ public class GestionRessourceController {
                     return;
                 }
 
-                Ressource res = resEdit != null ? resEdit : new Ressource();
+                RendezVous.Ressource res = resEdit != null ? resEdit : new RendezVous.Ressource();
 
                 res.setNomRessource(tfNom.getText().trim());
                 res.setQuantiteDisponible(capacite);
@@ -1414,7 +1413,7 @@ public class GestionRessourceController {
                     int idEvt = allEvenements.stream()
                             .filter(ev -> safe(ev.getTitre()).equals(eventValue))
                             .findFirst()
-                            .map(Evenn::getId_Evenn)
+                            .map(RendezVous.Evenn::getId_Evenn)
                             .orElse(0);
 
                     res.setIdEvenement(idEvt);
@@ -1435,7 +1434,7 @@ public class GestionRessourceController {
                     montrerToast(
                             "warning",
                             "Type non persistant",
-                            "Ajoutez typeRessource dans l’entité Ressource pour sauvegarder la catégorie."
+                            "Ajoutez typeRessource dans l’entité RendezVous.Ressource pour sauvegarder la catégorie."
                     );
                 }
 
@@ -1492,7 +1491,7 @@ public class GestionRessourceController {
     /* SUPPRESSION                                               */
     /* ========================================================= */
 
-    private void supprimerRessource(Ressource res) {
+    private void supprimerRessource(RendezVous.Ressource res) {
         if (res == null) return;
 
         Stage stage = new Stage();
@@ -1611,7 +1610,7 @@ public class GestionRessourceController {
 
         notifListContainer.getChildren().clear();
 
-        List<Ressource> tensions = allRessources.stream()
+        List<RendezVous.Ressource> tensions = allRessources.stream()
                 .filter(this::estEnTension)
                 .sorted(Comparator.comparing(this::scoreOccupationRisque).reversed())
                 .collect(Collectors.toList());
@@ -1631,7 +1630,7 @@ public class GestionRessourceController {
             return;
         }
 
-        for (Ressource r : tensions) {
+        for (RendezVous.Ressource r : tensions) {
             int manque = Math.abs(quantiteRestante(r));
 
             VBox card = new VBox(6);
@@ -1700,7 +1699,7 @@ public class GestionRessourceController {
         }
     }
 
-    private void ecrirePdfRessources(File file, List<Ressource> ressources) throws IOException {
+    private void ecrirePdfRessources(File file, List<RendezVous.Ressource> ressources) throws IOException {
         final int lignesParPage = 38;
         int pageCount = Math.max(1, (int) Math.ceil(ressources.size() / (double) lignesParPage));
 
@@ -1761,7 +1760,7 @@ public class GestionRessourceController {
         }
     }
 
-    private String contenuPagePdf(List<Ressource> ressources, int page, int lignesParPage, int pageCount) {
+    private String contenuPagePdf(List<RendezVous.Ressource> ressources, int page, int lignesParPage, int pageCount) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("BT\n/F1 16 Tf\n40 805 Td\n(")
@@ -1778,7 +1777,7 @@ public class GestionRessourceController {
         }
 
         for (int i = start; i < end; i++) {
-            Ressource r = ressources.get(i);
+            RendezVous.Ressource r = ressources.get(i);
 
             String line = String.format(
                     "%d. [%s] %s | evt: %s | cap: %d | aff: %d | libre: %d | occ: %.0f%%",
@@ -1871,7 +1870,7 @@ public class GestionRessourceController {
     /* LOGIQUE METIER                                            */
     /* ========================================================= */
 
-    private boolean estAffectee(Ressource r) {
+    private boolean estAffectee(RendezVous.Ressource r) {
         return r != null
                 && r.getEvenementTitre() != null
                 && !r.getEvenementTitre().isBlank()
@@ -1883,28 +1882,28 @@ public class GestionRessourceController {
      * quantiteDisponible = capacité totale de la ressource
      * quantiteRequise = quantité affectée
      */
-    private int quantiteCapacite(Ressource r) {
+    private int quantiteCapacite(RendezVous.Ressource r) {
         return r == null ? 0 : Math.max(0, r.getQuantiteDisponible());
     }
 
-    private int quantiteAffectee(Ressource r) {
+    private int quantiteAffectee(RendezVous.Ressource r) {
         return r == null ? 0 : Math.max(0, r.getQuantiteRequise());
     }
 
-    private int quantiteRestante(Ressource r) {
+    private int quantiteRestante(RendezVous.Ressource r) {
         return quantiteCapacite(r) - quantiteAffectee(r);
     }
 
-    private boolean estEnTension(Ressource r) {
+    private boolean estEnTension(RendezVous.Ressource r) {
         return r != null && quantiteAffectee(r) > quantiteCapacite(r);
     }
 
-    private double tauxOccupation(Ressource r) {
+    private double tauxOccupation(RendezVous.Ressource r) {
         int cap = quantiteCapacite(r);
         return cap > 0 ? Math.min(1.0, (double) quantiteAffectee(r) / cap) : 0.0;
     }
 
-    private double scoreOccupationRisque(Ressource r) {
+    private double scoreOccupationRisque(RendezVous.Ressource r) {
         if (r == null) return 0;
 
         double occ = tauxOccupation(r);
@@ -1915,7 +1914,7 @@ public class GestionRessourceController {
         return 100.0 * (0.50 * occ + 0.25 * tension + 0.15 * delai + 0.10 * event);
     }
 
-    private double coutTotal(Ressource r) {
+    private double coutTotal(RendezVous.Ressource r) {
         return r == null ? 0 : quantiteCapacite(r) * getCoutUnitaireSafe(r);
     }
 
@@ -1923,7 +1922,7 @@ public class GestionRessourceController {
     /* TYPE RESSOURCE                                            */
     /* ========================================================= */
 
-    private ResourceType getTypeRessource(Ressource r) {
+    private ResourceType getTypeRessource(RendezVous.Ressource r) {
         if (r == null) return ResourceType.NON_CLASSEE;
 
         String value = invokeGetterAsString(
@@ -1941,7 +1940,7 @@ public class GestionRessourceController {
         return devinerTypeDepuisNom(r);
     }
 
-    private boolean setTypeRessource(Ressource r, String type) {
+    private boolean setTypeRessource(RendezVous.Ressource r, String type) {
         if (r == null || type == null) return false;
 
         return invokeSetter(
@@ -1954,7 +1953,7 @@ public class GestionRessourceController {
         );
     }
 
-    private ResourceType devinerTypeDepuisNom(Ressource r) {
+    private ResourceType devinerTypeDepuisNom(RendezVous.Ressource r) {
         String nom = safe(r.getNomRessource()).toLowerCase(Locale.ROOT);
 
         if (nom.contains("logiciel")
@@ -2240,7 +2239,7 @@ public class GestionRessourceController {
         return s != null && !s.isBlank() ? s : fallback;
     }
 
-    private int getDelaiSafe(Ressource r) {
+    private int getDelaiSafe(RendezVous.Ressource r) {
         if (r == null || r.getDelaiReapprovisionnementJours() == null) {
             return 3;
         }
@@ -2248,17 +2247,17 @@ public class GestionRessourceController {
         return r.getDelaiReapprovisionnementJours();
     }
 
-    private void setDelaiSafe(Ressource r, int jours) {
+    private void setDelaiSafe(RendezVous.Ressource r, int jours) {
         if (r != null) {
             r.setDelaiReapprovisionnementJours(jours);
         }
     }
 
-    private double getCoutUnitaireSafe(Ressource r) {
+    private double getCoutUnitaireSafe(RendezVous.Ressource r) {
         return r == null ? 0 : r.getCoutUnitaire();
     }
 
-    private void setCoutUnitaireSafe(Ressource r, double cout) {
+    private void setCoutUnitaireSafe(RendezVous.Ressource r, double cout) {
         if (r != null) {
             r.setCoutUnitaire(cout);
         }

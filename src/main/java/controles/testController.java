@@ -1,4 +1,4 @@
-package Controlers;
+package controles;
 
 public class testController {
 }

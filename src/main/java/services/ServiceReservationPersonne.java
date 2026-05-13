@@ -1,8 +1,9 @@
 package services;
 
-import Entites.RendezVous;
+import entities.RendezVous;
+import entities.RendezVous;
 import utils.MyBD;
-
+import entities.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +138,7 @@ public class ServiceReservationPersonne implements IService<RendezVous.Reservati
         ps.setInt(2, id);
         ps.executeUpdate();
     }
-    public List<RendezVous.ReservationPersonne> getByEmail(String email) throws SQLException {
+    public List<entities.RendezVous.ReservationPersonne> getByEmail(String email) throws SQLException {
         List<RendezVous.ReservationPersonne> list = new ArrayList<>();
         String req = "SELECT * FROM reservation_personne WHERE email=? ORDER BY date_reservation DESC";
         PreparedStatement ps = cnx.prepareStatement(req);
@@ -157,5 +158,4 @@ public class ServiceReservationPersonne implements IService<RendezVous.Reservati
         }
         return list;
     }
-
 }

@@ -15,7 +15,7 @@
 
 <BorderPane prefHeight="737.0" prefWidth="1100.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlers.AfficherCompteRenduController">
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@admin.css" />
     </stylesheets>
 
     <!-- SIDEBAR -->

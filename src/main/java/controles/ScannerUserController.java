@@ -1,6 +1,6 @@
 package controles;
 
-import entities.Evenn;
+import entities.RendezVous;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -22,7 +22,7 @@ public class ScannerUserController {
     @FXML private Button voirDetailsBtn;
 
     private final ServiceEvenn se = new ServiceEvenn();
-    private Evenn evenementTrouve;
+    private RendezVous.Evenn evenementTrouve;
     private Runnable onEventFoundCallback;
 
     public void setOnEventFoundCallback(Runnable callback) {
@@ -55,7 +55,7 @@ public class ScannerUserController {
 
     private void verifierEvenement(int eventId) {
         try {
-            Evenn ev = se.getById(eventId);
+            RendezVous.Evenn ev = se.getById(eventId);
             if (ev == null) {
                 showAlert("Erreur", "Événement non trouvé", Alert.AlertType.ERROR);
                 return;
@@ -103,7 +103,7 @@ public class ScannerUserController {
         voirDetailsBtn.setVisible(false);
     }
 
-    private void afficherDetailsComplets(Evenn ev) {
+    private void afficherDetailsComplets(RendezVous.Evenn ev) {
         Stage stage = new Stage();
         stage.setTitle("Détails - " + ev.getTitre());
         stage.initModality(Modality.APPLICATION_MODAL);
