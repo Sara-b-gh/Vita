@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.vita.devora.Controlleurs.MainDashboard"
+            stylesheets="@STYLE1.css">
+
+    <!-- LEFT -->
+    <left>
+        <VBox styleClass="sidebar" spacing="15">
+
+            <Label text="VITA" styleClass="sidebar-title"/>
+
+            <Separator/>
+
+            <Button text="Tableau de bord"     styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Espace Docteurs"     styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Espace Patients"     styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Espace Rendez-vous"  styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Les Événements"      styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Formulaire"          styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+            <Button text="Quiz"                styleClass="nav-item" onAction="#onNavClick" onMouseEntered="#onNavHover" onMouseExited="#onNavExit"/>
+
+        </VBox>
+    </left>
+
+    <!-- CENTER -->
+    <center>
+
+<!--        <VBox styleClass="page">-->
+
+<!--            <HBox alignment="CENTER_LEFT">-->
+<!--                <Label text="Gestion du Formulaire"-->
+<!--                       styleClass="page-title"/>-->
+<!--            </HBox>-->
+
+<!--            <Button text="+ Nouvelle discussion"-->
+<!--                    onAction="#ouvrirFormulaire"-->
+<!--                    styleClass="btn-create"/>-->
+
+<!--            &lt;!&ndash; FORM &ndash;&gt;-->
+<!--            <VBox fx:id="formPanel"-->
+<!--                  visible="false"-->
+<!--                  managed="false"-->
+<!--                  styleClass="form-card">-->
+
+<!--                <Label text="Créer une discussion"-->
+<!--                       styleClass="form-title"/>-->
+
+<!--                <TextField fx:id="titreField"-->
+<!--                           promptText="Titre"/>-->
+
+<!--                <TextField fx:id="descriptionField"-->
+<!--                           promptText="Description"/>-->
+
+<!--                <ComboBox fx:id="categorieField"-->
+<!--                          promptText="Catégorie"/>-->
+
+<!--                <CheckBox fx:id="statusField"-->
+<!--                          text="Actif ?"/>-->
+
+<!--                <HBox spacing="12" alignment="CENTER_RIGHT">-->
+<!--                    <Button text="Annuler"-->
+<!--                            onAction="#fermerFormulaire"-->
+<!--                            styleClass="btn-cancel"/>-->
+<!--                </HBox>-->
+
+<!--            </VBox>-->
+
+<!--            &lt;!&ndash; LIST &ndash;&gt;-->
+<!--            <ListView fx:id="forumListView"-->
+<!--                      VBox.vgrow="ALWAYS"/>-->
+
+<!--        </VBox>-->
+        <StackPane fx:id="contentArea"/>
+
+    </center>
+
+</BorderPane>
