@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0"
+            style="-fx-background-color: #f4f4f4;"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controles.MainQuizController">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="220" spacing="0"
+              style="-fx-background-color: #6D1B3A;">
+            <padding><Insets top="30" /></padding>
+
+            <Label text="VITA"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold;
+                          -fx-text-fill: white; -fx-padding: 0 0 30 20;" />
+
+            <Button text="Tableau de bord" maxWidth="Infinity"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 14px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+            <Button text="Espace Docteurs" maxWidth="Infinity"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 14px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+            <Button text="Espace Patients" maxWidth="Infinity"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 14px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+            <Button text="➕ Ajouter Question" maxWidth="Infinity"
+                    onAction="#showFormulaire"
+                    style="-fx-background-color: #AD1457;
+                           -fx-text-fill: white; -fx-font-size: 14px;
+                           -fx-font-weight: bold;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+            <Button text="📋 Liste Questions" maxWidth="Infinity"
+                    onAction="#showListe"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 14px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+            <Button text="Les Événements" maxWidth="Infinity"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 14px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="🚪 Déconnexion" maxWidth="Infinity"
+                    onAction="#handleDeconnexion"
+                    style="-fx-background-color: transparent;
+                           -fx-text-fill: #e0b0c0; -fx-font-size: 13px;
+                           -fx-alignment: CENTER-LEFT; -fx-padding: 14 20;
+                           -fx-cursor: hand;" />
+        </VBox>
+    </left>
+
+    <!-- CONTENU -->
+    <center>
+        <VBox spacing="0">
+            <!-- TOP BAR -->
+            <HBox spacing="0" alignment="CENTER_LEFT"
+                  style="-fx-background-color: white;
+                         -fx-border-color: #e0e0e0;
+                         -fx-border-width: 0 0 1 0;">
+                <padding><Insets top="0" bottom="0" left="25" right="25"/></padding>
+
+                <Label fx:id="lblTitre" text="Gestion des Quiz"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;
+                              -fx-text-fill: #6D1B3A; -fx-padding: 15 0;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- ONGLETS -->
+                <HBox spacing="0" alignment="CENTER">
+                    <Button fx:id="btnOngletQuestions" text="Questions"
+                            onAction="#showOngletQuestions"
+                            style="-fx-background-color: transparent;
+                                   -fx-text-fill: #6D1B3A; -fx-font-size: 14px;
+                                   -fx-font-weight: bold; -fx-cursor: hand;
+                                   -fx-padding: 18 20;
+                                   -fx-border-color: #6D1B3A transparent transparent transparent;
+                                   -fx-border-width: 3 0 0 0;"/>
+                    <Button fx:id="btnOngletReponses" text="Réponses"
+                            onAction="#showOngletReponses"
+                            style="-fx-background-color: transparent;
+                                   -fx-text-fill: #888; -fx-font-size: 14px;
+                                   -fx-cursor: hand; -fx-padding: 18 20;
+                                   -fx-border-color: transparent;
+                                   -fx-border-width: 3 0 0 0;"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- ✅ 2 BOUTONS IMPORT corrigés -->
+                <HBox spacing="8" alignment="CENTER">
+                    <Button text="📁 FR" onAction="#importerQuestionsJson"
+                            style="-fx-background-color: #2E7D32;
+                                   -fx-text-fill: white; -fx-font-size: 12px;
+                                   -fx-font-weight: bold; -fx-cursor: hand;
+                                   -fx-background-radius: 6;
+                                   -fx-padding: 8 14;">
+                        <tooltip><Tooltip text="Importer questions en français"/></tooltip>
+                    </Button>
+                    <Button text="🌐 EN" onAction="#importerQuestionsOpenTDB"
+                            style="-fx-background-color: #1565C0;
+                                   -fx-text-fill: white; -fx-font-size: 12px;
+                                   -fx-font-weight: bold; -fx-cursor: hand;
+                                   -fx-background-radius: 6;
+                                   -fx-padding: 8 14;">
+                        <tooltip><Tooltip text="Importer questions en anglais (santé)"/></tooltip>
+                    </Button>
+                </HBox>
+
+                <Label text="  "/>
+                <Label text="VitaSanté"
+                       style="-fx-font-size: 14px; -fx-text-fill: #AD1457;
+                              -fx-font-weight: bold;" />
+            </HBox>
+
+            <!-- ZONE DYNAMIQUE -->
+            <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS">
+                <padding><Insets top="20" bottom="20" left="20" right="20"/></padding>
+            </StackPane>
+        </VBox>
+    </center>
+</BorderPane>

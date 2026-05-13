@@ -11,7 +11,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                HelloApplication.class.getResource("/AjouterQuiz.fxml")
+                HelloApplication.class.getResource("/QuizView.fxml")
         );
         Scene scene = new Scene(fxmlLoader.load(), 1100, 650);
         stage.setTitle("Gestion des Quiz - VitaSanté");
