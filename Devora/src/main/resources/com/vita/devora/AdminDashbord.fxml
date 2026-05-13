@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="dashboard-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vita.devora.Controlleurs.AdminDashboardController">
+   <stylesheets>
+      <URL value="@STYLE1.css" />
+   </stylesheets>
+
+    <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â SIDEBAR ORIGINALE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
+    <left>
+        <AnchorPane prefHeight="697.0" prefWidth="237.0" styleClass="dashboard-sidebar" BorderPane.alignment="CENTER">
+            <children>
+                <Separator layoutX="5.0" layoutY="114.0" prefHeight="26.0" prefWidth="224.0" />
+                <Button layoutX="36.0" layoutY="155.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Tableau de bord" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="37.0" layoutY="201.0" onAction="#navEspaceDoctor" style="-fx-background-color: transparent;" styleClass="nav-item" text="Espace Docteurs" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="39.0" layoutY="242.0" onAction="#NavEspacePatient" style="-fx-background-color: transparent;" styleClass="nav-item" text="Espace Patients" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="48.0" layoutY="285.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Rendez-vous" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="52.0" layoutY="330.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Evenements" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="56.0" layoutY="372.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Formulaire" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Button layoutX="76.0" layoutY="413.0" style="-fx-background-color: transparent;" styleClass="nav-item" text="Quiz" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="18.0" /></font>
+                </Button>
+                <Rectangle arcHeight="15.0" arcWidth="15.0" fill="WHITE" height="83.0" layoutX="18.0" layoutY="18.0" opacity="0.42" stroke="WHITE" strokeDashOffset="50.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="70.0" strokeType="INSIDE" width="86.0" />
+                <ImageView fitHeight="127.0" fitWidth="116.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+                    <image><Image url="@../../../image/logo.png" /></image>
+                </ImageView>
+                <Label layoutX="110.0" layoutY="27.0" prefHeight="50.0" prefWidth="126.0" text="VITA" textAlignment="CENTER" textFill="#fff4f1">
+                    <font><Font name="Berlin Sans FB" size="36.0" /></font>
+                </Label>
+            <Button layoutX="44.0" layoutY="447.0" mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="nav-item" text="Communaute" textFill="#fff4f1">
+               <font>
+                  <Font name="Berlin Sans FB" size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="36.0" layoutY="644.0" onAction="#haddledeconnexion" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: #fff4f1;" styleClass="logout-btn" text="Deconnexion" textFill="#fff4f1">
+               <font>
+                  <Font name="Berlin Sans FB" size="16.0" />
+               </font>
+            </Button>
+            </children>
+        </AnchorPane>
+    </left>
+
+    <!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â CONTENU PRINCIPAL Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
+    <center>
+        <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <VBox spacing="16.0" styleClass="dashboard-page">
+
+                    <!-- Titre -->
+                    <Label text="Tableau de bord">
+                        <font><Font name="Berlin Sans FB" size="22.0" /></font>
+                    </Label>
+
+                    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ KPI Cards Ã¢â€â‚¬Ã¢â€â‚¬ -->
+                    <HBox spacing="12.0">
+
+                        <VBox prefHeight="38.0" prefWidth="16.0" styleClass="kpi-rose" HBox.hgrow="ALWAYS">
+                            <Label text="Docteurs" />
+                            <Label fx:id="totalMedecinsLabel" styleClass="kpi-number" text="-" />
+                        </VBox>
+
+                        <VBox prefHeight="38.0" prefWidth="0.0" styleClass="kpi-bleu" HBox.hgrow="ALWAYS">
+                            <Label text="PATIENTS" />
+                            <Label fx:id="totalPatientsLabel" styleClass="kpi-number" text="-" />
+                        </VBox>
+
+                        <VBox styleClass="kpi-ambre" HBox.hgrow="ALWAYS">
+                            <Label text="QUIZ" />
+                            <Label fx:id="totalQuizLabel" styleClass="kpi-number" text="-" />
+                        </VBox>
+
+                        <VBox styleClass="kpi-ambre" HBox.hgrow="ALWAYS">
+                            <Label text="INTERACTIONS QUIZ" />
+                            <Label fx:id="totalInteractionsLabel" styleClass="kpi-number" text="-" />
+                        </VBox>
+
+                        <VBox styleClass="kpi-vert" HBox.hgrow="ALWAYS">
+                            <Label text="Evenements" />
+                            <Label fx:id="totalEvenementsLabel" styleClass="kpi-number" text="-" />
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Graphiques ligne 1 : Dept + Quiz Ã¢â€â‚¬Ã¢â€â‚¬ -->
+                    <HBox spacing="16.0">
+
+                        <VBox spacing="8.0" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <Label text="Docteurs par departement">
+                                <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                            </Label>
+                            <PieChart fx:id="deptChart" labelsVisible="true" legendVisible="true" prefHeight="220.0" />
+                        </VBox>
+
+                        <VBox spacing="8.0" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                            <Label text="Interactions avec les quiz">
+                                <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                            </Label>
+                            <BarChart fx:id="quizChart" animated="false" prefHeight="220.0">
+                                <xAxis><CategoryAxis fx:id="quizXAxis" /></xAxis>
+                                <yAxis><NumberAxis fx:id="quizYAxis" lowerBound="0" /></yAxis>
+                            </BarChart>
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Graphique ligne 2 : Ãƒâ€°volution Ã¢â€â‚¬Ã¢â€â‚¬ -->
+                    <VBox spacing="8.0" styleClass="chart-card">
+                        <Label text="Evolution des enregistrements (6 derniers mois)">
+                            <font><Font name="Berlin Sans FB" size="13.0" /></font>
+                        </Label>
+                        <LineChart fx:id="evolutionChart" animated="false" prefHeight="200.0">
+                            <xAxis><CategoryAxis fx:id="evoXAxis" /></xAxis>
+                            <yAxis><NumberAxis fx:id="evoYAxis" /></yAxis>
+                        </LineChart>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
