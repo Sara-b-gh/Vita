@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controles.GestionRessourceController"
+           stylesheets="@styleRessource.css"
+           minWidth="1140"
+           prefWidth="1400"
+           prefHeight="900">
+
+    <!-- ========================================================= -->
+    <!-- APPLICATION PRINCIPALE                                    -->
+    <!-- ========================================================= -->
+    <HBox styleClass="app-root" StackPane.alignment="CENTER">
+
+        <!-- ===================================================== -->
+        <!-- SIDEBAR                                               -->
+        <!-- ===================================================== -->
+        <VBox styleClass="sidebar" prefWidth="230" minWidth="230" maxWidth="230" spacing="0">
+            <padding>
+                <Insets top="22" right="14" bottom="16" left="14"/>
+            </padding>
+
+            <!-- BRAND -->
+            <HBox styleClass="brand-card" alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="brand-icon-box">
+                    <Label text="♥" styleClass="brand-icon"/>
+                </StackPane>
+
+                <VBox spacing="3">
+                    <Label text="VITA Santé" styleClass="brand-title"/>
+                    <Label text="Ressources logistiques" styleClass="brand-subtitle"/>
+                </VBox>
+            </HBox>
+
+            <Separator styleClass="sidebar-separator"/>
+
+            <Label text="MENU PRINCIPAL" styleClass="sidebar-caption"/>
+
+            <!-- MENU -->
+            <VBox spacing="5">
+                <Button text="▦  Tableau de bord"
+                        onAction="#allerTableauBord"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="▦  Événements"
+                        onAction="#allerEvenements"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="▣  Ressources"
+                        onAction="#allerRessources"
+                        styleClass="menu-button-active"
+                        maxWidth="Infinity"/>
+
+                <Button text="▣  Rendez-vous"
+                        onAction="#allerRendezVous"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="◧  Dossiers médicaux"
+                        onAction="#allerDossiersMedicaux"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="?   Quiz communauté"
+                        onAction="#allerQuiz"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="◆  Médicaments"
+                        onAction="#allerMedicaments"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="⚙  Équipements"
+                        onAction="#allerEquipements"
+                        styleClass="menu-button"
+                        maxWidth="Infinity"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- ACTIONS RAPIDES -->
+            <VBox styleClass="quick-card" spacing="10">
+                <Label text="ACTIONS RAPIDES" styleClass="sidebar-caption-no-margin"/>
+
+                <!-- Bouton notifications avec badge -->
+                <StackPane maxWidth="Infinity">
+                    <Button text="🔔 Notifications"
+                            onAction="#ouvrirNotifications"
+                            styleClass="quick-main-button"
+                            maxWidth="Infinity"/>
+
+                    <Label fx:id="notifCountBadge"
+                           text="0"
+                           mouseTransparent="true"
+                           StackPane.alignment="TOP_RIGHT"
+                           style="-fx-background-color: #C8204F;
+                                  -fx-text-fill: white;
+                                  -fx-font-size: 10px;
+                                  -fx-font-weight: bold;
+                                  -fx-padding: 2 6;
+                                  -fx-background-radius: 999;
+                                  -fx-translate-x: 8;
+                                  -fx-translate-y: -8;"/>
+                </StackPane>
+
+                <Button text="⚠  Ressources en tension"
+                        onAction="#voirRessourcesManquantes"
+                        styleClass="quick-main-button"
+                        maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- NOTE SIDEBAR -->
+            <VBox styleClass="sidebar-note" spacing="10">
+                <Label text="Gestion par catégorie" styleClass="note-title"/>
+
+                <Label text="Les ressources sont classées en matérielles, logicielles et humaines pour faciliter l’affectation aux événements."
+                       wrapText="true"
+                       styleClass="note-text"/>
+
+                <Button text="➜  Déconnexion"
+                        onAction="#deconnecter"
+                        styleClass="logout-button"
+                        maxWidth="Infinity"/>
+
+                <Label fx:id="adminNameLabel"
+                       text="Administrateur"
+                       styleClass="admin-label"/>
+            </VBox>
+        </VBox>
+
+        <!-- ===================================================== -->
+        <!-- PARTIE DROITE                                         -->
+        <!-- ===================================================== -->
+        <BorderPane HBox.hgrow="ALWAYS" styleClass="right-pane">
+
+            <!-- ================================================= -->
+            <!-- TOP                                               -->
+            <!-- ================================================= -->
+            <top>
+                <VBox styleClass="top-wrapper">
+
+                    <!-- HEADER PAGE -->
+                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="page-header">
+
+                        <VBox spacing="5">
+                            <Label text="TABLEAU DE BORD" styleClass="eyebrow"/>
+                            <Label text="Gestion des ressources" styleClass="page-title"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <!-- Recherche -->
+                        <HBox styleClass="search-shell"
+                              alignment="CENTER_LEFT"
+                              spacing="10"
+                              prefWidth="280">
+                            <Label text="⌕" styleClass="search-icon"/>
+
+                            <TextField fx:id="searchField"
+                                       promptText="Rechercher ressource, responsable, événement..."
+                                       styleClass="search-field"
+                                       HBox.hgrow="ALWAYS"/>
+                        </HBox>
+
+                        <!-- Filtre type -->
+                        <ComboBox fx:id="typeFilterCombo"
+                                  promptText="Type"
+                                  prefWidth="165"
+                                  styleClass="top-combo"/>
+
+                        <!-- Filtre événement -->
+                        <ComboBox fx:id="eventFilterCombo"
+                                  promptText="Événement"
+                                  prefWidth="210"
+                                  styleClass="top-combo"/>
+
+                        <!-- Filtre état -->
+                        <ComboBox fx:id="statusFilterCombo"
+                                  promptText="État"
+                                  prefWidth="165"
+                                  styleClass="top-combo"/>
+                    </HBox>
+
+                    <!-- TOOLBAR -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="toolbar-row">
+
+                        <Button fx:id="btnVueStats"
+                                text="Statistique"
+                                onAction="#afficherVueStats"
+                                styleClass="segmented"/>
+
+                        <Button fx:id="btnVueListe"
+                                text="Liste"
+                                onAction="#afficherVueListe"
+                                styleClass="segmented-active"/>
+
+                        <Button fx:id="btnVueGrille"
+                                text="Grille"
+                                onAction="#afficherVueGrille"
+                                styleClass="segmented"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button fx:id="exportBtn"
+                                text="Exporter PDF"
+                                onAction="#exporterCSV"
+                                styleClass="btn-primary"/>
+
+                        <Button text="+ Nouvelle ressource"
+                                onAction="#ouvrirFormulaire"
+                                styleClass="btn-primary"/>
+                    </HBox>
+                </VBox>
+            </top>
+
+            <!-- ================================================= -->
+            <!-- CENTER                                            -->
+            <!-- ================================================= -->
+            <center>
+                <ScrollPane fitToWidth="true" styleClass="content-scroll">
+
+                    <VBox spacing="16" styleClass="content-shell">
+                        <padding>
+                            <Insets top="18" right="22" bottom="22" left="22"/>
+                        </padding>
+
+                        <!-- ================================================= -->
+                        <!-- VUE STATISTIQUES                                    -->
+                        <!-- ================================================= -->
+                        <VBox fx:id="sectionStats" spacing="16" visible="false" managed="false">
+
+                            <!-- KPI -->
+                            <GridPane hgap="14" vgap="14">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="20"/>
+                                    <ColumnConstraints percentWidth="20"/>
+                                    <ColumnConstraints percentWidth="20"/>
+                                    <ColumnConstraints percentWidth="20"/>
+                                    <ColumnConstraints percentWidth="20"/>
+                                </columnConstraints>
+
+                                <!-- Total -->
+                                <VBox styleClass="stat-card" spacing="8" GridPane.columnIndex="0">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="5">
+                                            <Label text="TOTAL RESSOURCES" styleClass="stat-label"/>
+                                            <Label fx:id="statTotalLabel" text="0" styleClass="stat-value"/>
+                                            <Label text="selon filtre actif" styleClass="stat-hint"/>
+                                        </VBox>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <StackPane styleClass="stat-icon-box">
+                                            <Label text="▥" styleClass="stat-icon"/>
+                                        </StackPane>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Disponibles -->
+                                <VBox styleClass="stat-card" spacing="8" GridPane.columnIndex="1">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="5">
+                                            <Label text="DISPONIBLES" styleClass="stat-label"/>
+                                            <Label fx:id="statCoutLabel" text="0" styleClass="stat-value"/>
+                                            <Label fx:id="coutMoyenLabel" text="ressources libres" styleClass="stat-hint"/>
+                                        </VBox>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <StackPane styleClass="stat-icon-box">
+                                            <Label text="✓" styleClass="stat-icon"/>
+                                        </StackPane>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Affectées -->
+                                <VBox styleClass="stat-card" spacing="8" GridPane.columnIndex="2">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="5">
+                                            <Label text="AFFECTÉES" styleClass="stat-label"/>
+                                            <Label fx:id="statManquantLabel" text="0" styleClass="stat-value"/>
+                                            <Label fx:id="evtImpactesLabel" text="événements couverts" styleClass="stat-hint"/>
+                                        </VBox>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <StackPane styleClass="stat-icon-box">
+                                            <Label text="↦" styleClass="stat-icon"/>
+                                        </StackPane>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Occupation -->
+                                <VBox styleClass="stat-card" spacing="8" GridPane.columnIndex="3">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="TAUX OCCUPATION" styleClass="stat-label"/>
+                                            <Label fx:id="tauxDispoLabel" text="0%" styleClass="stat-value"/>
+                                            <ProgressBar fx:id="dispoProgress"
+                                                         progress="0"
+                                                         maxWidth="Infinity"
+                                                         styleClass="bordeaux-progress"/>
+                                        </VBox>
+
+                                        <Region minWidth="8"/>
+
+                                        <StackPane styleClass="stat-icon-box">
+                                            <Label text="↗" styleClass="stat-icon"/>
+                                        </StackPane>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Couverture événement -->
+                                <VBox styleClass="stat-card" spacing="8" GridPane.columnIndex="4">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox spacing="5">
+                                            <Label text="COUVERTURE EVT" styleClass="stat-label"/>
+                                            <Label fx:id="irlLabel" text="0%" styleClass="stat-value"/>
+                                            <Label fx:id="tendanceTotalLabel" text="affectation globale" styleClass="stat-hint"/>
+                                        </VBox>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <StackPane styleClass="stat-icon-box">
+                                            <Label text="◆" styleClass="stat-icon"/>
+                                        </StackPane>
+                                    </HBox>
+                                </VBox>
+                            </GridPane>
+
+                            <!-- ALERTE -->
+                            <HBox fx:id="alertBand"
+                                  visible="false"
+                                  managed="false"
+                                  alignment="CENTER_LEFT"
+                                  spacing="14"
+                                  styleClass="alert-band">
+
+                                <Label text="⚠" styleClass="alert-icon"/>
+
+                                <VBox spacing="3">
+                                    <Label fx:id="alertTitleLabel" text="" styleClass="alert-title"/>
+                                    <Label fx:id="alertSubLabel" text="" styleClass="alert-subtitle"/>
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Button text="Voir le détail"
+                                        onAction="#voirRessourcesManquantes"
+                                        styleClass="btn-alert"/>
+                            </HBox>
+
+                            <!-- GRAPHIQUES -->
+                            <GridPane hgap="16" vgap="16">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50"/>
+                                    <ColumnConstraints percentWidth="50"/>
+                                </columnConstraints>
+
+                                <VBox styleClass="chart-card" spacing="12" GridPane.columnIndex="0">
+                                    <Label text="Répartition par type" styleClass="section-title"/>
+                                    <Label text="Matérielle / logicielle / humaine / non classée" styleClass="section-subtitle"/>
+                                    <Canvas fx:id="repartitionCanvas" width="480" height="230"/>
+                                </VBox>
+
+                                <VBox styleClass="chart-card" spacing="12" GridPane.columnIndex="1">
+                                    <Label text="Occupation par événement" styleClass="section-title"/>
+                                    <Label text="Ressources affectées et taux d’occupation" styleClass="section-subtitle"/>
+                                    <Canvas fx:id="risqueCanvas" width="520" height="230"/>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+
+                        <!-- ================================================= -->
+                        <!-- VUE LISTE GROUPÉE                                  -->
+                        <!-- ================================================= -->
+                        <VBox fx:id="sectionListe" spacing="16" visible="true" managed="true">
+
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label text="• Ressources groupées par catégorie" styleClass="big-section-title"/>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Label fx:id="countLabel"
+                                       text="0 ressource"
+                                       styleClass="count-pill"/>
+
+                                <Label fx:id="listCountBadge"
+                                       text="Mat. 0 · Log. 0 · Hum. 0"
+                                       styleClass="count-pill"/>
+                            </HBox>
+
+                            <!--
+                                IMPORTANT :
+                                Le controller utilise ListView<RessourceRow>.
+                                Le FXML garde simplement le fx:id.
+                            -->
+                            <ListView fx:id="ressourceListView"
+                                      minHeight="440"
+                                      prefHeight="560"
+                                      VBox.vgrow="ALWAYS"
+                                      styleClass="resource-list"/>
+                        </VBox>
+
+                        <!-- ================================================= -->
+                        <!-- VUE GRILLE                                          -->
+                        <!-- ================================================= -->
+                        <VBox fx:id="sectionGrille" spacing="16" visible="false" managed="false">
+
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Label text="Ressources en grille" styleClass="big-section-title"/>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Label fx:id="gridCountBadge"
+                                       text="0 ressource"
+                                       styleClass="count-pill"/>
+                            </HBox>
+
+                            <FlowPane fx:id="ressourceGridPane"
+                                      hgap="16"
+                                      vgap="16"
+                                      prefWrapLength="1040"
+                                      styleClass="resource-grid"/>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+            </center>
+
+            <!-- ================================================= -->
+            <!-- FOOTER                                            -->
+            <!-- ================================================= -->
+            <bottom>
+                <HBox styleClass="footer-bar" alignment="CENTER_LEFT" spacing="10">
+                    <Label text="ⓘ Les ressources peuvent être matérielles, logicielles ou humaines et affectées à un événement."
+                           styleClass="footer-text"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </HBox>
+
+    <!-- ========================================================= -->
+    <!-- OVERLAY NOTIFICATIONS                                     -->
+    <!-- ========================================================= -->
+    <StackPane fx:id="notificationOverlay"
+               visible="false"
+               managed="false"
+               styleClass="notification-overlay"
+               StackPane.alignment="CENTER_RIGHT">
+
+        <!-- Zone de fermeture -->
+        <Region maxWidth="Infinity"
+                maxHeight="Infinity"
+                StackPane.alignment="CENTER_LEFT"
+                onMouseClicked="#fermerNotifications"/>
+
+        <!-- Panneau notifications -->
+        <VBox fx:id="notificationPanel"
+              styleClass="notification-panel"
+              prefWidth="400"
+              minWidth="400"
+              maxWidth="400"
+              maxHeight="Infinity"
+              StackPane.alignment="CENTER_RIGHT"
+              spacing="0">
+
+            <HBox styleClass="notif-header" alignment="CENTER_LEFT" spacing="12">
+                <Label text="🔔" styleClass="notif-header-icon"/>
+
+                <Label text="Notifications"
+                       styleClass="notif-header-title"
+                       HBox.hgrow="ALWAYS"/>
+
+                <Label fx:id="notifTotalBadge"
+                       text="0"
+                       styleClass="notif-count-badge"/>
+
+                <Button text="Tout marquer lu"
+                        onAction="#marquerNotificationsLues"
+                        styleClass="notif-mark-all"/>
+            </HBox>
+
+            <HBox styleClass="notif-subheader" alignment="CENTER_LEFT">
+                <Label fx:id="notifSubheaderLabel"
+                       text="Ressources en tension"
+                       styleClass="notif-subheader-label"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true"
+                        VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <VBox fx:id="notifListContainer"
+                      spacing="10"
+                      style="-fx-padding: 14 16 14 16;"/>
+            </ScrollPane>
+
+            <HBox styleClass="notif-footer" alignment="CENTER_LEFT" spacing="10">
+                <Label text="Mise à jour en temps réel · VITA Santé"
+                       styleClass="notif-footer-label"
+                       HBox.hgrow="ALWAYS"/>
+
+                <Button text="Fermer"
+                        onAction="#fermerNotifications"
+                        styleClass="notif-close-btn"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+
+    <!-- ========================================================= -->
+    <!-- TOASTS                                                    -->
+    <!-- ========================================================= -->
+    <VBox fx:id="toastContainer"
+          spacing="10"
+          mouseTransparent="true"
+          StackPane.alignment="TOP_RIGHT"
+          maxWidth="360"
+          style="-fx-background-color: transparent;">
+
+        <StackPane.margin>
+            <Insets top="24" right="24" bottom="0" left="0"/>
+        </StackPane.margin>
+    </VBox>
+
+</StackPane>

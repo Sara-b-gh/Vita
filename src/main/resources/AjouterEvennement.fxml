@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controles.AdminEvenementController"
+           stylesheets="@style.css"
+           prefWidth="1440"
+           prefHeight="820"
+           styleClass="app-root">
+
+   <fx:define>
+      <ToggleGroup fx:id="viewToggleGroup"/>
+   </fx:define>
+
+   <BorderPane fx:id="appShell" styleClass="app-shell">
+
+      <!-- ======================= SIDEBAR ======================= -->
+      <left>
+         <VBox styleClass="sidebar-modern" spacing="0" alignment="TOP_CENTER">
+
+            <VBox styleClass="sidebar-brand" spacing="4" alignment="CENTER_LEFT">
+               <HBox spacing="12" alignment="CENTER_LEFT">
+                  <StackPane styleClass="brand-icon-box">
+                     <Label text="🏥" styleClass="brand-icon"/>
+                  </StackPane>
+
+                  <VBox spacing="2">
+                     <Label text="VITA Santé" styleClass="brand-title"/>
+                     <Label text="Administration clinique" styleClass="brand-subtitle"/>
+                  </VBox>
+               </HBox>
+            </VBox>
+
+            <Region prefHeight="18"/>
+
+            <Label text="NAVIGATION" styleClass="sidebar-section-title"/>
+
+            <VBox spacing="6" alignment="TOP_CENTER" styleClass="sidebar-menu">
+               <Button text="📊  Tableau de bord" styleClass="sidebar-button" onAction="#allerTableauBord"/>
+               <Button text="📅  Événements" styleClass="sidebar-button-active" onAction="#allerEvenements"/>
+               <Button text="📦  Ressources" styleClass="sidebar-button" onAction="#allerRessources"/>
+               <Button text="🩺  Rendez-vous" styleClass="sidebar-button" onAction="#allerRendezVous"/>
+               <Button text="📁  Dossiers médicaux" styleClass="sidebar-button" onAction="#allerDossiersMedicaux"/>
+               <Button text="💊  Médicaments" styleClass="sidebar-button" onAction="#allerMedicaments"/>
+               <Button text="📝  Quiz santé" styleClass="sidebar-button" onAction="#allerQuiz"/>
+            </VBox>
+
+            <Region prefHeight="22"/>
+
+            <Separator styleClass="sidebar-separator"/>
+
+            <Region prefHeight="18"/>
+
+            <Label text="ACTIONS RAPIDES" styleClass="sidebar-section-title"/>
+
+            <VBox spacing="8" styleClass="sidebar-menu">
+               <Button text="📊 Voir statistiques"
+                       styleClass="sidebar-action-btn"
+                       onAction="#voirStatistiques"/>
+
+               <Button text="📷 Scanner QR"
+                       styleClass="sidebar-action-btn-outline"
+                       onAction="#ouvrirScannerQR"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox styleClass="sidebar-help-card" spacing="8">
+               <Label text="💡 État système" styleClass="sidebar-help-title"/>
+               <Label text="Base de données synchronisée. Les modules événements, ressources et réservations sont opérationnels."
+                      styleClass="sidebar-help-text"
+                      wrapText="true"/>
+            </VBox>
+
+            <VBox spacing="8" alignment="CENTER" styleClass="sidebar-footer">
+               <Button text="🚪 Déconnexion"
+                       styleClass="sidebar-logout-btn"
+                       onAction="#deconnecter"/>
+
+               <Label text="VITA Admin v2.0" styleClass="sidebar-version"/>
+            </VBox>
+         </VBox>
+      </left>
+
+      <!-- ======================= MAIN ======================= -->
+      <center>
+         <VBox styleClass="main-modern">
+
+            <!-- ======================= TOPBAR CORRIGÉE ======================= -->
+            <HBox styleClass="topbar-modern" alignment="CENTER_LEFT" spacing="16">
+
+               <VBox spacing="2">
+                  <Label text="VITA › Administration" styleClass="breadcrumb-modern"/>
+                  <Label text="Centre de gestion clinique" styleClass="topbar-context-title"/>
+               </VBox>
+
+               <Region HBox.hgrow="ALWAYS"/>
+
+               <Button fx:id="topExportBtn"
+                       text="📄 Export PDF"
+                       styleClass="topbar-secondary-btn"
+                       onAction="#exporterCSV"/>
+
+               <StackPane>
+                  <Button fx:id="topNotificationBtn"
+                          text="🔔"
+                          styleClass="notification-button-modern"
+                          onAction="#toggleNotificationPanel"/>
+
+                  <Label fx:id="notificationBadge"
+                         text="0"
+                         styleClass="notification-badge"
+                         StackPane.alignment="TOP_RIGHT"
+                         mouseTransparent="true"/>
+               </StackPane>
+            </HBox>
+
+            <!-- ======================= CONTENT ======================= -->
+            <ScrollPane fitToWidth="true"
+                        VBox.vgrow="ALWAYS"
+                        hbarPolicy="NEVER"
+                        vbarPolicy="AS_NEEDED"
+                        styleClass="main-scroll-modern">
+
+               <VBox spacing="22" styleClass="page-container">
+                  <padding>
+                     <Insets top="26" left="30" right="30" bottom="30"/>
+                  </padding>
+
+                  <!-- PAGE HEADER -->
+                  <HBox styleClass="page-header-card" alignment="CENTER_LEFT" spacing="18">
+
+                     <VBox spacing="6" HBox.hgrow="ALWAYS">
+                        <Label text="Gestion des événements" styleClass="page-title-modern"/>
+                        <Label text="Planification, suivi, statistiques et archive des événements de santé."
+                               styleClass="page-subtitle-modern"
+                               wrapText="true"/>
+                     </VBox>
+
+                     <Button text="＋ Nouvel événement"
+                             styleClass="primary-action-modern"
+                             onAction="#ouvrirFormulaire"/>
+                  </HBox>
+
+                  <!-- KPI -->
+                  <GridPane hgap="18" vgap="18" styleClass="kpi-grid">
+                     <columnConstraints>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                     </columnConstraints>
+
+                     <VBox styleClass="kpi-card" spacing="10" GridPane.columnIndex="0">
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                           <StackPane styleClass="kpi-icon-box">
+                              <Label text="📋" styleClass="kpi-icon"/>
+                           </StackPane>
+
+                           <VBox spacing="2">
+                              <Label text="Total événements" styleClass="kpi-label"/>
+                              <Label fx:id="statTotalLabel" text="0" styleClass="kpi-value"/>
+                           </VBox>
+                        </HBox>
+
+                        <Label fx:id="countLabel" text="Base de données complète" styleClass="kpi-subtitle"/>
+                     </VBox>
+
+                     <VBox styleClass="kpi-card" spacing="10" GridPane.columnIndex="1">
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                           <StackPane styleClass="kpi-icon-box">
+                              <Label text="🚀" styleClass="kpi-icon"/>
+                           </StackPane>
+
+                           <VBox spacing="2">
+                              <Label text="À venir" styleClass="kpi-label"/>
+                              <Label fx:id="statAVenirLabel" text="0" styleClass="kpi-value"/>
+                           </VBox>
+                        </HBox>
+
+                        <Label fx:id="trendAvenirLabel" text="Aucun événement futur" styleClass="kpi-subtitle"/>
+                     </VBox>
+
+                     <VBox styleClass="kpi-card" spacing="10" GridPane.columnIndex="2">
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                           <StackPane styleClass="kpi-icon-box">
+                              <Label text="📍" styleClass="kpi-icon"/>
+                           </StackPane>
+
+                           <VBox spacing="2">
+                              <Label text="Lieux distincts" styleClass="kpi-label"/>
+                              <Label fx:id="statLieuxLabel" text="0" styleClass="kpi-value"/>
+                           </VBox>
+                        </HBox>
+
+                        <Label text="Sites de réalisation" styleClass="kpi-subtitle"/>
+                     </VBox>
+
+                     <VBox styleClass="kpi-card" spacing="10" GridPane.columnIndex="3">
+                        <HBox alignment="CENTER_LEFT" spacing="12">
+                           <StackPane styleClass="kpi-icon-box">
+                              <Label text="📈" styleClass="kpi-icon"/>
+                           </StackPane>
+
+                           <VBox spacing="2">
+                              <Label text="Taux futurs" styleClass="kpi-label"/>
+                              <Label fx:id="tauxLabel" text="0%" styleClass="kpi-value"/>
+                           </VBox>
+                        </HBox>
+
+                        <Label text="Événements programmés" styleClass="kpi-subtitle"/>
+                     </VBox>
+                  </GridPane>
+
+                  <!-- WORKBENCH -->
+                  <VBox styleClass="workbench-card" spacing="0">
+
+                     <HBox styleClass="workbench-toolbar" alignment="CENTER_LEFT" spacing="14">
+
+                        <VBox spacing="3">
+                           <Label text="Espace de travail" styleClass="workbench-title"/>
+                           <Label text="Recherche, filtrage et changement de vue"
+                                  styleClass="workbench-subtitle"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <!-- Masqué en stats par le controller -->
+                        <HBox fx:id="topSearchBox"
+                              styleClass="search-box-modern"
+                              alignment="CENTER_LEFT"
+                              spacing="8"
+                              prefWidth="340">
+                           <Label text="🔍" styleClass="search-icon-modern"/>
+                           <TextField fx:id="topSearchField"
+                                      promptText="Rechercher titre, lieu, description..."
+                                      styleClass="search-field-modern"
+                                      HBox.hgrow="ALWAYS"/>
+                        </HBox>
+
+                        <!-- Masqué en stats par le controller -->
+                        <ComboBox fx:id="topFilterCombo"
+                                  prefWidth="145"
+                                  styleClass="filter-combo-modern"/>
+
+                        <HBox spacing="0" alignment="CENTER" styleClass="view-switcher">
+                           <ToggleButton fx:id="btnNavStatistiques"
+                                         text="📊 Stats"
+                                         toggleGroup="$viewToggleGroup"
+                                         styleClass="view-toggle-left"
+                                         onAction="#switchToStatsView"/>
+
+                           <ToggleButton fx:id="btnNavListe"
+                                         text="☰ Liste"
+                                         toggleGroup="$viewToggleGroup"
+                                         styleClass="view-toggle-center"
+                                         onAction="#switchToListView"/>
+
+                           <ToggleButton fx:id="btnNavGrille"
+                                         text="⊞ Grille"
+                                         toggleGroup="$viewToggleGroup"
+                                         selected="true"
+                                         styleClass="view-toggle-right"
+                                         onAction="#switchToGridView"/>
+                        </HBox>
+                     </HBox>
+
+                     <Separator styleClass="workbench-separator"/>
+
+                     <HBox fx:id="filterBar"
+                           alignment="CENTER_LEFT"
+                           spacing="10"
+                           styleClass="active-filter-bar">
+                        <Label fx:id="ressourceFiltreLabel"
+                               text=""
+                               styleClass="active-filter-label"
+                               visible="false"
+                               managed="false"/>
+
+                        <Button fx:id="clearFiltreBtn"
+                                text="✕ Effacer"
+                                styleClass="small-outline-btn"
+                                onAction="#clearFiltreRessource"
+                                visible="false"
+                                managed="false"/>
+                     </HBox>
+
+                     <StackPane fx:id="viewsStack" styleClass="views-stack">
+
+                        <!-- STATS -->
+                        <VBox fx:id="statsView"
+                              spacing="18"
+                              visible="false"
+                              managed="false"
+                              styleClass="stats-view-modern">
+
+                           <HBox spacing="18">
+
+                              <VBox styleClass="analytics-card" HBox.hgrow="ALWAYS" spacing="16">
+                                 <VBox spacing="4">
+                                    <Label text="Distribution des événements" styleClass="analytics-title"/>
+                                    <Label text="Comparaison entre événements à venir et passés"
+                                           styleClass="analytics-subtitle"/>
+                                 </VBox>
+
+                                 <HBox spacing="26" alignment="CENTER_LEFT">
+                                    <Canvas fx:id="canvasDistribution" width="150" height="150"/>
+
+                                    <VBox spacing="16">
+                                       <HBox spacing="10" alignment="CENTER_LEFT">
+                                          <Region styleClass="donut-legend-dot-avenir"/>
+                                          <VBox spacing="2">
+                                             <Label fx:id="legendUpcomingLabel"
+                                                    text="À venir — 0"
+                                                    styleClass="legend-main"/>
+                                             <Label text="Événements programmés"
+                                                    styleClass="legend-sub"/>
+                                          </VBox>
+                                       </HBox>
+
+                                       <HBox spacing="10" alignment="CENTER_LEFT">
+                                          <Region styleClass="donut-legend-dot-passes"/>
+                                          <VBox spacing="2">
+                                             <Label fx:id="legendPastLabel"
+                                                    text="Passés — 0"
+                                                    styleClass="legend-main"/>
+                                             <Label text="Événements archivés"
+                                                    styleClass="legend-sub"/>
+                                          </VBox>
+                                       </HBox>
+                                    </VBox>
+                                 </HBox>
+
+                                 <ProgressBar fx:id="distributionProgress"
+                                              progress="0"
+                                              maxWidth="Infinity"
+                                              styleClass="progress-modern"/>
+                              </VBox>
+
+                              <VBox styleClass="analytics-card" HBox.hgrow="ALWAYS" spacing="16">
+                                 <VBox spacing="4">
+                                    <Label text="Activité mensuelle" styleClass="analytics-title"/>
+                                    <Label text="Volume sur les 6 derniers mois"
+                                           styleClass="analytics-subtitle"/>
+                                 </VBox>
+
+                                 <Canvas fx:id="canvasMonthly" width="420" height="170"/>
+
+                                 <ProgressBar fx:id="activityProgress"
+                                              progress="0.3"
+                                              maxWidth="Infinity"
+                                              styleClass="progress-modern"/>
+                              </VBox>
+                           </HBox>
+                        </VBox>
+
+                        <!-- GRID -->
+                        <VBox fx:id="gridView" spacing="0" styleClass="grid-view-modern">
+                           <FlowPane fx:id="grillePane"
+                                     hgap="22"
+                                     vgap="22"
+                                     prefWrapLength="1080"
+                                     styleClass="flow-pane-modern"/>
+                        </VBox>
+
+                        <!-- LIST -->
+                        <VBox fx:id="listView"
+                              spacing="0"
+                              visible="false"
+                              managed="false"
+                              styleClass="list-view-modern">
+                           <ListView fx:id="evenementListView"
+                                     prefHeight="520"
+                                     styleClass="modern-list-view"/>
+                        </VBox>
+                     </StackPane>
+                  </VBox>
+
+                  <!-- ARCHIVE - Masquée en stats -->
+                  <VBox fx:id="archiveSection" styleClass="archive-card" spacing="12">
+                     <HBox alignment="CENTER_LEFT">
+                        <VBox spacing="3">
+                           <Label text="📚 Archive des événements passés"
+                                  styleClass="archive-title"/>
+
+                           <Label text="Historique des événements terminés"
+                                  styleClass="archive-subtitle"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+                     </HBox>
+
+                     <ListView fx:id="pastEventsListView"
+                               prefHeight="230"
+                               styleClass="modern-list-view"/>
+                  </VBox>
+               </VBox>
+            </ScrollPane>
+
+            <HBox styleClass="footer-modern" alignment="CENTER_LEFT" spacing="10">
+               <Label text="🏥" styleClass="footer-icon"/>
+               <Label fx:id="footerCountLabel"
+                      text="Volume total synchronisé : 0 événements"
+                      styleClass="footer-text"/>
+
+               <Region HBox.hgrow="ALWAYS"/>
+
+               <Label text="VITA Santé © 2026" styleClass="footer-text"/>
+            </HBox>
+         </VBox>
+      </center>
+   </BorderPane>
+
+   <!-- NOTIFICATIONS -->
+   <VBox fx:id="notificationPanel"
+         visible="false"
+         managed="false"
+         prefWidth="400"
+         maxWidth="400"
+         spacing="0"
+         styleClass="notification-drawer-modern"
+         StackPane.alignment="TOP_RIGHT">
+
+      <StackPane.margin>
+         <Insets top="78" right="28"/>
+      </StackPane.margin>
+
+      <HBox alignment="CENTER_LEFT" spacing="10" styleClass="notification-header-modern">
+         <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="Notifications" styleClass="notification-title-modern"/>
+            <Label fx:id="notificationCountLabel"
+                   text="0 MESSAGE(S) ACTIF(S)"
+                   styleClass="notification-subtitle-modern"/>
+         </VBox>
+
+         <Button fx:id="markAllReadBtn"
+                 text="Tout lu"
+                 styleClass="small-primary-btn"
+                 onAction="#marquerToutLu"/>
+
+         <Button text="✕"
+                 styleClass="drawer-close-btn"
+                 onAction="#closeNotificationPanel"/>
+      </HBox>
+
+      <Separator styleClass="workbench-separator"/>
+
+      <ListView fx:id="notificationListView"
+                VBox.vgrow="ALWAYS"
+                styleClass="modern-list-view"/>
+   </VBox>
+
+</StackPane>
