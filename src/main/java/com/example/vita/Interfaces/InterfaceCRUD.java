@@ -1,4 +1,4 @@
-package com.example.vita.Interfaces;
+package Interfaces;
 import java.sql.SQLException;
 import java.util.List;
 

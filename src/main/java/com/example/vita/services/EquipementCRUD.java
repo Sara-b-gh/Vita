@@ -1,4 +1,4 @@
-package com.example.vita.services;
+package services;
 
 import com.example.vita.Entites.equipements;
 import com.example.vita.Interfaces.InterfaceCRUD;

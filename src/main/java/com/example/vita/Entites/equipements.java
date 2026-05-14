@@ -1,4 +1,4 @@
-package com.example.vita.Entites;
+package Entites;
 import java.sql.Date;
 import java.time.LocalDateTime;
 

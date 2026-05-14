@@ -1,4 +1,4 @@
-package com.example.vita.Controlers;
+package Controlers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,5 +1,6 @@
-package com.example.vita.services;
+package services;
 
+import com.example.vita.services.Configservice;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.*;
@@ -91,7 +92,7 @@ public class PaiementService {
         }
 
         // Carte bancaire : utiliser Konnect si configuré
-        if (Configservice.isConfigured("konnect.api.key")) {
+        if (com.example.vita.services.Configservice.isConfigured("konnect.api.key")) {
             return appelerKonnect(montant, description);
         }
 
@@ -105,8 +106,8 @@ public class PaiementService {
     // ─────────────────────────────────────────────────────────────
 
     private static ResultatPaiement appelerKonnect(double montant, String description) {
-        String apiKey   = Configservice.get("konnect.api.key");
-        String walletId = Configservice.get("konnect.wallet.id");
+        String apiKey   = com.example.vita.services.Configservice.get("konnect.api.key");
+        String walletId = com.example.vita.services.Configservice.get("konnect.wallet.id");
         String baseUrl  = Configservice.get("konnect.base.url");
 
         // Konnect travaille en millimes (1 DT = 1000 millimes)

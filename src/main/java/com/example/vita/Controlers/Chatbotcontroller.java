@@ -1,6 +1,6 @@
-package com.example.vita.Controlers;
+package Controlers;
 
-import com.example.vita.services.ChatbotService;
+import services.ChatbotService;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

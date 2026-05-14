@@ -1,4 +1,4 @@
-package com.example.vita.Controlers;
+package Controlers;
 
 import com.example.vita.Entites.equipements;
 import com.example.vita.Entites.medicaments;
@@ -346,5 +346,29 @@ public class mainControler {
         alert.setHeaderText(null);
         alert.setContentText(contenu);
         alert.showAndWait();
+    }
+    @FXML private ToggleButton btnVueMedicaments;
+    @FXML private ToggleButton btnVueEquipements;
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> filterStatut;
+    @FXML private ScrollPane scrollCenter;
+    @FXML private ScrollPane scrollDetail;
+    @FXML private VBox detailContent;
+    @FXML private Label lblTotal;
+    @FXML private Label lblStatus;
+
+    @FXML
+    private void switchToMedicaments() {
+        lblTotal.setText("0 médicaments");
+    }
+
+    @FXML
+    private void switchToEquipements() {
+        lblTotal.setText("0 équipements");
+    }
+
+    @FXML
+    private void ouvrirAjoutPopup() {
+        // ouvrir formulaire d'ajout
     }
 }

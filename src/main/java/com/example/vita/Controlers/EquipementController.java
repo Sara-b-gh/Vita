@@ -1,7 +1,7 @@
-package com.example.vita.Controlers;
+package Controlers;
 
-import com.example.vita.Entites.equipements;
-import com.example.vita.services.EquipementCRUD;
+import Entites.equipements;
+import services.EquipementCRUD;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

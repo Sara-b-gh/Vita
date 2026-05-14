@@ -1,4 +1,4 @@
-package com.example.vita.services;
+package services;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;

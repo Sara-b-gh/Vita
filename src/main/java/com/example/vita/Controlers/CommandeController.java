@@ -1,10 +1,10 @@
-package com.example.vita.Controlers;
+package Controlers;
 
-import com.example.vita.Entites.Commande;
-import com.example.vita.Entites.LigneCommande;
-import com.example.vita.Entites.medicaments;
-import com.example.vita.Entites.equipements;
-import com.example.vita.services.*;
+import Entites.Commande;
+import Entites.LigneCommande;
+import Entites.medicaments;
+import Entites.equipements;
+import services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

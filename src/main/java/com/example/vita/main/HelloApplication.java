@@ -1,5 +1,6 @@
-package com.example.vita.main;
+package main;
 
+import com.example.vita.main.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

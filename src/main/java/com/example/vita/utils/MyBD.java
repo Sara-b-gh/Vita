@@ -1,4 +1,4 @@
-package com.example.vita.utils;
+package utils;
 
 import java.sql.*;
 

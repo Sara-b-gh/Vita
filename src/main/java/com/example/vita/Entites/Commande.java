@@ -1,4 +1,6 @@
-package com.example.vita.Entites;
+package Entites;
+
+import com.example.vita.Entites.LigneCommande;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

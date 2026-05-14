@@ -1,5 +1,6 @@
-package com.example.vita.services;
+package services;
 
+import com.example.vita.services.Configservice;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -79,7 +80,7 @@ public class ChatbotService {
         }
 
         // Choisir le mode selon la configuration
-        if (Configservice.isConfigured("openai.api.key")) {
+        if (com.example.vita.services.Configservice.isConfigured("openai.api.key")) {
             return repondreAvecOpenAI(messageUtilisateur);
         } else {
             System.out.println("[Chatbot] Clé OpenAI non configurée → mode hors-ligne.");
@@ -99,8 +100,8 @@ public class ChatbotService {
     // ─────────────────────────────────────────────────────────────
 
     private static String repondreAvecOpenAI(String messageUtilisateur) {
-        String apiKey = Configservice.get("openai.api.key");
-        String model  = Configservice.get("openai.model");
+        String apiKey = com.example.vita.services.Configservice.get("openai.api.key");
+        String model  = com.example.vita.services.Configservice.get("openai.model");
         if (model.isBlank()) model = "gpt-4o-mini";
 
         int maxTokens;
