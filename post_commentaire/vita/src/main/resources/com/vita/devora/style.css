@@ -1,0 +1,193 @@
+/* ====== Global Styles ====== */
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica", sans-serif;
+}
+
+/* ====== Post Card Styles ====== */
+.post-card {
+    -fx-background-color: white;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-padding: 20;
+}
+
+.post-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);
+}
+
+/* ====== Post Header ====== */
+.post-header {
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.post-author-name {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.post-author-role {
+    -fx-font-size: 11;
+    -fx-text-fill: #95a5a6;
+    -fx-font-style: italic;
+}
+
+.post-timestamp {
+    -fx-font-size: 11;
+    -fx-text-fill: #95a5a6;
+}
+
+/* ====== Category Badge ====== */
+.category-badge {
+    -fx-padding: 4 12 4 12;
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-background-color: #8a0037;
+}
+
+.category-badge.question {
+    -fx-background-color: #3498db;
+}
+
+.category-badge.story {
+    -fx-background-color: #2ecc71;
+}
+
+.category-badge.opinion {
+    -fx-background-color: #e74c3c;
+}
+
+.category-badge.advice {
+    -fx-background-color: #f39c12;
+}
+
+/* ====== Post Content ====== */
+.post-content {
+    -fx-font-size: 13;
+    -fx-text-fill: #34495e;
+    -fx-line-spacing: 1.5;
+    -fx-padding: 15 0 15 0;
+    -fx-wrap-text: true;
+}
+
+/* ====== Comment Section ====== */
+.comments-section {
+    -fx-padding: 15 0 0 0;
+}
+
+.comments-header {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7f8c8d;
+    -fx-padding: 0 0 10 0;
+}
+
+.comment-toggle-btn {
+    -fx-font-size: 11;
+    -fx-text-fill: #8a0037;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5 10 5 10;
+}
+
+.comment-toggle-btn:hover {
+    -fx-text-fill: #5d0028;
+}
+
+/* ====== Comment Card ====== */
+.comment-card {
+    -fx-background-color: #f8f9fa;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-margin: 10 0 10 20;
+}
+
+.comment-author {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.comment-time {
+    -fx-font-size: 10;
+    -fx-text-fill: #95a5a6;
+}
+
+.comment-content {
+    -fx-font-size: 12;
+    -fx-text-fill: #34495e;
+    -fx-padding: 8 0 8 0;
+    -fx-wrap-text: true;
+}
+
+/* ====== Replies ====== */
+.reply-card {
+    -fx-background-color: #f5f6fa;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 10;
+    -fx-margin: 8 0 8 40;
+}
+
+.reply-author {
+    -fx-font-size: 11;
+    -fx-font-weight: bold;
+    -fx-text-fill: #16a085;
+}
+
+.reply-content {
+    -fx-font-size: 11;
+    -fx-text-fill: #34495e;
+    -fx-padding: 6 0 6 0;
+    -fx-wrap-text: true;
+}
+
+/* ====== Buttons ====== */
+.action-button {
+    -fx-font-size: 10;
+    -fx-text-fill: #8a0037;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5 10 5 0;
+}
+
+.action-button:hover {
+    -fx-text-fill: #5d0028;
+}
+
+.reply-button {
+    -fx-font-size: 9;
+    -fx-text-fill: #16a085;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5 10 5 0;
+}
+
+.reply-button:hover {
+    -fx-text-fill: #117a65;
+}
+
+/* ====== Scroll Pane ====== */
+.scroll-pane {
+    -fx-background-color: #fff4f1;
+    -fx-padding: 10;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #fff4f1;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #8a0037;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #5d0028;
+}
