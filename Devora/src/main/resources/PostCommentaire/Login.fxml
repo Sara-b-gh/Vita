@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="PostCommentaire.com.vita.devora.Controlleurs.loginController"
+      style="-fx-background-color: #F8F9FA; -fx-padding: 40;">
+
+    <Label text="VITA Login" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #8a0037;"/>
+
+    <TextField fx:id="emailField" promptText="Email" prefWidth="250"/>
+    <PasswordField fx:id="passwordField" promptText="Mot de passe" prefWidth="250"/>
+
+    <Button text="Se connecter" onAction="#handleLogin"
+            style="-fx-background-color: #8a0037; -fx-text-fill: white; -fx-pref-width: 250;"/>
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+</VBox>
